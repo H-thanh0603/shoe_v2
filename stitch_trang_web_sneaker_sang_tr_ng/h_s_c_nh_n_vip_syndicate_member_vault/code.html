@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;family=Syne:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={"darkMode":"class","theme":{"extend":{"colors":{"inverse-on-surface":"#313032","tertiary":"#ffffff","on-primary-container":"#596c00","secondary":"#c1c7cf","on-tertiary-container":"#576679","surface-tint":"#b0d500","surface-container-low":"#1c1b1d","tertiary-container":"#d4e4fa","surface-container-high":"#2a2a2c","on-error-container":"#ffdad6","background":"#131315","surface-variant":"#353437","on-surface":"#e5e1e4","on-background":"#e5e1e4","error-container":"#93000a","on-tertiary":"#233143","outline":"#8f9378","surface-container":"#201f21","on-secondary-container":"#afb6bd","on-primary-fixed-variant":"#3e4c00","primary-container":"#caf300","on-primary-fixed":"#171e00","on-tertiary-fixed-variant":"#39485a","surface-dim":"#131315","outline-variant":"#444932","surface-container-highest":"#353437","tertiary-fixed":"#d4e4fa","on-secondary-fixed":"#161c22","primary-fixed-dim":"#b0d500","surface-bright":"#39393b","secondary-container":"#41474e","surface":"#131315","error":"#ffb4ab","primary-fixed":"#caf300","tertiary-fixed-dim":"#b9c8de","on-secondary":"#2b3137","on-primary":"#2a3400","surface-container-lowest":"#0e0e10","secondary-fixed":"#dde3eb","on-error":"#690005","primary":"#ffffff","on-secondary-fixed-variant":"#41474e","inverse-surface":"#e5e1e4","inverse-primary":"#536600","on-tertiary-fixed":"#0d1c2d","on-surface-variant":"#c5c9ac","secondary-fixed-dim":"#c1c7cf"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"space-4xl":"6rem","space-xl":"2rem","space-lg":"1.5rem","gutter-desktop":"2rem","space-2xs":"0.25rem","space-xs":"0.5rem","space-3xl":"4.5rem","margin-desktop":"4rem","gutter-mobile":"1rem","space-5xl":"9rem","space-2xl":"3rem","space-3xs":"0.125rem","space-sm":"0.75rem","space-md":"1rem","margin-mobile":"1.25rem"},"fontFamily":{"headline-sm":["Syne"],"display-lg":["Syne"],"label-micro":["JetBrains Mono"],"body-sm":["Geist"],"display-lg-mobile":["Syne"],"label-technical":["JetBrains Mono"],"display-xl-mobile":["Syne"],"body-md":["Geist"],"display-xl":["Syne"],"body-lg":["Geist"],"headline-md":["Syne"]},"fontSize":{"headline-sm":["22px",{"lineHeight":"28px","letterSpacing":"-0.01em","fontWeight":"600"}],"display-lg":["56px",{"lineHeight":"60px","letterSpacing":"-0.03em","fontWeight":"700"}],"label-micro":["10px",{"lineHeight":"12px","letterSpacing":"0.18em","fontWeight":"600"}],"body-sm":["13px",{"lineHeight":"20px","letterSpacing":"0.01em","fontWeight":"400"}],"display-lg-mobile":["32px",{"lineHeight":"36px","letterSpacing":"-0.02em","fontWeight":"700"}],"label-technical":["12px",{"lineHeight":"16px","letterSpacing":"0.12em","fontWeight":"500"}],"display-xl-mobile":["44px",{"lineHeight":"48px","letterSpacing":"-0.03em","fontWeight":"800"}],"body-md":["15px",{"lineHeight":"24px","letterSpacing":"0em","fontWeight":"400"}],"display-xl":["84px",{"lineHeight":"88px","letterSpacing":"-0.04em","fontWeight":"800"}],"body-lg":["18px",{"lineHeight":"28px","letterSpacing":"-0.01em","fontWeight":"400"}],"headline-md":["32px",{"lineHeight":"40px","letterSpacing":"-0.02em","fontWeight":"600"}]}}}}</script></head><body class="bg-surface text-on-surface font-body-md text-body-md antialiased selection:bg-primary-container selection:text-on-primary-container"><header class="fixed top-0 left-0 w-full z-50 bg-surface/85 backdrop-blur-2xl"><div class="w-full bg-surface-container-lowest px-gutter-mobile lg:px-gutter-desktop py-space-2xs flex items-center justify-between font-label-micro text-label-micro text-secondary tracking-widest uppercase"><div class="flex items-center gap-space-xs"><span class="inline-block w-1.5 h-1.5 rounded-full bg-primary-container animate-pulse"></span><span>TELEMETRY ACTIVE // SYSTEM STATUS: SYNCHRONIZED</span></div><div class="flex items-center gap-space-md"><span class="text-primary-container font-medium">LIMITED DROP // K-09 PROTOTYPE AVAILABLE IN 24HRS</span><span class="hidden md:inline text-secondary/40">|</span><span class="hidden md:inline text-secondary/80">PRECISION GEAR // LAB GRADE</span></div><div class="hidden lg:flex items-center gap-space-sm"><span>PARIS 48.8566° N</span><span>•</span><span>TOKYO 35.6762° N</span><span>•</span><span>MILANO 45.4642° N</span></div></div><div class="w-full px-gutter-mobile lg:px-gutter-desktop h-20 flex items-center justify-between gap-space-lg"><div class="flex items-center gap-space-md shrink-0"><img alt="Kinesis Atelier Wordmark Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1UcxBglsIgxqg1MSEt7BhtvC-ZCq5RaNHEKm-SsIy_Z_mUO6WFcDpsbozrZJ6KpTytiO93NFaK_afkv9LCqm5W0_Q0AMOtxbf09XmkkDCYpPsZni9saSzHmaallHBHhAIkLqRxub4C43kqhvJHBCxrJfiOtFZiTsrVs8QHvAUtZ4SzOl64bog5nUrUDuHKCuKVWRQ-JIz4fUwPWXRe3ud-PiSBGOSeLxGzuepLver_7fbMuJI1-OenNgHuS"/><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-primary uppercase tracking-tight leading-none">KINESIS</span><span class="font-label-micro text-label-micro text-secondary tracking-[0.24em] uppercase">ATELIER SYSTEM</span></div></div><nav class="hidden xl:flex items-center gap-space-xs font-label-technical text-label-technical tracking-widest uppercase" data-active-classes="text-primary-container bg-surface-container-high"><a class="px-space-sm py-space-xs text-on-surface-variant hover:text-primary transition-colors" data-path="discovery" href="#">01 / DISCOVERY</a><a class="px-space-sm py-space-xs text-on-surface-variant hover:text-primary transition-colors" data-path="archive-and-shop" href="#">02 / ARCHIVE &amp; SHOP</a><a class="px-space-sm py-space-xs text-on-surface-variant hover:text-primary transition-colors" data-path="the-artifact" href="#">03 / THE ARTIFACT</a><a class="px-space-sm py-space-xs text-on-surface-variant hover:text-primary transition-colors" data-path="manifesto-and-lookbook" href="#">04 / MANIFESTO &amp; LOOKBOOK</a><a class="px-space-sm py-space-xs text-on-surface-variant hover:text-primary transition-colors" data-path="cart-and-checkout" href="#">05 / CART &amp; DISPATCH</a><a aria-current="page" class="px-space-sm py-space-xs transition-colors text-primary-container bg-surface-container-high" data-path="syndicate-vault" href="#">06 / SYNDICATE VAULT</a></nav><div class="flex items-center gap-space-sm md:gap-space-md"><button aria-label="Search Archive" class="p-space-xs text-secondary hover:text-primary transition-colors flex items-center justify-center" type="button"><span class="material-symbols-outlined text-[20px]">search</span></button><button aria-label="Wishlist" class="p-space-xs text-secondary hover:text-primary transition-colors flex items-center justify-center relative" type="button"><span class="material-symbols-outlined text-[20px]">favorite</span><span class="absolute top-0 right-0 w-1.5 h-1.5 rounded-full bg-primary-container"></span></button><a aria-label="Cart" class="flex items-center gap-space-2xs px-space-xs py-space-3xs text-secondary hover:text-primary transition-colors font-label-technical text-label-technical" data-path="cart-and-checkout" href="#"><span class="material-symbols-outlined text-[20px]">shopping_bag</span><span class="text-primary-container font-bold">[02]</span></a><a aria-label="Member Vault Profile" class="flex items-center pl-space-xs group" data-path="syndicate-vault" href="#"><img alt="Profile" class="w-8 h-8 rounded-full object-cover ring-1 ring-secondary/30 group-hover:ring-primary-container transition-all" src="https://lh3.googleusercontent.com/aida-public/AB6AXuACHHeBKZoeVLUcp_IXhulVQGt1TyeOgRcbBhpGQNxBhrCQa5L4h0Q1SPL1opCA05QcRF37XbjtSLW1BmkMXlVQOiVoH_4QKxjOkROOZgJfxn1TgzvGuBiZ_xMJBzV5CJ6biKjC0W6pqqoT0aEcrA4zxO8eSCNuowFg0825A25LA9aVH_-Wp2pWwskNZIMfqRN2QL8Z40AxyDtCk6F9iOHwf_WXh1HssCqBpZeZxifQFUYrICF_uuSihA"/></a></div></div></header><main class="w-full pt-20 bg-surface min-h-screen"><div class="flex flex-col w-full">
+<!-- 01. SUB-HEADER TELEMETRY & AMBIENT STATUS STRIP -->
+<section class="w-full bg-surface-container-lowest px-gutter-mobile lg:px-gutter-desktop py-space-sm">
+<div class="max-w-7xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-space-sm text-secondary">
+<!-- Telemetry Node Info -->
+<div class="flex flex-wrap items-center gap-space-xs font-label-micro text-label-micro uppercase">
+<span class="inline-flex items-center gap-space-2xs px-space-xs py-space-3xs bg-surface-container-high rounded text-primary-container font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container animate-ping"></span>
+          VAULT PROTOCOL 4.90
+        </span>
+<span class="text-secondary/40">//</span>
+<span class="text-primary font-medium">CLEARANCE: BLACK TIER LVL-03</span>
+<span class="text-secondary/40">//</span>
+<span class="text-secondary/80 font-label-technical">BIO-HASH: <span class="text-tertiary">0x94F2...899C</span></span>
+</div>
+<!-- Allocation & Credit Matrix -->
+<div class="flex items-center gap-space-md font-label-technical text-label-technical">
+<div class="flex items-center gap-space-2xs">
+<span class="text-secondary/70">TÍN DỤNG SYNDICATE:</span>
+<span class="text-primary-container font-bold text-headline-sm leading-none">$4,250 USD</span>
+</div>
+<span class="text-secondary/30">|</span>
+<div class="flex items-center gap-space-2xs">
+<span class="text-secondary/70">QUYỀN PHÂN BỔ:</span>
+<span class="text-primary font-semibold">120 BATCH ALLOC.</span>
+</div>
+<button class="hidden sm:inline-flex items-center gap-space-3xs px-space-xs py-space-3xs bg-surface-container-high hover:bg-surface-bright text-primary rounded transition-all" type="button">
+<span class="material-symbols-outlined text-[14px]">bolt</span>
+<span>NẠP THÊM</span>
+</button>
+</div>
+</div>
+</section>
+<!-- 02. VIP IDENTITY & BIOMETRIC HOLOGRAPHIC CHASSIS (HERO BLOCK) -->
+<section class="w-full px-gutter-mobile lg:px-gutter-desktop py-space-xl lg:py-space-2xl">
+<div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-stretch">
+<!-- Left Column: Biometric Member Card (7 Cols) -->
+<div class="lg:col-span-7 bg-surface-container-low rounded-xl p-space-md lg:p-space-xl flex flex-col justify-between relative overflow-hidden shadow-xl">
+<!-- Ambient Cyber Glow & Scanlines Layer -->
+<div class="absolute -right-20 -bottom-20 w-80 h-80 rounded-full bg-primary-container/10 blur-3xl pointer-events-none"></div>
+<div class="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-primary-container/5 via-transparent to-transparent"></div>
+<div>
+<!-- Header Tagline -->
+<div class="flex items-center justify-between pb-space-md">
+<div class="flex items-center gap-space-xs font-label-micro text-label-micro text-secondary tracking-widest uppercase">
+<span class="w-2 h-2 rounded-full bg-primary-container"></span>
+<span>BIOMETRIC IDENTITY MATRIX</span>
+<span class="text-secondary/40">//</span>
+<span class="text-primary-container">ACTIVE SPECIMEN</span>
+</div>
+<span class="font-label-technical text-label-technical text-secondary/60">ID: SYN-9941-X</span>
+</div>
+<!-- Avatar & Primary Info Split -->
+<div class="flex flex-col sm:flex-row items-center sm:items-start gap-space-lg pt-space-xs">
+<!-- Stylized Hex / Scanned Portrait Frame -->
+<div class="relative shrink-0 group">
+<div class="w-32 h-32 sm:w-40 sm:h-40 rounded-lg overflow-hidden bg-surface-container-high p-1 shadow-md transition-transform duration-500 group-hover:scale-[1.02]">
+<img alt="VIP Member Portrait Alexander Trần" class="w-full h-full object-cover rounded filter contrast-125 grayscale hover:grayscale-0 transition-all duration-700" src="https://lh3.googleusercontent.com/aida/AEtjO1Wi5jXuIs3FPwUNC6pKq3_cDdLE2y4DMDul6fNPYYND3bJBuJzWtxhx4LaIRdVQDJX_2ijmCDbd4bdwu1Mf3jJ9bVTTH-1W4wMr-MNw0wMvVNTIzV6Yb3icJRW4Z5B8cj4No-LN3y0K9ZS8o2WPIDQgzRy4X1E2fVgaBJUNQSlqOT1tdlESUiUYd2mFG0SAuoEmO8Mo1xmAzw2OXDdJ_Ltmxacq5FLx-C7XcTPjdAsWWtY7A0dufiHtTvST"/>
+</div>
+<div class="absolute -bottom-2 -right-2 px-space-xs py-space-3xs bg-primary-container text-on-primary-container font-label-micro text-label-micro font-bold uppercase rounded shadow-sm">
+                SOVEREIGN
+              </div>
+</div>
+<!-- Profile Moniker & Nodes -->
+<div class="flex flex-col text-center sm:text-left space-y-space-2xs flex-1">
+<span class="font-label-technical text-label-technical text-primary-container uppercase tracking-widest">SOVEREIGN GUILD // FOUNDING COLLECTOR</span>
+<h1 class="font-headline-md text-headline-md text-primary tracking-tight uppercase">ALEXANDER TRẦN</h1>
+<p class="font-body-sm text-body-sm text-secondary max-w-sm">Hồ sơ xác thực sinh trắc học cấp độc quyền thuộc Kinesis Syndicate Vault. Toàn quyền thẩm định và kích hoạt phôi prototype chưa công bố.</p>
+<div class="grid grid-cols-2 gap-space-xs pt-space-xs font-label-technical text-label-technical text-secondary/80">
+<div class="bg-surface-container px-space-sm py-space-xs rounded">
+<span class="block text-secondary/50 font-label-micro text-label-micro">NGÀY GIA NHẬP</span>
+<span class="text-primary font-medium">OCT 2023 // CYCLE 04</span>
+</div>
+<div class="bg-surface-container px-space-sm py-space-xs rounded">
+<span class="block text-secondary/50 font-label-micro text-label-micro">ATELIER CĂN CỨ</span>
+<span class="text-primary font-medium">PARIS IX • TOKYO</span>
+</div>
+</div>
+</div>
+</div>
+<!-- 3D Biometric Foot Scan Profile Readout -->
+<div class="mt-space-lg bg-surface-container rounded-lg p-space-md">
+<div class="flex items-center justify-between pb-space-xs">
+<div class="flex items-center gap-space-xs font-label-micro text-label-micro uppercase text-secondary">
+<span class="material-symbols-outlined text-[16px] text-primary-container">footprint</span>
+<span>HỒ SƠ ĐO SINH TRẮC HỌC 3D (3D BIOMETRIC FOOT SCAN)</span>
+</div>
+<span class="font-label-technical text-label-technical text-primary-container font-semibold">LAB VERIFIED: 99.8%</span>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-space-xs pt-space-xs">
+<div class="flex flex-col bg-surface-container-high p-space-xs rounded">
+<span class="font-label-micro text-label-micro text-secondary/60">BÀN CHÂN TRÁI</span>
+<span class="font-label-technical text-label-technical text-primary font-bold">268.4 mm</span>
+<span class="font-label-micro text-label-micro text-primary-container">EU 42.5 WIDE</span>
+</div>
+<div class="flex flex-col bg-surface-container-high p-space-xs rounded">
+<span class="font-label-micro text-label-micro text-secondary/60">BÀN CHÂN PHẢI</span>
+<span class="font-label-technical text-label-technical text-primary font-bold">269.1 mm</span>
+<span class="font-label-micro text-label-micro text-primary-container">EU 42.5 REG</span>
+</div>
+<div class="flex flex-col bg-surface-container-high p-space-xs rounded">
+<span class="font-label-micro text-label-micro text-secondary/60">CẤU TRÚC VÒM CHÂN</span>
+<span class="font-label-technical text-label-technical text-primary font-bold">HIGH ARCH</span>
+<span class="font-label-micro text-label-micro text-secondary">18.2° ELEVATION</span>
+</div>
+<div class="flex flex-col bg-surface-container-high p-space-xs rounded">
+<span class="font-label-micro text-label-micro text-secondary/60">ÁP LỰC GÓT ĐỆM KHÍ</span>
+<span class="font-label-technical text-label-technical text-primary font-bold">320 kPa</span>
+<span class="font-label-micro text-label-micro text-secondary">DYNAMIC PEAK</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Biometric Actions -->
+<div class="pt-space-md flex flex-wrap items-center gap-space-sm">
+<button class="px-space-md py-space-xs bg-primary-container hover:bg-primary text-on-primary-container hover:text-on-secondary font-label-technical text-label-technical font-bold uppercase rounded transition-colors flex items-center gap-space-xs" type="button">
+<span class="material-symbols-outlined text-[16px]">csv</span>
+<span>CẬP NHẬT QUÉT 3D TẠI LAB</span>
+</button>
+<button class="px-space-md py-space-xs bg-surface-container-high hover:bg-surface-bright text-primary font-label-technical text-label-technical uppercase rounded transition-colors flex items-center gap-space-xs" type="button">
+<span class="material-symbols-outlined text-[16px]">download</span>
+<span>TẢI TỆP CAD 3D (.STP)</span>
+</button>
+</div>
+</div>
+<!-- Right Column: Syndicate Tier Progress & Web3 Vault Anchor (5 Cols) -->
+<div class="lg:col-span-5 bg-surface-container-low rounded-xl p-space-md lg:p-space-xl flex flex-col justify-between shadow-xl">
+<div>
+<!-- Syndicate Level Head -->
+<div class="flex items-center justify-between pb-space-xs">
+<span class="font-label-micro text-label-micro text-secondary uppercase tracking-widest">TIER CLASSIFICATION</span>
+<span class="px-space-xs py-space-3xs bg-primary-container/20 text-primary-container font-label-micro text-label-micro font-bold rounded">LEVEL 03 / 04</span>
+</div>
+<h2 class="font-headline-sm text-headline-sm text-primary uppercase font-bold tracking-tight">OBSIDIAN ELITE</h2>
+<p class="font-body-sm text-body-sm text-secondary pt-space-3xs">Cấp phân quyền cao cấp chỉ dành riêng cho 100 nhà sưu tầm cốt lõi toàn cầu.</p>
+<!-- Progress to Monolith Tier -->
+<div class="mt-space-md bg-surface-container rounded-lg p-space-md space-y-space-xs">
+<div class="flex items-center justify-between font-label-technical text-label-technical">
+<span class="text-secondary/70">TIẾN ĐỘ LÊN "CHRONO MONOLITH":</span>
+<span class="text-primary-container font-bold">82%</span>
+</div>
+<!-- Progress Bar -->
+<div class="w-full h-2 bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-primary-container rounded-full transition-all duration-1000" style="width: 82%;"></div>
+</div>
+<div class="flex justify-between font-label-micro text-label-micro text-secondary/60 pt-space-3xs">
+<span>HIỆN TẠI: 8,200 XP DỰ ÁN</span>
+<span>ĐÍCH ĐẾN: 10,000 XP</span>
+</div>
+</div>
+<!-- Collector Fleet Overview Counters -->
+<div class="grid grid-cols-3 gap-space-xs mt-space-md text-center">
+<div class="bg-surface-container p-space-sm rounded">
+<span class="font-headline-sm text-headline-sm text-primary font-bold block">06</span>
+<span class="font-label-micro text-label-micro text-secondary uppercase leading-tight block pt-space-3xs">SILHOUETTES SỞ HỮU</span>
+</div>
+<div class="bg-surface-container p-space-sm rounded">
+<span class="font-headline-sm text-headline-sm text-primary-container font-bold block">02</span>
+<span class="font-label-micro text-label-micro text-secondary uppercase leading-tight block pt-space-3xs">PROTOTYPE ĐANG GIA CÔNG</span>
+</div>
+<div class="bg-surface-container p-space-sm rounded">
+<span class="font-headline-sm text-headline-sm text-tertiary font-bold block">01</span>
+<span class="font-label-micro text-label-micro text-secondary uppercase leading-tight block pt-space-3xs">ĐANG VẬN CHUYỂN</span>
+</div>
+</div>
+<!-- Authenticator Hardware / NFC Simulated Matrix -->
+<div class="mt-space-md bg-surface-container-high rounded-lg p-space-md flex items-center gap-space-md">
+<!-- Simulated QR Visual Vector -->
+<div class="w-16 h-16 bg-surface-container-lowest p-1 rounded flex items-center justify-center shrink-0">
+<svg class="w-full h-full text-primary-container" fill="currentColor" viewbox="0 0 24 24">
+<path d="M2 2h8v8H2V2zm2 2v4h4V4H4zm10-2h8v8h-8V2zm2 2v4h4V4h-4zM2 14h8v8H2v-8zm2 2v4h4v-4H4zm14-2h4v2h-4v-2zm-4 0h2v4h-2v-4zm2 4h2v4h-2v-4zm2 2h2v2h-2v-2zm-6-6h2v2h-2v-2zm0 6h2v2h-2v-2zm4-2h2v2h-2v-2z"></path>
+</svg>
+</div>
+<div class="flex-1 min-w-0">
+<span class="font-label-micro text-label-micro text-primary-container block uppercase font-bold">NFC CIPHER KEY #8819</span>
+<span class="font-label-technical text-label-technical text-secondary block truncate">K-LEDGER-V2-SECURE-CHANNEL</span>
+<span class="font-label-micro text-label-micro text-secondary/60 block">Trạng thái: Đã đồng bộ với thiết bị phần cứng cá nhân</span>
+</div>
+</div>
+</div>
+<div class="pt-space-md">
+<button class="w-full py-space-xs bg-surface-container-highest hover:bg-surface-bright text-primary font-label-technical text-label-technical uppercase rounded transition-colors flex items-center justify-center gap-space-xs" type="button">
+<span class="material-symbols-outlined text-[16px] text-primary-container">shield_with_heart</span>
+<span>KẾT NỐI VÍ WEB3 COLD STORAGE</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- 03. THE OWNED ARTIFACT VAULT & DIGITAL PASSPORTS (PERSONAL ARCHIVE) -->
+<section class="w-full px-gutter-mobile lg:px-gutter-desktop py-space-xl">
+<div class="max-w-7xl mx-auto">
+<!-- Section Title Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between pb-space-lg gap-space-sm">
+<div>
+<div class="flex items-center gap-space-xs font-label-micro text-label-micro uppercase text-secondary">
+<span class="w-2 h-2 bg-primary-container"></span>
+<span>PHYSICAL // DIGITAL ASSET REGISTRY</span>
+</div>
+<h2 class="font-display-lg text-display-lg text-primary uppercase font-extrabold tracking-tight">KHO LƯU TRỮ HIỆN VẬT</h2>
+<p class="font-label-technical text-label-technical text-secondary uppercase">THE PERSONAL ARCHIVE // 06 PIECES CURRENTLY ASSIGNED</p>
+</div>
+<!-- Filter Pills -->
+<div class="flex items-center gap-space-xs overflow-x-auto pb-1">
+<button class="px-space-sm py-space-3xs bg-primary-container text-on-primary-container font-label-technical text-label-technical rounded font-semibold whitespace-nowrap" type="button">TẤT CẢ (06)</button>
+<button class="px-space-sm py-space-3xs bg-surface-container-high text-secondary hover:text-primary font-label-technical text-label-technical rounded whitespace-nowrap" type="button">ĐÃ NHẬN (04)</button>
+<button class="px-space-sm py-space-3xs bg-surface-container-high text-secondary hover:text-primary font-label-technical text-label-technical rounded whitespace-nowrap" type="button">ĐANG VẬN CHUYỂN (01)</button>
+<button class="px-space-sm py-space-3xs bg-surface-container-high text-secondary hover:text-primary font-label-technical text-label-technical rounded whitespace-nowrap" type="button">KHO MILAN (01)</button>
+</div>
+</div>
+<!-- Artifact Showcase Cards Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-lg">
+<!-- Artifact 01: K-09 STRATOS CHRONO -->
+<div class="bg-surface-container-low rounded-xl overflow-hidden flex flex-col justify-between group shadow-xl">
+<div class="p-space-md">
+<!-- Badges -->
+<div class="flex items-center justify-between pb-space-sm">
+<span class="px-space-xs py-space-3xs bg-surface-container-high text-primary-container font-label-micro text-label-micro font-bold rounded">
+                PROTOTYPE #04 / 50
+              </span>
+<div class="flex items-center gap-space-3xs text-primary-container font-label-micro text-label-micro">
+<span class="w-2 h-2 rounded-full bg-primary-container animate-pulse"></span>
+<span>VERIFIED ON-CHAIN</span>
+</div>
+</div>
+<!-- Visual Image Container -->
+<div class="relative h-60 rounded-lg overflow-hidden bg-surface-container-lowest flex items-center justify-center p-space-sm">
+<img class="w-full h-full object-cover rounded filter brightness-95 group-hover:scale-105 transition-transform duration-700" data-alt="A futuristic hyper-detailed avant-garde sneaker floating against a deep obsidian dark background with glowing lime green sole accents and metallic titanium exoskeleton cables, high-fashion editorial product photography" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDKGtumhyOFa_SmxKGY2ypuzDZbBWm8FdjncMa9IvTfcT5Bb2vW5RQEV9naRlYHyduyKjeXa1G5bRtvsxh8PktUd_R4TDOzdp7AFOMxXNvYIVR3ZgLh5xzeyq6YFvE0SlLz14_-u-yxxAEUPjZ3ndjSQObYpbTBM8-rVQfZ1hcCaIRmYPjNRzyTp2LMHPllqK9ZjojRkcT9dX-9fYn7KDqvzL7HxHsn-lZBM2dr9Lz13VoQ5Wssc1xukA"/>
+<div class="absolute bottom-2 left-2 px-space-xs py-space-3xs bg-surface-container-lowest/80 backdrop-blur rounded font-label-micro text-label-micro text-secondary">
+                SERIAL: KNS-779X-TITANIUM
+              </div>
+</div>
+<!-- Details -->
+<div class="pt-space-md space-y-space-2xs">
+<h3 class="font-headline-sm text-headline-sm text-primary font-bold uppercase">K-09 STRATOS CHRONO</h3>
+<p class="font-body-sm text-body-sm text-secondary">Đế gót Titanium in 3D khắc chìm mật mã định danh cá nhân. Lớp lót Dyneema chống mài mòn kết hợp đệm khí nén phản ứng nhanh.</p>
+<div class="pt-space-xs space-y-space-3xs font-label-technical text-label-technical text-secondary/80">
+<div class="flex justify-between">
+<span class="text-secondary/50">CHIP NFC:</span>
+<span class="text-primary font-medium">CRYPTOGRAPHIC TACTILE</span>
+</div>
+<div class="flex justify-between">
+<span class="text-secondary/50">SMART CONTRACT:</span>
+<span class="text-primary-container font-mono">POLYGON ZK-EVM</span>
+</div>
+<div class="flex justify-between">
+<span class="text-secondary/50">TRẠNG THÁI HIỆN TẠI:</span>
+<span class="text-primary font-medium">TẠI TƯ GIA // SẴN SÀNG</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Card Footer Actions -->
+<div class="p-space-md bg-surface-container flex items-center gap-space-xs">
+<button class="flex-1 py-space-xs bg-surface-container-high hover:bg-surface-bright text-primary font-label-technical text-label-technical uppercase rounded transition-colors flex items-center justify-center gap-space-3xs" type="button">
+<span class="material-symbols-outlined text-[16px]">verified_user</span>
+<span>HỘ CHIẾU SỐ</span>
+</button>
+<button class="px-space-sm py-space-xs bg-surface-container-high hover:bg-primary-container hover:text-on-primary-container text-secondary font-label-technical text-label-technical rounded transition-colors" title="Gửi bảo trì đệm khí Lab" type="button">
+<span class="material-symbols-outlined text-[16px]">build_circle</span>
+</button>
+</div>
+</div>
+<!-- Artifact 02: K-07 SOLARIS GLITCH -->
+<div class="bg-surface-container-low rounded-xl overflow-hidden flex flex-col justify-between group shadow-xl">
+<div class="p-space-md">
+<!-- Badges -->
+<div class="flex items-center justify-between pb-space-sm">
+<span class="px-space-xs py-space-3xs bg-surface-container-high text-secondary font-label-micro text-label-micro font-bold rounded">
+                SPECIMEN #18 / 24
+              </span>
+<div class="flex items-center gap-space-3xs text-secondary font-label-micro text-label-micro">
+<span class="w-2 h-2 rounded-full bg-primary-container animate-ping"></span>
+<span class="text-primary-container">EN ROUTE (36H)</span>
+</div>
+</div>
+<!-- Visual Image Container -->
+<div class="relative h-60 rounded-lg overflow-hidden bg-surface-container-lowest flex items-center justify-center p-space-sm">
+<img class="w-full h-full object-cover rounded filter brightness-95 group-hover:scale-105 transition-transform duration-700" data-alt="High-end sleek futuristic black high-top sneaker with kinetic neon green accents and carbon fiber weave texture in a minimalist Japanese showroom setting, crisp studio illumination" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD73ob0Zjbm1yJWZEps94gbE1fAVpR1u1Z7WRWvfAN1fViBqp8Ztru-EQkqO9nBR5cKNlEhPLOLroKbzXZ2gi5Zro41ihYonYfXciLgXnPZy2MAxXdo4DQvq5JzaymLrVK2607FeMqukdJySM4tNNJ70-zKg8cBFJcrmu7YJ4C5QDlrtcYP6tlCyrQvV4HMDiIaSizqexxmIh4ZkNwpLFPH0cHMDgZiqhPfTREuXSyNYj8apWrwLku84g"/>
+<div class="absolute bottom-2 left-2 px-space-xs py-space-3xs bg-surface-container-lowest/80 backdrop-blur rounded font-label-micro text-label-micro text-primary-container">
+                DHL ARMORED SECURE FLIGHT
+              </div>
+</div>
+<!-- Details -->
+<div class="pt-space-md space-y-space-2xs">
+<h3 class="font-headline-sm text-headline-sm text-primary font-bold uppercase">K-07 SOLARIS GLITCH</h3>
+<p class="font-body-sm text-body-sm text-secondary">Phát hành số lượng giới hạn dành riêng cho thị trường châu Á. Vật liệu quang phản xạ biến sắc dưới bức xạ UV nhiệt đới.</p>
+<div class="pt-space-xs space-y-space-3xs font-label-technical text-label-technical text-secondary/80">
+<div class="flex justify-between">
+<span class="text-secondary/50">LỘ TRÌNH VẬN CHUYỂN:</span>
+<span class="text-primary font-medium">PARIS IX → SGN AIRPORT</span>
+</div>
+<div class="flex justify-between">
+<span class="text-secondary/50">MÃ ĐIỀU PHỐI VẬN TẢI:</span>
+<span class="text-primary-container font-mono">DHL-ARM-99182-VN</span>
+</div>
+<div class="flex justify-between">
+<span class="text-secondary/50">BẢO HIỂM NGUYÊN GIÁ:</span>
+<span class="text-primary font-medium">100% VAULT UNDERWRITTEN</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Card Footer Actions -->
+<div class="p-space-md bg-surface-container flex items-center gap-space-xs">
+<button class="w-full py-space-xs bg-primary-container hover:bg-primary text-on-primary-container font-label-technical text-label-technical uppercase font-bold rounded transition-colors flex items-center justify-center gap-space-3xs" type="button">
+<span class="material-symbols-outlined text-[16px]">radar</span>
+<span>THEO DÕI GPS THỜI GIAN THỰC</span>
+</button>
+</div>
+</div>
+<!-- Artifact 03: K-01 PHANTOM MATRIX -->
+<div class="bg-surface-container-low rounded-xl overflow-hidden flex flex-col justify-between group shadow-xl">
+<div class="p-space-md">
+<!-- Badges -->
+<div class="flex items-center justify-between pb-space-sm">
+<span class="px-space-xs py-space-3xs bg-surface-container-high text-primary font-label-micro text-label-micro font-bold rounded">
+                FOUNDERS EDITION #02 / 10
+              </span>
+<div class="flex items-center gap-space-3xs text-secondary font-label-micro text-label-micro">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span>MILAN COLD VAULT</span>
+</div>
+</div>
+<!-- Visual Image Container -->
+<div class="relative h-60 rounded-lg overflow-hidden bg-surface-container-lowest flex items-center justify-center p-space-sm">
+<img class="w-full h-full object-cover rounded filter brightness-95 group-hover:scale-105 transition-transform duration-700" data-alt="Monolithic sculptural luxury avant-garde brutalist sneaker made from raw matte carbon fiber and transparent pneumatic air soles, studio darkroom aesthetic, moody dramatic shadows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDqcG7j002FdKLD-nbwJfg0T2a8G2_3_ROw46hwuEmM_IXA315Rt-ihwUIPT2IczdpYR_xXN01-BNub2ECKPUfQqjTKwyvtAGyEesxCSIHmeAsrjHULDYKq9lZxfZezXV1D3f_sutivDq2eaCiGYhYt4P_EPdu3IRLw9wGkKdXBqO3Q1V1BFPnS29ORW_3SIWq4__J5pbyk20wxC-SC8xq6TFLYmoUEYyR7a6IFgRH0RaWLd5cupgeKTw"/>
+<div class="absolute bottom-2 left-2 px-space-xs py-space-3xs bg-surface-container-lowest/80 backdrop-blur rounded font-label-micro text-label-micro text-secondary">
+                CLIMATE-CONTROLLED ATELIER
+              </div>
+</div>
+<!-- Details -->
+<div class="pt-space-md space-y-space-2xs">
+<h3 class="font-headline-sm text-headline-sm text-primary font-bold uppercase">K-01 PHANTOM MATRIX</h3>
+<p class="font-body-sm text-body-sm text-secondary">Phiên bản gốc đầu tiên của Atelier Kinesis. Đang được niêm phong tại buồng lạnh bảo tồn Brera Milan ở nhiệt độ ổn định 18°C.</p>
+<div class="pt-space-xs space-y-space-3xs font-label-technical text-label-technical text-secondary/80">
+<div class="flex justify-between">
+<span class="text-secondary/50">VỊ TRÍ LƯU KHO:</span>
+<span class="text-primary font-medium">MILAN VAULT // BOX 082</span>
+</div>
+<div class="flex justify-between">
+<span class="text-secondary/50">TÌNH TRẠNG VẬT LÝ:</span>
+<span class="text-primary-container font-mono">MINT 10/10 FACTORY SEAL</span>
+</div>
+<div class="flex justify-between">
+<span class="text-secondary/50">BẢO HÀNH TRỌN ĐỜI:</span>
+<span class="text-primary font-medium">SYNDICATE LIFETIME GOLD</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Card Footer Actions -->
+<div class="p-space-md bg-surface-container flex items-center gap-space-xs">
+<button class="flex-1 py-space-xs bg-surface-container-high hover:bg-surface-bright text-primary font-label-technical text-label-technical uppercase rounded transition-colors flex items-center justify-center gap-space-3xs" type="button">
+<span class="material-symbols-outlined text-[16px]">outbox</span>
+<span>YÊU CẦU XUẤT KHO VỀ TƯ GIA</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 04. SYNDICATE VIP BESPOKE PRIVILEGES -->
+<section class="w-full px-gutter-mobile lg:px-gutter-desktop py-space-xl bg-surface-container-lowest">
+<div class="max-w-7xl mx-auto">
+<!-- Privileges Header -->
+<div class="pb-space-xl">
+<div class="flex items-center gap-space-xs font-label-micro text-label-micro uppercase text-secondary">
+<span class="w-2 h-2 bg-primary-container"></span>
+<span>BLACK TIER PROTOCOL PRIVILEGES</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-primary uppercase font-bold tracking-tight">ĐẶC QUYỀN THÀNH VIÊN SYNDICATE</h2>
+<p class="font-body-sm text-body-sm text-secondary">Tập hợp các giải pháp phục chế, dịch vụ riêng tư và tiếp cận phôi thiết kế độc bản toàn cầu.</p>
+</div>
+<!-- 3 Privilege Columns -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-lg">
+<!-- Privilege 1 -->
+<div class="bg-surface-container-low p-space-lg rounded-xl flex flex-col justify-between space-y-space-md shadow-md">
+<div class="space-y-space-xs">
+<div class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined text-[24px]">timer_10</span>
+</div>
+<div class="flex items-center gap-space-xs pt-space-xs">
+<span class="px-space-xs py-space-3xs bg-primary-container/20 text-primary-container font-label-micro text-label-micro font-bold rounded">STATUS: ACTIVE</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary uppercase">ƯU TIÊN MUA DROP TRƯỚC 60 PHÚT</h3>
+<p class="font-body-sm text-body-sm text-secondary">Nhận khóa băm (cryptographic allocation hash) để đặt chỗ trước mọi bộ sưu tập và capsule thử nghiệm giới hạn trước khi mở công khai cho thị trường đại chúng.</p>
+</div>
+<div class="pt-space-sm font-label-technical text-label-technical text-primary-container flex items-center gap-space-2xs">
+<span class="material-symbols-outlined text-[16px]">check_circle</span>
+<span>TỰ ĐỘNG GỬI TIN BẢO MẬT</span>
+</div>
+</div>
+<!-- Privilege 2 -->
+<div class="bg-surface-container-low p-space-lg rounded-xl flex flex-col justify-between space-y-space-md shadow-md">
+<div class="space-y-space-xs">
+<div class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined text-[24px]">room_service</span>
+</div>
+<div class="flex items-center gap-space-xs pt-space-xs">
+<span class="px-space-xs py-space-3xs bg-surface-container-high text-secondary font-label-micro text-label-micro font-bold rounded">VIP SALON ACCESS</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary uppercase">FITTING 1-KÈM-1 TẠI ATELIER PARIS / TOKYO</h3>
+<p class="font-body-sm text-body-sm text-secondary">Phòng thử VIP biệt lập kèm phục vụ Champagne Dom Pérignon vintage. Trực tiếp Giám đốc Kỹ thuật Biomechanics đo ni đóng khuôn đế bespoke theo dáng chuyển động.</p>
+</div>
+<button class="w-full py-space-xs bg-surface-container-high hover:bg-surface-bright text-primary font-label-technical text-label-technical uppercase rounded transition-colors flex items-center justify-center gap-space-xs" type="button">
+<span class="material-symbols-outlined text-[16px]">calendar_month</span>
+<span>ĐẶT LỊCH HẸN RIÊNG</span>
+</button>
+</div>
+<!-- Privilege 3 -->
+<div class="bg-surface-container-low p-space-lg rounded-xl flex flex-col justify-between space-y-space-md shadow-md">
+<div class="space-y-space-xs">
+<div class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined text-[24px]">precision_manufacturing</span>
+</div>
+<div class="flex items-center gap-space-xs pt-space-xs">
+<span class="px-space-xs py-space-3xs bg-primary-container/20 text-primary-container font-label-micro text-label-micro font-bold rounded">STATUS: UNLIMITED</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary uppercase">KHẮC LASER ĐỊNH DANH &amp; SƠN MÀI THỦ CÔNG</h3>
+<p class="font-body-sm text-body-sm text-secondary">Mọi sản phẩm bàn giao cho thành viên Sovereign đều được khắc laser chìm thông số tọa độ và phủ lớp sơn mài chống ăn mòn độc quyền do nghệ nhân Nhật Bản thực hiện.</p>
+</div>
+<div class="pt-space-sm font-label-technical text-label-technical text-secondary flex items-center gap-space-2xs">
+<span class="material-symbols-outlined text-[16px] text-primary-container">auto_awesome</span>
+<span>MIỄN PHÍ VỚI MỌI ĐƠN HÀNG</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 05. DISPATCH LOG & PROTOCOL HISTORY (TRANSACTION TERMINAL) -->
+<section class="w-full px-gutter-mobile lg:px-gutter-desktop py-space-xl lg:py-space-2xl">
+<div class="max-w-7xl mx-auto">
+<!-- Terminal Head -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between pb-space-md gap-space-xs">
+<div>
+<div class="flex items-center gap-space-xs font-label-micro text-label-micro uppercase text-secondary">
+<span class="w-2 h-2 rounded-full bg-primary-container"></span>
+<span>AUDIT TRAIL // REAL-TIME DISPATCH LOG</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-primary uppercase font-bold tracking-tight">LỊCH SỬ GIAO DỊCH &amp; LỆNH ĐIỀU PHỐI</h2>
+</div>
+<div class="flex items-center gap-space-xs font-label-technical text-label-technical">
+<span class="text-secondary/60">TỔNG GIAO DỊCH LƯU KHO:</span>
+<span class="text-primary font-bold">14 LỆNH</span>
+</div>
+</div>
+<!-- High-Tech Table Container -->
+<div class="bg-surface-container-low rounded-xl overflow-hidden shadow-xl">
+<div class="overflow-x-auto">
+<table class="w-full text-left font-label-technical text-label-technical">
+<!-- Table Header -->
+<thead class="bg-surface-container text-secondary font-label-micro text-label-micro uppercase tracking-wider">
+<tr>
+<th class="py-space-sm px-space-md">MÃ LỆNH // HASH</th>
+<th class="py-space-sm px-space-md">HIỆN VẬT / DỊCH VỤ CHẾ TÁC</th>
+<th class="py-space-sm px-space-md">THỜI GIAN</th>
+<th class="py-space-sm px-space-md">GIÁ TRỊ QUY ĐỔI</th>
+<th class="py-space-sm px-space-md">TRẠNG THÁI ĐIỀU PHỐI</th>
+<th class="py-space-sm px-space-md text-right">CHI TIẾT</th>
+</tr>
+</thead>
+<!-- Table Body -->
+<tbody class="divide-y divide-surface-container-high/40 text-on-surface">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container transition-colors">
+<td class="py-space-sm px-space-md font-mono text-primary font-bold">
+                  #ORD-8924
+                </td>
+<td class="py-space-sm px-space-md">
+<div class="flex flex-col">
+<span class="text-primary font-medium">K-09 Stratos Chrono + K-07 Solaris Glitch</span>
+<span class="text-secondary/60 text-label-micro font-sans">Dual Allocation Drop // Prototype Run</span>
+</div>
+</td>
+<td class="py-space-sm px-space-md text-secondary">
+                  26/10/2025
+                </td>
+<td class="py-space-sm px-space-md font-bold text-primary-container">
+                  $1,420 USD
+                </td>
+<td class="py-space-sm px-space-md">
+<span class="inline-flex items-center gap-space-3xs px-space-xs py-space-3xs bg-surface-container-high text-primary-container rounded font-label-micro text-label-micro font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container animate-pulse"></span>
+                    ĐANG ĐIỀU PHỐI BỌC THÉP
+                  </span>
+</td>
+<td class="py-space-sm px-space-md text-right">
+<button class="text-secondary hover:text-primary-container transition-colors p-1" title="Tra cứu mã vận đơn" type="button">
+<span class="material-symbols-outlined text-[18px]">receipt_long</span>
+</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container transition-colors">
+<td class="py-space-sm px-space-md font-mono text-primary font-bold">
+                  #ORD-7710
+                </td>
+<td class="py-space-sm px-space-md">
+<div class="flex flex-col">
+<span class="text-primary font-medium">K-01 Phantom Matrix (Founders Edition)</span>
+<span class="text-secondary/60 text-label-micro font-sans">Hand-finished titanium shank insert</span>
+</div>
+</td>
+<td class="py-space-sm px-space-md text-secondary">
+                  14/08/2025
+                </td>
+<td class="py-space-sm px-space-md font-bold text-primary">
+                  $590 USD
+                </td>
+<td class="py-space-sm px-space-md">
+<span class="inline-flex items-center gap-space-3xs px-space-xs py-space-3xs bg-surface-container-high text-tertiary rounded font-label-micro text-label-micro font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+                    HOÀN TẤT TẠI ATELIER TOKYO
+                  </span>
+</td>
+<td class="py-space-sm px-space-md text-right">
+<button class="text-secondary hover:text-primary-container transition-colors p-1" title="Tra cứu mã vận đơn" type="button">
+<span class="material-symbols-outlined text-[18px]">receipt_long</span>
+</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container transition-colors">
+<td class="py-space-sm px-space-md font-mono text-primary font-bold">
+                  #BESPOKE-02
+                </td>
+<td class="py-space-sm px-space-md">
+<div class="flex flex-col">
+<span class="text-primary font-medium">Chỉnh khuôn đế Carbon 3D theo dáng chuyển động</span>
+<span class="text-secondary/60 text-label-micro font-sans">Lab Calibration // Biomechanical dynamic tuning</span>
+</div>
+</td>
+<td class="py-space-sm px-space-md text-secondary">
+                  02/06/2025
+                </td>
+<td class="py-space-sm px-space-md font-bold text-primary-container">
+                  MIỄN PHÍ (VIP)
+                </td>
+<td class="py-space-sm px-space-md">
+<span class="inline-flex items-center gap-space-3xs px-space-xs py-space-3xs bg-surface-container-high text-secondary rounded font-label-micro text-label-micro font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+                    HOÀN THÀNH XUẤT XƯỞNG
+                  </span>
+</td>
+<td class="py-space-sm px-space-md text-right">
+<button class="text-secondary hover:text-primary-container transition-colors p-1" title="Tra cứu mã vận đơn" type="button">
+<span class="material-symbols-outlined text-[18px]">receipt_long</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Terminal Footer Notification -->
+<div class="bg-surface-container px-space-md py-space-xs flex flex-col sm:flex-row items-center justify-between text-secondary font-label-micro text-label-micro gap-space-xs">
+<span>HỆ THỐNG GIAO DỊCH ĐƯỢC MÃ HÓA SHA-256 KẾT NỐI TRỰC TIẾP VỚI CƠ SỞ DỮ LIỆU ATELIER PARIS</span>
+<a class="text-primary-container hover:underline uppercase font-bold flex items-center gap-space-3xs" href="#">
+<span>XUẤT TOÀN BỘ NHẬT KÝ (.CSV)</span>
+<span class="material-symbols-outlined text-[14px]">arrow_outward</span>
+</a>
+</div>
+</div>
+</div>
+</section>
+</div>
+<script>
+  // Micro-interaction for filter pills
+  document.addEventListener('DOMContentLoaded', () => {
+    const filterButtons = document.querySelectorAll('button[class*="font-label-technical"]');
+    filterButtons.forEach(btn => {
+      btn.addEventListener('click', function() {
+        if(this.innerText.includes('(')) {
+          filterButtons.forEach(b => {
+            if(b.innerText.includes('(')) {
+              b.classList.remove('bg-primary-container', 'text-on-primary-container', 'font-semibold');
+              b.classList.add('bg-surface-container-high', 'text-secondary');
+            }
+          });
+          this.classList.remove('bg-surface-container-high', 'text-secondary');
+          this.classList.add('bg-primary-container', 'text-on-primary-container', 'font-semibold');
+        }
+      });
+    });
+  });
+</script></main><footer class="w-full bg-surface-container-lowest text-on-surface pt-space-4xl pb-space-2xl"><div class="w-full px-gutter-mobile lg:px-gutter-desktop"><div class="grid grid-cols-1 md:grid-cols-12 gap-space-xl pb-space-3xl"><div class="md:col-span-5 flex flex-col justify-between"><div class="space-y-space-md"><div class="flex items-center gap-space-sm"><span class="w-2.5 h-2.5 bg-primary-container inline-block"></span><span class="font-label-technical text-label-technical tracking-widest uppercase text-secondary">SYNDICATE PROTOCOL</span></div><h3 class="font-headline-md text-headline-md text-primary uppercase tracking-tight">KINESIS / ATELIER</h3><p class="font-body-sm text-body-sm text-secondary max-w-md">Operating at the razor margin between haute couture poise and biomechanical performance streetwear. Every silhouette is an engineered kinetic instrument produced in strictly monitored low-batch editions.</p></div><div class="pt-space-xl"><div class="font-label-micro text-label-micro text-secondary uppercase tracking-widest pb-space-xs">GLOBAL ATELIER SITES</div><div class="grid grid-cols-3 gap-space-sm font-label-technical text-label-technical text-on-surface-variant"><div class="flex flex-col"><span class="text-primary">PARIS // IX</span><span>48.8744° N</span><span>2.3522° E</span></div><div class="flex flex-col"><span class="text-primary">TOKYO // SHIBUYA</span><span>35.6617° N</span><span>139.7040° E</span></div><div class="flex flex-col"><span class="text-primary">MILANO // BRERA</span><span>45.4721° N</span><span>9.1878° E</span></div></div></div></div><div class="md:col-span-3 flex flex-col space-y-space-md"><span class="font-label-technical text-label-technical uppercase tracking-widest text-primary-container">NAVIGATION INDEX</span><ul class="space-y-space-xs font-label-technical text-label-technical text-secondary uppercase"><li class="hover:text-primary transition-colors"><a data-path="discovery" href="#">01 // CURRENT EXPERIMENTS</a></li><li class="hover:text-primary transition-colors"><a data-path="archive-and-shop" href="#">02 // PERMANENT VAULT</a></li><li class="hover:text-primary transition-colors"><a data-path="the-artifact" href="#">03 // ADVANCED MATERIALS</a></li><li class="hover:text-primary transition-colors"><a data-path="manifesto-and-lookbook" href="#">04 // MANIFESTO &amp; LOOKBOOK</a></li><li class="hover:text-primary transition-colors"><a class="text-primary-container font-semibold" data-path="cart-and-checkout" href="#">05 // CART &amp; DISPATCH PROTOCOL</a></li><li class="hover:text-primary transition-colors"><a class="text-primary font-medium" data-path="syndicate-vault" href="#">06 // SYNDICATE VAULT &amp; ACCESS</a></li></ul></div><div class="md:col-span-4 flex flex-col justify-between space-y-space-lg"><div><span class="font-label-technical text-label-technical uppercase tracking-widest text-primary-container block mb-space-xs">COMMUNICATION CHANNEL</span><h4 class="font-headline-sm text-headline-sm text-primary uppercase mb-space-xs">JOIN THE SYNDICATE</h4><p class="font-body-sm text-body-sm text-secondary mb-space-md">Receive biometric drop alerts, secret access hashes, and private showroom invitations prior to global dispatch.</p><form class="flex flex-col sm:flex-row items-stretch gap-space-2xs"><input class="bg-surface-container-high text-on-surface font-label-technical text-label-technical px-space-md py-space-sm focus:outline-none focus:ring-1 focus:ring-primary-container placeholder:text-secondary/50 flex-grow" placeholder="ENTER IDENTIFIER / EMAIL" type="email"/><button class="bg-primary-container text-on-primary-container font-label-technical text-label-technical px-space-lg py-space-sm uppercase font-semibold hover:bg-primary hover:text-on-secondary transition-colors whitespace-nowrap" type="submit">TRANSMIT</button></form></div><div><span class="font-label-micro text-label-micro text-secondary uppercase tracking-widest block mb-space-xs">ACCEPTED PROTOCOLS &amp; LUXURY CLEARANCE</span><div class="flex flex-wrap items-center gap-space-sm font-label-micro text-label-micro text-secondary/80 uppercase"><span>ETHEREUM CORE</span><span>•</span><span>USDC</span><span>•</span><span>AMEX CENTURION</span><span>•</span><span>VISA BLACK</span><span>•</span><span>APPLE PAY VAULT</span></div></div></div></div><div class="pt-space-xl flex flex-col md:flex-row items-center justify-between gap-space-md font-label-micro text-label-micro text-secondary uppercase"><div class="flex items-center gap-space-sm"><span>© 2025 KINESIS / ATELIER CORP. ALL RIGHTS RESERVED.</span><span class="text-secondary/40">//</span><span class="text-primary-container">CODE SPEC: VER 4.09</span></div><div class="flex items-center gap-space-md"><a class="hover:text-primary transition-colors" href="#">CONFIDENTIALITY CLAUSE</a><a class="hover:text-primary transition-colors" href="#">AUTHENTICITY VERIFICATION</a><a class="hover:text-primary transition-colors" href="#">DISPATCH TERMS</a><a class="hover:text-primary transition-colors" href="#">LEGAL NOTICE</a></div></div></div></footer></body></html>

@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;family=Syne:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={"darkMode":"class","theme":{"extend":{"colors":{"inverse-on-surface":"#313032","tertiary":"#ffffff","on-primary-container":"#596c00","secondary":"#c1c7cf","on-tertiary-container":"#576679","surface-tint":"#b0d500","surface-container-low":"#1c1b1d","tertiary-container":"#d4e4fa","surface-container-high":"#2a2a2c","on-error-container":"#ffdad6","background":"#131315","surface-variant":"#353437","on-surface":"#e5e1e4","on-background":"#e5e1e4","error-container":"#93000a","on-tertiary":"#233143","outline":"#8f9378","surface-container":"#201f21","on-secondary-container":"#afb6bd","on-primary-fixed-variant":"#3e4c00","primary-container":"#caf300","on-primary-fixed":"#171e00","on-tertiary-fixed-variant":"#39485a","surface-dim":"#131315","outline-variant":"#444932","surface-container-highest":"#353437","tertiary-fixed":"#d4e4fa","on-secondary-fixed":"#161c22","primary-fixed-dim":"#b0d500","surface-bright":"#39393b","secondary-container":"#41474e","surface":"#131315","error":"#ffb4ab","primary-fixed":"#caf300","tertiary-fixed-dim":"#b9c8de","on-secondary":"#2b3137","on-primary":"#2a3400","surface-container-lowest":"#0e0e10","secondary-fixed":"#dde3eb","on-error":"#690005","primary":"#ffffff","on-secondary-fixed-variant":"#41474e","inverse-surface":"#e5e1e4","inverse-primary":"#536600","on-tertiary-fixed":"#0d1c2d","on-surface-variant":"#c5c9ac","secondary-fixed-dim":"#c1c7cf"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"space-4xl":"6rem","space-xl":"2rem","space-lg":"1.5rem","gutter-desktop":"2rem","space-2xs":"0.25rem","space-xs":"0.5rem","space-3xl":"4.5rem","margin-desktop":"4rem","gutter-mobile":"1rem","space-5xl":"9rem","space-2xl":"3rem","space-3xs":"0.125rem","space-sm":"0.75rem","space-md":"1rem","margin-mobile":"1.25rem"},"fontFamily":{"headline-sm":["Syne"],"display-lg":["Syne"],"label-micro":["JetBrains Mono"],"body-sm":["Geist"],"display-lg-mobile":["Syne"],"label-technical":["JetBrains Mono"],"display-xl-mobile":["Syne"],"body-md":["Geist"],"display-xl":["Syne"],"body-lg":["Geist"],"headline-md":["Syne"]},"fontSize":{"headline-sm":["22px",{"lineHeight":"28px","letterSpacing":"-0.01em","fontWeight":"600"}],"display-lg":["56px",{"lineHeight":"60px","letterSpacing":"-0.03em","fontWeight":"700"}],"label-micro":["10px",{"lineHeight":"12px","letterSpacing":"0.18em","fontWeight":"600"}],"body-sm":["13px",{"lineHeight":"20px","letterSpacing":"0.01em","fontWeight":"400"}],"display-lg-mobile":["32px",{"lineHeight":"36px","letterSpacing":"-0.02em","fontWeight":"700"}],"label-technical":["12px",{"lineHeight":"16px","letterSpacing":"0.12em","fontWeight":"500"}],"display-xl-mobile":["44px",{"lineHeight":"48px","letterSpacing":"-0.03em","fontWeight":"800"}],"body-md":["15px",{"lineHeight":"24px","letterSpacing":"0em","fontWeight":"400"}],"display-xl":["84px",{"lineHeight":"88px","letterSpacing":"-0.04em","fontWeight":"800"}],"body-lg":["18px",{"lineHeight":"28px","letterSpacing":"-0.01em","fontWeight":"400"}],"headline-md":["32px",{"lineHeight":"40px","letterSpacing":"-0.02em","fontWeight":"600"}]}}}}</script></head><body class="bg-surface text-on-surface font-body-md text-body-md antialiased selection:bg-primary-container selection:text-on-primary-container"><header class="fixed top-0 left-0 w-full z-50 bg-surface/85 backdrop-blur-2xl"><div class="w-full bg-surface-container-lowest px-gutter-mobile lg:px-gutter-desktop py-space-2xs flex items-center justify-between font-label-micro text-label-micro text-secondary tracking-widest uppercase"><div class="flex items-center gap-space-xs"><span class="inline-block w-1.5 h-1.5 rounded-full bg-primary-container animate-pulse"></span><span>TELEMETRY ACTIVE // SYSTEM STATUS: SYNCHRONIZED</span></div><div class="flex items-center gap-space-md"><span class="text-primary-container font-medium">LIMITED DROP // K-09 PROTOTYPE AVAILABLE IN 24HRS</span><span class="hidden md:inline text-secondary/40">|</span><span class="hidden md:inline text-secondary/80">PRECISION GEAR // LAB GRADE</span></div><div class="hidden lg:flex items-center gap-space-sm"><span>PARIS 48.8566° N</span><span>•</span><span>TOKYO 35.6762° N</span><span>•</span><span>MILANO 45.4642° N</span></div></div><div class="w-full px-gutter-mobile lg:px-gutter-desktop h-20 flex items-center justify-between gap-space-lg"><div class="flex items-center gap-space-md shrink-0"><img alt="Kinesis Atelier Wordmark Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1UcxBglsIgxqg1MSEt7BhtvC-ZCq5RaNHEKm-SsIy_Z_mUO6WFcDpsbozrZJ6KpTytiO93NFaK_afkv9LCqm5W0_Q0AMOtxbf09XmkkDCYpPsZni9saSzHmaallHBHhAIkLqRxub4C43kqhvJHBCxrJfiOtFZiTsrVs8QHvAUtZ4SzOl64bog5nUrUDuHKCuKVWRQ-JIz4fUwPWXRe3ud-PiSBGOSeLxGzuepLver_7fbMuJI1-OenNgHuS"/><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-primary uppercase tracking-tight leading-none">KINESIS</span><span class="font-label-micro text-label-micro text-secondary tracking-[0.24em] uppercase">ATELIER SYSTEM</span></div></div><nav class="hidden xl:flex items-center gap-space-xs font-label-technical text-label-technical tracking-widest uppercase" data-active-classes="text-primary-container bg-surface-container-high"><a class="px-space-sm py-space-xs text-on-surface-variant hover:text-primary transition-colors" data-path="discovery" href="#">01 / DISCOVERY</a><a aria-current="page" class="px-space-sm py-space-xs transition-colors text-primary-container bg-surface-container-high" data-path="archive-and-shop" href="#">02 / ARCHIVE &amp; SHOP</a><a class="px-space-sm py-space-xs text-on-surface-variant hover:text-primary transition-colors" data-path="the-artifact" href="#">03 / THE ARTIFACT</a><a class="px-space-sm py-space-xs text-on-surface-variant hover:text-primary transition-colors" data-path="manifesto-and-lookbook" href="#">04 / MANIFESTO &amp; LOOKBOOK</a></nav><div class="flex items-center gap-space-sm md:gap-space-md"><button aria-label="Search Archive" class="p-space-xs text-secondary hover:text-primary transition-colors flex items-center justify-center" type="button"><span class="material-symbols-outlined text-[20px]">search</span></button><button aria-label="Wishlist" class="p-space-xs text-secondary hover:text-primary transition-colors flex items-center justify-center relative" type="button"><span class="material-symbols-outlined text-[20px]">favorite</span><span class="absolute top-0 right-0 w-1.5 h-1.5 rounded-full bg-primary-container"></span></button><button aria-label="Cart" class="flex items-center gap-space-2xs px-space-xs py-space-3xs text-secondary hover:text-primary transition-colors font-label-technical text-label-technical" type="button"><span class="material-symbols-outlined text-[20px]">shopping_bag</span><span class="text-primary-container font-bold">[02]</span></button><div class="flex items-center pl-space-xs"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuACHHeBKZoeVLUcp_IXhulVQGt1TyeOgRcbBhpGQNxBhrCQa5L4h0Q1SPL1opCA05QcRF37XbjtSLW1BmkMXlVQOiVoH_4QKxjOkROOZgJfxn1TgzvGuBiZ_xMJBzV5CJ6biKjC0W6pqqoT0aEcrA4zxO8eSCNuowFg0825A25LA9aVH_-Wp2pWwskNZIMfqRN2QL8Z40AxyDtCk6F9iOHwf_WXh1HssCqBpZeZxifQFUYrICF_uuSihA"/></div></div></div></header><main class="w-full pt-20 bg-surface min-h-screen"><div class="flex flex-col w-full">
+<!-- SECTION 1: CATALOG TELEMETRY & CONTROLS HEADER -->
+<section class="w-full bg-surface-container-lowest px-gutter-mobile lg:px-gutter-desktop pt-space-xl pb-space-lg">
+<div class="flex flex-col lg:flex-row lg:items-end justify-between gap-space-md">
+<div class="space-y-space-2xs max-w-2xl">
+<div class="flex items-center gap-space-xs font-label-micro text-label-micro text-secondary uppercase tracking-widest">
+<span class="w-2 h-2 rounded-full bg-primary-container inline-block"></span>
+<span>SYSTEM SPECIMEN REGISTRY // VER. 2025.4</span>
+<span class="text-secondary/40">/</span>
+<span class="text-primary-container">CURATED DROP</span>
+</div>
+<h1 class="font-headline-md text-headline-md text-primary tracking-tight uppercase">
+          ARCHIVE &amp; CURRENT SPECIMENS // 2025
+        </h1>
+<p class="font-body-sm text-body-sm text-secondary">
+          Tất cả các phiên bản giày thể thao ý niệm và giày chạy hiệu năng cao được sản xuất giới hạn. Cân bằng giữa cấu trúc Haute Couture và động cơ học sinh thể học.
+        </p>
+</div>
+<!-- Quick Telemetry Status Pill & Mode Toggle -->
+<div class="flex flex-wrap items-center gap-space-sm font-label-technical text-label-technical">
+<div class="px-space-sm py-space-2xs bg-surface-container-high text-secondary flex items-center gap-space-xs">
+<span class="text-primary-container">BATCH:</span>
+<span class="text-primary">K-SYN-04</span>
+</div>
+<div class="px-space-sm py-space-2xs bg-surface-container-high text-secondary flex items-center gap-space-xs">
+<span class="text-primary-container">GLOBAL ALLOCATION:</span>
+<span class="text-primary">18 DESIGNS</span>
+</div>
+<div class="hidden sm:flex items-center bg-surface-container-high p-space-3xs gap-space-3xs">
+<button aria-label="Grid 3 columns" class="px-space-xs py-space-3xs bg-primary-container text-on-primary-container font-medium transition-colors" id="view-grid-3">
+            GRID 3 CỘT
+          </button>
+<button aria-label="Grid 2 columns" class="px-space-xs py-space-3xs text-secondary hover:text-primary transition-colors" id="view-grid-2">
+            GRID 2 CỘT
+          </button>
+</div>
+</div>
+</div>
+<!-- Active Segment Filter Chips Bar -->
+<div class="flex flex-wrap items-center justify-between gap-space-sm mt-space-lg pt-space-sm bg-surface-container-low px-space-md py-space-xs">
+<div class="flex flex-wrap items-center gap-space-2xs font-label-technical text-label-technical uppercase">
+<button class="category-btn active px-space-sm py-space-2xs bg-primary text-surface font-semibold tracking-wider transition-all">
+          TẤT CẢ (18)
+        </button>
+<button class="category-btn px-space-sm py-space-2xs bg-surface-container text-secondary hover:text-primary transition-all">
+          HYPER-RUNNING (6)
+        </button>
+<button class="category-btn px-space-sm py-space-2xs bg-surface-container text-secondary hover:text-primary transition-all">
+          AVANT-GARDE LIFESTYLE (8)
+        </button>
+<button class="category-btn px-space-sm py-space-2xs bg-surface-container text-secondary hover:text-primary transition-all">
+          LAB EXPERIMENTAL (4)
+        </button>
+</div>
+<div class="flex items-center gap-space-sm font-label-technical text-label-technical">
+<span class="text-secondary/70 uppercase">SẮP XẾP:</span>
+<select class="bg-surface-container-high text-primary px-space-sm py-space-2xs uppercase tracking-wider focus:outline-none">
+<option>MỚI NHẤT // DROP DATE</option>
+<option>GIÁ CAO NHẤT // VALUE</option>
+<option>GIÁ THẤP NHẤT // ENTRY</option>
+<option>ĐỘ HIẾM // TIER ASC</option>
+</select>
+</div>
+</div>
+</section>
+<!-- SECTION 2: WORKSPACE (SIDEBAR FILTERS + SNEAKER MATRIX GRID) -->
+<section class="w-full px-gutter-mobile lg:px-gutter-desktop py-space-xl bg-surface">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-start">
+<!-- MINIMALIST LUXURY SIDEBAR -->
+<aside class="lg:col-span-3 space-y-space-lg bg-surface-container-low p-space-md lg:p-space-lg">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="w-1.5 h-1.5 bg-primary-container"></span>
+<span class="font-label-technical text-label-technical uppercase tracking-widest text-primary font-bold">BỘ LỌC ĐẶC TÍNH</span>
+</div>
+<button class="font-label-micro text-label-micro text-secondary hover:text-primary-container uppercase transition-colors">
+            ĐẶT LẠI [RESET]
+          </button>
+</div>
+<!-- Price Range Slider Widget -->
+<div class="space-y-space-xs pt-space-xs">
+<div class="flex justify-between items-center font-label-technical text-label-technical">
+<span class="text-secondary uppercase">KHOẢNG GIÁ</span>
+<span class="text-primary-container font-mono">$450 - $1,200</span>
+</div>
+<div class="relative w-full h-1.5 bg-surface-container-highest my-space-xs">
+<div class="absolute left-[15%] right-[20%] h-full bg-primary-container"></div>
+<div class="absolute left-[15%] top-1/2 -translate-y-1/2 w-3 h-3 bg-primary cursor-pointer shadow-md"></div>
+<div class="absolute right-[20%] top-1/2 -translate-y-1/2 w-3 h-3 bg-primary cursor-pointer shadow-md"></div>
+</div>
+<div class="flex justify-between font-label-micro text-label-micro text-secondary/60">
+<span>MIN: $300</span>
+<span>CAP: $1,850</span>
+</div>
+</div>
+<!-- Release Classification Checkboxes -->
+<div class="space-y-space-xs pt-space-xs">
+<span class="font-label-technical text-label-technical uppercase tracking-widest text-primary block">PHÂN LOẠI DROP</span>
+<div class="space-y-space-2xs font-label-technical text-label-technical text-secondary">
+<label class="flex items-center justify-between cursor-pointer p-space-2xs hover:bg-surface-container-high transition-colors">
+<span class="flex items-center gap-space-xs">
+<span class="w-4 h-4 bg-surface-container flex items-center justify-center p-0.5">
+<span class="w-full h-full bg-primary-container"></span>
+</span>
+<span>LIMITED PROTOTYPE</span>
+</span>
+<span class="text-label-micro text-secondary/60">[07]</span>
+</label>
+<label class="flex items-center justify-between cursor-pointer p-space-2xs hover:bg-surface-container-high transition-colors">
+<span class="flex items-center gap-space-xs">
+<span class="w-4 h-4 bg-surface-container flex items-center justify-center p-0.5">
+<span class="w-full h-full bg-transparent"></span>
+</span>
+<span>RUNWAY ARCHIVE</span>
+</span>
+<span class="text-label-micro text-secondary/60">[05]</span>
+</label>
+<label class="flex items-center justify-between cursor-pointer p-space-2xs hover:bg-surface-container-high transition-colors">
+<span class="flex items-center gap-space-xs">
+<span class="w-4 h-4 bg-surface-container flex items-center justify-center p-0.5">
+<span class="w-full h-full bg-transparent"></span>
+</span>
+<span>CORE LAB SERIES</span>
+</span>
+<span class="text-label-micro text-secondary/60">[06]</span>
+</label>
+</div>
+</div>
+<!-- Size Matrix Selector -->
+<div class="space-y-space-xs pt-space-xs">
+<div class="flex justify-between items-center font-label-technical text-label-technical">
+<span class="text-primary uppercase tracking-widest">KÍCH THƯỚC (EU)</span>
+<span class="font-label-micro text-label-micro text-primary-container cursor-pointer">BẢNG SIZE LAB</span>
+</div>
+<div class="grid grid-cols-4 gap-space-2xs font-label-technical text-label-technical">
+<button class="py-space-2xs bg-surface-container-high hover:bg-primary hover:text-on-secondary text-secondary transition-colors">39</button>
+<button class="py-space-2xs bg-primary-container text-on-primary-container font-bold">40</button>
+<button class="py-space-2xs bg-surface-container-high hover:bg-primary hover:text-on-secondary text-secondary transition-colors">41</button>
+<button class="py-space-2xs bg-primary-container text-on-primary-container font-bold">42</button>
+<button class="py-space-2xs bg-surface-container-high hover:bg-primary hover:text-on-secondary text-secondary transition-colors">43</button>
+<button class="py-space-2xs bg-surface-container-high hover:bg-primary hover:text-on-secondary text-secondary transition-colors">44</button>
+<button class="py-space-2xs bg-surface-container-high hover:bg-primary hover:text-on-secondary text-secondary transition-colors">45</button>
+<button class="py-space-2xs bg-surface-container text-secondary/40 cursor-not-allowed line-through">46</button>
+</div>
+</div>
+<!-- Advanced Materials Filter -->
+<div class="space-y-space-xs pt-space-xs">
+<span class="font-label-technical text-label-technical uppercase tracking-widest text-primary block">VẬT LIỆU CHẾ TÁC</span>
+<div class="space-y-space-2xs font-label-technical text-label-technical text-secondary">
+<div class="flex items-center justify-between p-space-2xs hover:bg-surface-container-high cursor-pointer">
+<span>CARBON MATRIX V3</span>
+<span class="font-label-micro text-primary-container">ULTRA-RIGID</span>
+</div>
+<div class="flex items-center justify-between p-space-2xs hover:bg-surface-container-high cursor-pointer">
+<span>KEVLAR BALLISTIC KNIT</span>
+<span class="font-label-micro text-secondary/60">FIBER</span>
+</div>
+<div class="flex items-center justify-between p-space-2xs hover:bg-surface-container-high cursor-pointer">
+<span>BIO-TITANIUM EXOSKELETON</span>
+<span class="font-label-micro text-secondary/60">METAL</span>
+</div>
+<div class="flex items-center justify-between p-space-2xs hover:bg-surface-container-high cursor-pointer">
+<span>VEGAN MATTE AERO-LEATHER</span>
+<span class="font-label-micro text-secondary/60">HYBRID</span>
+</div>
+</div>
+</div>
+<!-- Color Swatches Filter -->
+<div class="space-y-space-xs pt-space-xs">
+<span class="font-label-technical text-label-technical uppercase tracking-widest text-primary block">HỆ MÀU SẮC CHỦ ĐẠO</span>
+<div class="grid grid-cols-5 gap-space-2xs pt-space-3xs">
+<button class="h-8 bg-[#0e0e10] p-0.5 relative group" title="Obsidian Black">
+<span class="w-full h-full block bg-surface-container-lowest"></span>
+<span class="absolute -bottom-4 left-1/2 -translate-x-1/2 hidden group-hover:block font-label-micro text-[9px] text-primary whitespace-nowrap z-20">OBSIDIAN</span>
+</button>
+<button class="h-8 bg-surface-container-high p-0.5 relative group" title="Chrome Silver">
+<span class="w-full h-full block bg-[#c1c7cf]"></span>
+<span class="absolute -bottom-4 left-1/2 -translate-x-1/2 hidden group-hover:block font-label-micro text-[9px] text-primary whitespace-nowrap z-20">CHROME</span>
+</button>
+<button class="h-8 bg-surface-container-high p-0.5 relative group ring-1 ring-primary-container" title="Acid Volt">
+<span class="w-full h-full block bg-[#caf300]"></span>
+<span class="absolute -bottom-4 left-1/2 -translate-x-1/2 hidden group-hover:block font-label-micro text-[9px] text-primary whitespace-nowrap z-20">ACID VOLT</span>
+</button>
+<button class="h-8 bg-surface-container-high p-0.5 relative group" title="Bone White">
+<span class="w-full h-full block bg-[#e5e1e4]"></span>
+<span class="absolute -bottom-4 left-1/2 -translate-x-1/2 hidden group-hover:block font-label-micro text-[9px] text-primary whitespace-nowrap z-20">BONE</span>
+</button>
+<button class="h-8 bg-surface-container-high p-0.5 relative group" title="Glitch Cyan">
+<span class="w-full h-full block bg-[#38bdf8]"></span>
+<span class="absolute -bottom-4 left-1/2 -translate-x-1/2 hidden group-hover:block font-label-micro text-[9px] text-primary whitespace-nowrap z-20">CYAN</span>
+</button>
+</div>
+</div>
+<!-- Telemetry Lab Guarantee -->
+<div class="pt-space-md mt-space-md bg-surface-container p-space-sm space-y-space-2xs font-label-micro text-label-micro text-secondary">
+<div class="flex items-center gap-space-xs text-primary">
+<span class="material-symbols-outlined text-[16px] text-primary-container">verified</span>
+<span class="uppercase tracking-widest font-semibold">AUTHENTICATED IN MILAN</span>
+</div>
+<p class="text-secondary/80">Mỗi cá thể giày đều được đính kèm chip NFC mã hoá chuỗi khối và số series chế tác thủ công.</p>
+</div>
+</aside>
+<!-- PRODUCT CARDS MATRIX (9 COLUMNS) -->
+<div class="lg:col-span-9 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-space-md" id="product-grid">
+<!-- CARD 1: K-09 STRATOS -->
+<div class="product-item group relative flex flex-col bg-surface-container-low transition-all duration-300 hover:shadow-2xl">
+<div class="relative w-full aspect-[4/5] bg-surface-container-lowest overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Avant-garde futuristic luxury white and neon volt kinetic running sneaker with carbon fiber plate and architectural skeletal sole, studio photography dark background high contrast dramatic side lighting sharp shadows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA32zLZywY03KfDkVptNAPeGO35z70iG-xFbt3W6rqQ1ipoGvnZt_SmF1SqxzkEAFnsjl0KjpZ832rwYZ46XV5ev_aTUeT1dkv75tYFVGOSA3PxRY8lLAg_U30O1neGBr6K8Iv8Uvl7WPFMhJCXauhqI1mTbnYXEs_V4Vi43urFAS3W4viyqbTTqRo8y9JL7V3r0RvzTZ3lE5-bYkGNEH0wkplhm6PPAoB-bqY-r-8MV8tmx6uUeScvZg"/>
+<!-- Top Badges & Wishlist -->
+<div class="absolute top-space-xs left-space-xs right-space-xs flex items-center justify-between pointer-events-none z-10">
+<div class="flex items-center gap-space-2xs pointer-events-auto">
+<span class="px-space-xs py-space-3xs bg-primary-container text-on-primary-container font-label-micro text-label-micro font-bold tracking-widest uppercase">
+                  NEW DROP
+                </span>
+<span class="px-space-xs py-space-3xs bg-surface-container-lowest/80 backdrop-blur-md text-secondary font-label-micro text-label-micro uppercase">
+                  48 PAIRS
+                </span>
+</div>
+<button aria-label="Add to Wishlist" class="pointer-events-auto p-space-xs bg-surface-container-lowest/80 backdrop-blur-md text-secondary hover:text-primary-container transition-colors">
+<span class="material-symbols-outlined text-[18px]">favorite</span>
+</button>
+</div>
+<!-- Quick Size Matrix Reveal on Hover -->
+<div class="absolute bottom-0 left-0 right-0 p-space-xs bg-surface-container-lowest/90 backdrop-blur-md translate-y-full group-hover:translate-y-0 transition-transform duration-300 flex flex-col gap-space-2xs">
+<span class="font-label-micro text-label-micro text-secondary/70 uppercase">CHỌN NHANH SIZE:</span>
+<div class="flex items-center justify-between gap-space-3xs font-label-micro text-label-micro text-primary">
+<button class="px-2 py-1 bg-surface-container hover:bg-primary hover:text-on-secondary">40</button>
+<button class="px-2 py-1 bg-surface-container hover:bg-primary hover:text-on-secondary">41</button>
+<button class="px-2 py-1 bg-primary-container text-on-primary-container font-bold">42</button>
+<button class="px-2 py-1 bg-surface-container hover:bg-primary hover:text-on-secondary">43</button>
+<button class="px-2 py-1 bg-surface-container hover:bg-primary hover:text-on-secondary">44</button>
+</div>
+</div>
+</div>
+<div class="p-space-md flex flex-col justify-between flex-grow space-y-space-sm bg-surface-container-low">
+<div class="space-y-space-3xs">
+<div class="flex items-center justify-between">
+<span class="font-label-micro text-label-micro text-primary-container uppercase tracking-widest">K-09 PROTO // SPEC.01</span>
+<span class="font-label-technical text-label-technical text-primary font-bold">$680</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary uppercase tracking-tight">K-09 STRATOS</h3>
+<p class="font-body-sm text-body-sm text-secondary/80 line-clamp-2">Hệ thống đệm đàn hồi bọc màng khí động học, gia cố dải carbon đa trục thế hệ 4.</p>
+</div>
+<div class="pt-space-xs flex items-center gap-space-xs">
+<button class="w-full py-space-xs px-space-sm bg-primary-container text-on-primary-container font-label-technical text-label-technical font-semibold tracking-wider uppercase hover:bg-primary hover:text-surface transition-colors flex items-center justify-center gap-space-xs">
+<span class="material-symbols-outlined text-[16px]">add_shopping_cart</span>
+<span>THÊM VÀO GIỎ</span>
+</button>
+</div>
+</div>
+</div>
+<!-- CARD 2: K-01 PHANTOM MATRIX -->
+<div class="product-item group relative flex flex-col bg-surface-container-low transition-all duration-300 hover:shadow-2xl">
+<div class="relative w-full aspect-[4/5] bg-surface-container-lowest overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Stealth pitch black architectural sneaker with matte obsidian finish and geometric angular sole, cybernetic luxury footwear design, hyper-minimal dark studio shot" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBX1ZUIlDTg55RFPqQfQFsEwgoiE9TeNfmfYc_Ae2G6DMngvMbM-4BNzsRXCXiI-PuR2pmCB91wk1E0KeaWq4nIl2euJcDXZbkpE6wV6L5vVh-peAWg1ALPQONsCegUQMuBAFXKqyfZFw8awrnsdJ3yVZn3DdkKqz88XSwy-f75fDl6qn7xNszl1flXXOvrYy_gdmnfAA-4SmU-BkbsORPrVo98m3RBfqMmYfY4yQNkJsoWt6rzVKt9uw"/>
+<div class="absolute top-space-xs left-space-xs right-space-xs flex items-center justify-between pointer-events-none z-10">
+<div class="flex items-center gap-space-2xs pointer-events-auto">
+<span class="px-space-xs py-space-3xs bg-surface-container-high text-primary font-label-micro text-label-micro font-bold tracking-widest uppercase">
+                  ATELIER EXCLUSIVE
+                </span>
+</div>
+<button aria-label="Add to Wishlist" class="pointer-events-auto p-space-xs bg-surface-container-lowest/80 backdrop-blur-md text-secondary hover:text-primary-container transition-colors">
+<span class="material-symbols-outlined text-[18px]">favorite</span>
+</button>
+</div>
+<div class="absolute bottom-0 left-0 right-0 p-space-xs bg-surface-container-lowest/90 backdrop-blur-md translate-y-full group-hover:translate-y-0 transition-transform duration-300 flex flex-col gap-space-2xs">
+<span class="font-label-micro text-label-micro text-secondary/70 uppercase">CHỌN NHANH SIZE:</span>
+<div class="flex items-center justify-between gap-space-3xs font-label-micro text-label-micro text-primary">
+<button class="px-2 py-1 bg-surface-container hover:bg-primary hover:text-on-secondary">39</button>
+<button class="px-2 py-1 bg-surface-container hover:bg-primary hover:text-on-secondary">40</button>
+<button class="px-2 py-1 bg-surface-container hover:bg-primary hover:text-on-secondary">41</button>
+<button class="px-2 py-1 bg-surface-container hover:bg-primary hover:text-on-secondary">42</button>
+<button class="px-2 py-1 bg-surface-container hover:bg-primary hover:text-on-secondary">43</button>
+</div>
+</div>
+</div>
+<div class="p-space-md flex flex-col justify-between flex-grow space-y-space-sm bg-surface-container-low">
+<div class="space-y-space-3xs">
+<div class="flex items-center justify-between">
+<span class="font-label-micro text-label-micro text-secondary uppercase tracking-widest">K-01 PROTO // STEALTH</span>
+<span class="font-label-technical text-label-technical text-primary font-bold">$590</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary uppercase tracking-tight">K-01 PHANTOM MATRIX</h3>
+<p class="font-body-sm text-body-sm text-secondary/80 line-clamp-2">Vải dệt Kevlar đan chéo không đường may kết hợp đế hấp thụ chấn động bằng mút sinh học nano.</p>
+</div>
+<div class="pt-space-xs flex items-center gap-space-xs">
+<button class="w-full py-space-xs px-space-sm bg-primary-container text-on-primary-container font-label-technical text-label-technical font-semibold tracking-wider uppercase hover:bg-primary hover:text-surface transition-colors flex items-center justify-center gap-space-xs">
+<span class="material-symbols-outlined text-[16px]">add_shopping_cart</span>
+<span>THÊM VÀO GIỎ</span>
+</button>
+</div>
+</div>
+</div>
+<!-- CARD 3: K-04 NEBULA RUNNER -->
+<div class="product-item group relative flex flex-col bg-surface-container-low transition-all duration-300 hover:shadow-2xl">
+<div class="relative w-full aspect-[4/5] bg-surface-container-lowest overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="High tech running shoe with translucent mesh, acid neon highlights and metallic silver accents, futuristic sports footwear floating in dark minimalist studio with cyan soft rim light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDK8bHRqDg2Fz2uqv-JE8KC-GWiXS29g_nJENO08C6piU7e59QX3WXdJvMOCJSSnqKmpozY5ifSD0k8zcnfhGnBXbrsRo8aIg8iHcB2ZFbQKU46E-J_1Kdc22IIdgStuTeHI2UR3NhUEMnVhBb5zgITmqSEykce_B1aDs1d6eBspK6adXytRUEKPb2xdIeizYebaSxOW7bMfLuWjoqmMTffiA5iZDDVc5fDGaXHdkvnu9uvj_VUNhZ6RQ"/>
+<div class="absolute top-space-xs left-space-xs right-space-xs flex items-center justify-between pointer-events-none z-10">
+<div class="flex items-center gap-space-2xs pointer-events-auto">
+<span class="px-space-xs py-space-3xs bg-error-container text-on-error-container font-label-micro text-label-micro font-bold tracking-widest uppercase">
+                  FEW REMAINING
+                </span>
+<span class="px-space-xs py-space-3xs bg-surface-container-lowest/80 backdrop-blur-md text-secondary font-label-micro text-label-micro uppercase">
+                  [03 LEFT]
+                </span>
+</div>
+<button aria-label="Add to Wishlist" class="pointer-events-auto p-space-xs bg-surface-container-lowest/80 backdrop-blur-md text-secondary hover:text-primary-container transition-colors">
+<span class="material-symbols-outlined text-[18px]">favorite</span>
+</button>
+</div>
+<div class="absolute bottom-0 left-0 right-0 p-space-xs bg-surface-container-lowest/90 backdrop-blur-md translate-y-full group-hover:translate-y-0 transition-transform duration-300 flex flex-col gap-space-2xs">
+<span class="font-label-micro text-label-micro text-secondary/70 uppercase">CHỌN NHANH SIZE:</span>
+<div class="flex items-center justify-between gap-space-3xs font-label-micro text-label-micro text-primary">
+<button class="px-2 py-1 bg-surface-container hover:bg-primary hover:text-on-secondary">41</button>
+<button class="px-2 py-1 bg-surface-container hover:bg-primary hover:text-on-secondary">42</button>
+<button class="px-2 py-1 bg-primary-container text-on-primary-container font-bold">43</button>
+</div>
+</div>
+</div>
+<div class="p-space-md flex flex-col justify-between flex-grow space-y-space-sm bg-surface-container-low">
+<div class="space-y-space-3xs">
+<div class="flex items-center justify-between">
+<span class="font-label-micro text-label-micro text-error uppercase tracking-widest">K-04 RACE // LIMITED</span>
+<span class="font-label-technical text-label-technical text-primary font-bold">$650</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary uppercase tracking-tight">K-04 NEBULA RUNNER</h3>
+<p class="font-body-sm text-body-sm text-secondary/80 line-clamp-2">Khối lượng siêu nhẹ 168g, thiết kế dành cho vận động viên đô thị đam mê sự bứt phá tối đa.</p>
+</div>
+<div class="pt-space-xs flex items-center gap-space-xs">
+<button class="w-full py-space-xs px-space-sm bg-primary-container text-on-primary-container font-label-technical text-label-technical font-semibold tracking-wider uppercase hover:bg-primary hover:text-surface transition-colors flex items-center justify-center gap-space-xs">
+<span class="material-symbols-outlined text-[16px]">add_shopping_cart</span>
+<span>THÊM VÀO GIỎ</span>
+</button>
+</div>
+</div>
+</div>
+<!-- CARD 4: K-07 SOLARIS METALLIC -->
+<div class="product-item group relative flex flex-col bg-surface-container-low transition-all duration-300 hover:shadow-2xl">
+<div class="relative w-full aspect-[4/5] bg-surface-container-lowest overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Liquid chrome metallic avant-garde luxury sneaker with reflective mirror panels and titanium cage support, editorial cyber fashion luxury product shot" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBT4a4JGDb--tyS4MQW-xQ4s5PJzlhManF3bJFlCK4sjWGx5TKj0JhbB2vq6c3RM6TjNEO-o-ussgXKELfvupd21jFsPUbhImRBHmBKc7LP3XDJOVeOtBMLiQMHjx6kpRyhed29A6bLmv7EKLlyVrejbsaHxzJL--Vc-yY0H6fJVhPXkCiLQPX5PtfBL2ahCrgYdLTjV3Q5PD48WxxP2fkOqOqDtihtSyH1ioKW-jc6jzDLjSp76hfbIA"/>
+<div class="absolute top-space-xs left-space-xs right-space-xs flex items-center justify-between pointer-events-none z-10">
+<div class="flex items-center gap-space-2xs pointer-events-auto">
+<span class="px-space-xs py-space-3xs bg-tertiary-container text-on-tertiary-container font-label-micro text-label-micro font-bold tracking-widest uppercase">
+                  COLLABORATION
+                </span>
+<span class="px-space-xs py-space-3xs bg-surface-container-lowest/80 backdrop-blur-md text-secondary font-label-micro text-label-micro uppercase">
+                  TOKYO LAB
+                </span>
+</div>
+<button aria-label="Add to Wishlist" class="pointer-events-auto p-space-xs bg-surface-container-lowest/80 backdrop-blur-md text-secondary hover:text-primary-container transition-colors">
+<span class="material-symbols-outlined text-[18px]">favorite</span>
+</button>
+</div>
+<div class="absolute bottom-0 left-0 right-0 p-space-xs bg-surface-container-lowest/90 backdrop-blur-md translate-y-full group-hover:translate-y-0 transition-transform duration-300 flex flex-col gap-space-2xs">
+<span class="font-label-micro text-label-micro text-secondary/70 uppercase">CHỌN NHANH SIZE:</span>
+<div class="flex items-center justify-between gap-space-3xs font-label-micro text-label-micro text-primary">
+<button class="px-2 py-1 bg-surface-container hover:bg-primary hover:text-on-secondary">40</button>
+<button class="px-2 py-1 bg-surface-container hover:bg-primary hover:text-on-secondary">41</button>
+<button class="px-2 py-1 bg-surface-container hover:bg-primary hover:text-on-secondary">42</button>
+<button class="px-2 py-1 bg-surface-container hover:bg-primary hover:text-on-secondary">44</button>
+</div>
+</div>
+</div>
+<div class="p-space-md flex flex-col justify-between flex-grow space-y-space-sm bg-surface-container-low">
+<div class="space-y-space-3xs">
+<div class="flex items-center justify-between">
+<span class="font-label-micro text-label-micro text-secondary uppercase tracking-widest">K-07 RUNWAY // TITANIUM</span>
+<span class="font-label-technical text-label-technical text-primary font-bold">$740</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary uppercase tracking-tight">K-07 SOLARIS METALLIC</h3>
+<p class="font-body-sm text-body-sm text-secondary/80 line-clamp-2">Lớp mạ chrome dạng lỏng phản xạ gương cùng khung bio-titanium gia công chuẩn xác tại Kyoto.</p>
+</div>
+<div class="pt-space-xs flex items-center gap-space-xs">
+<button class="w-full py-space-xs px-space-sm bg-primary-container text-on-primary-container font-label-technical text-label-technical font-semibold tracking-wider uppercase hover:bg-primary hover:text-surface transition-colors flex items-center justify-center gap-space-xs">
+<span class="material-symbols-outlined text-[16px]">add_shopping_cart</span>
+<span>THÊM VÀO GIỎ</span>
+</button>
+</div>
+</div>
+</div>
+<!-- CARD 5: K-11 CYBER CHRONO -->
+<div class="product-item group relative flex flex-col bg-surface-container-low transition-all duration-300 hover:shadow-2xl">
+<div class="relative w-full aspect-[4/5] bg-surface-container-lowest overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Futuristic raw hand-distressed high fashion sneaker with exposed stitching, technical cables, and bone white leather panels on obsidian base, studio art lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA7qYA74loXcZ7FiQhavUlQyQ-7uUhsLW5cr51qj-NxS89Pmcnskrv3bZFx40PltIJQssdUR3TDH7YIjdWtC9R9pGdTAI2vXO79U9h2FCyrGGmiGxqd9fnuMXC1zooi3ODD42PJnB9XPjv3r1DavpEAcx6YreGzZF-3JZFaYDKNDcIDUvLhryDqr-238kNjsEVGBlFK50fMnHm93EhREm48Janz9VzmmoHFf1MIkIM7K0zHckn-v-zNsQ"/>
+<div class="absolute top-space-xs left-space-xs right-space-xs flex items-center justify-between pointer-events-none z-10">
+<div class="flex items-center gap-space-2xs pointer-events-auto">
+<span class="px-space-xs py-space-3xs bg-primary text-surface font-label-micro text-label-micro font-bold tracking-widest uppercase">
+                  HAND-FINISHED
+                </span>
+<span class="px-space-xs py-space-3xs bg-surface-container-lowest/80 backdrop-blur-md text-primary-container font-label-micro text-label-micro uppercase">
+                  1 OF 24
+                </span>
+</div>
+<button aria-label="Add to Wishlist" class="pointer-events-auto p-space-xs bg-surface-container-lowest/80 backdrop-blur-md text-secondary hover:text-primary-container transition-colors">
+<span class="material-symbols-outlined text-[18px]">favorite</span>
+</button>
+</div>
+<div class="absolute bottom-0 left-0 right-0 p-space-xs bg-surface-container-lowest/90 backdrop-blur-md translate-y-full group-hover:translate-y-0 transition-transform duration-300 flex flex-col gap-space-2xs">
+<span class="font-label-micro text-label-micro text-secondary/70 uppercase">CHỌN NHANH SIZE:</span>
+<div class="flex items-center justify-between gap-space-3xs font-label-micro text-label-micro text-primary">
+<button class="px-2 py-1 bg-surface-container hover:bg-primary hover:text-on-secondary">41</button>
+<button class="px-2 py-1 bg-surface-container hover:bg-primary hover:text-on-secondary">42</button>
+<button class="px-2 py-1 bg-surface-container hover:bg-primary hover:text-on-secondary">43</button>
+</div>
+</div>
+</div>
+<div class="p-space-md flex flex-col justify-between flex-grow space-y-space-sm bg-surface-container-low">
+<div class="space-y-space-3xs">
+<div class="flex items-center justify-between">
+<span class="font-label-micro text-label-micro text-primary-container uppercase tracking-widest">K-11 ATELIER // HANDMADE</span>
+<span class="font-label-technical text-label-technical text-primary font-bold">$820</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary uppercase tracking-tight">K-11 CYBER CHRONO</h3>
+<p class="font-body-sm text-body-sm text-secondary/80 line-clamp-2">Hoàn thiện thủ công tại Milan với dây cáp siết nhanh và da thuộc thực vật xử lý mờ.</p>
+</div>
+<div class="pt-space-xs flex items-center gap-space-xs">
+<button class="w-full py-space-xs px-space-sm bg-primary-container text-on-primary-container font-label-technical text-label-technical font-semibold tracking-wider uppercase hover:bg-primary hover:text-surface transition-colors flex items-center justify-center gap-space-xs">
+<span class="material-symbols-outlined text-[16px]">add_shopping_cart</span>
+<span>THÊM VÀO GIỎ</span>
+</button>
+</div>
+</div>
+</div>
+<!-- CARD 6: K-02 MONOLITH HIGH-TOP -->
+<div class="product-item group relative flex flex-col bg-surface-container-low transition-all duration-300 hover:shadow-2xl">
+<div class="relative w-full aspect-[4/5] bg-surface-container-lowest overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Futuristic architectural high-top sneaker boots in brutalist style, matte dark charcoal composite shell with volt kinetic zip closure, minimalist studio dark setup" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBidaRgKI8XBdCf3gLX6kRMIr3uZxshE4ekDpyZ-zQUf_xFqyhY7yYNq-waPFlZRrndI4G37gN-Nf6BMhRf8Er3OBK4ig3kSGDcEqmg1g9PpRReX2HN6X8BVT9XcPOqRENaAritJzq8jzx4D4fu8ha6lwjECDQ8-LmyhXEq2HkYQfQqGFS7MAMt6CW9NDKDB3CtPpYF4v8Oxxoje7wBLmwQdzBTDDaIaQG0pPk1ca3jIeQgf-rjIdQfEQ"/>
+<div class="absolute top-space-xs left-space-xs right-space-xs flex items-center justify-between pointer-events-none z-10">
+<div class="flex items-center gap-space-2xs pointer-events-auto">
+<span class="px-space-xs py-space-3xs bg-surface-container-high text-secondary font-label-micro text-label-micro font-bold tracking-widest uppercase">
+                  CORE SERIES
+                </span>
+<span class="px-space-xs py-space-3xs bg-surface-container-lowest/80 backdrop-blur-md text-secondary font-label-micro text-label-micro uppercase">
+                  RESTOCKED
+                </span>
+</div>
+<button aria-label="Add to Wishlist" class="pointer-events-auto p-space-xs bg-surface-container-lowest/80 backdrop-blur-md text-secondary hover:text-primary-container transition-colors">
+<span class="material-symbols-outlined text-[18px]">favorite</span>
+</button>
+</div>
+<div class="absolute bottom-0 left-0 right-0 p-space-xs bg-surface-container-lowest/90 backdrop-blur-md translate-y-full group-hover:translate-y-0 transition-transform duration-300 flex flex-col gap-space-2xs">
+<span class="font-label-micro text-label-micro text-secondary/70 uppercase">CHỌN NHANH SIZE:</span>
+<div class="flex items-center justify-between gap-space-3xs font-label-micro text-label-micro text-primary">
+<button class="px-2 py-1 bg-surface-container hover:bg-primary hover:text-on-secondary">40</button>
+<button class="px-2 py-1 bg-surface-container hover:bg-primary hover:text-on-secondary">41</button>
+<button class="px-2 py-1 bg-surface-container hover:bg-primary hover:text-on-secondary">42</button>
+<button class="px-2 py-1 bg-surface-container hover:bg-primary hover:text-on-secondary">43</button>
+<button class="px-2 py-1 bg-surface-container hover:bg-primary hover:text-on-secondary">45</button>
+</div>
+</div>
+</div>
+<div class="p-space-md flex flex-col justify-between flex-grow space-y-space-sm bg-surface-container-low">
+<div class="space-y-space-3xs">
+<div class="flex items-center justify-between">
+<span class="font-label-micro text-label-micro text-secondary uppercase tracking-widest">K-02 HIGH // BRUTALIST</span>
+<span class="font-label-technical text-label-technical text-primary font-bold">$690</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary uppercase tracking-tight">K-02 MONOLITH HIGH-TOP</h3>
+<p class="font-body-sm text-body-sm text-secondary/80 line-clamp-2">Cấu trúc boot bảo vệ mắt cá chân toàn diện, khóa kéo chống nước chuẩn quân sự IP67.</p>
+</div>
+<div class="pt-space-xs flex items-center gap-space-xs">
+<button class="w-full py-space-xs px-space-sm bg-primary-container text-on-primary-container font-label-technical text-label-technical font-semibold tracking-wider uppercase hover:bg-primary hover:text-surface transition-colors flex items-center justify-center gap-space-xs">
+<span class="material-symbols-outlined text-[16px]">add_shopping_cart</span>
+<span>THÊM VÀO GIỎ</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- SECTION 3: LOAD MORE & DISPATCH TELEMETRY -->
+<section class="w-full bg-surface-container-lowest px-gutter-mobile lg:px-gutter-desktop py-space-2xl">
+<div class="max-w-xl mx-auto flex flex-col items-center text-center space-y-space-md">
+<div class="flex items-center gap-space-xs font-label-micro text-label-micro text-secondary uppercase tracking-widest">
+<span>HIỂN THỊ 06 TRÊN TỔNG SỐ 18 THIẾT KẾ</span>
+</div>
+<!-- Progress Bar Indicator -->
+<div class="w-64 h-1 bg-surface-container-high overflow-hidden">
+<div class="w-1/3 h-full bg-primary-container"></div>
+</div>
+<button class="px-space-xl py-space-sm bg-surface-container-high hover:bg-primary hover:text-surface text-primary font-label-technical text-label-technical uppercase tracking-widest transition-colors duration-200" id="load-more-btn">
+        TẢI THÊM 12 MẪU THIẾT KẾ // SPECIMENS
+      </button>
+<span class="font-label-micro text-label-micro text-secondary/60 uppercase">
+        GIAO HÀNG BẢO HIỂM HOÀN TOÀN • MIỄN PHÍ TRẢI NGHIỆM TẠI LAB TRONG 14 NGÀY
+      </span>
+</div>
+</section>
+<!-- LUXURY FLOATING CONCIERGE ASSISTANT WIDGET -->
+<aside class="fixed bottom-6 right-6 z-40">
+<div class="flex items-center gap-space-xs bg-surface-container-high/95 backdrop-blur-xl p-space-2xs pl-space-md text-on-surface shadow-2xl transition-all">
+<div class="flex items-center gap-space-xs">
+<span class="w-2 h-2 rounded-full bg-primary-container animate-pulse"></span>
+<div class="flex flex-col">
+<span class="font-label-micro text-label-micro text-primary uppercase font-bold tracking-wider">CONCIERGE // LAB ASSIST</span>
+<span class="font-label-micro text-[9px] text-secondary/70">TRỰC TUYẾN 24/7 TẠI MILANO</span>
+</div>
+</div>
+<button aria-label="Open Concierge Chat" class="p-space-xs bg-primary-container text-on-primary-container hover:bg-primary transition-colors flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">chat</span>
+</button>
+</div>
+</aside>
+<!-- CLIENT-SIDE INTERACTION SCRIPT -->
+<script>
+    const gridEl = document.getElementById('product-grid');
+    const btnGrid3 = document.getElementById('view-grid-3');
+    const btnGrid2 = document.getElementById('view-grid-2');
+
+    if (btnGrid3 && btnGrid2 && gridEl) {
+      btnGrid3.addEventListener('click', () => {
+        gridEl.classList.remove('xl:grid-cols-2');
+        gridEl.classList.add('xl:grid-cols-3');
+        btnGrid3.classList.add('bg-primary-container', 'text-on-primary-container');
+        btnGrid3.classList.remove('text-secondary');
+        btnGrid2.classList.remove('bg-primary-container', 'text-on-primary-container');
+        btnGrid2.classList.add('text-secondary');
+      });
+
+      btnGrid2.addEventListener('click', () => {
+        gridEl.classList.remove('xl:grid-cols-3');
+        gridEl.classList.add('xl:grid-cols-2');
+        btnGrid2.classList.add('bg-primary-container', 'text-on-primary-container');
+        btnGrid2.classList.remove('text-secondary');
+        btnGrid3.classList.remove('bg-primary-container', 'text-on-primary-container');
+        btnGrid3.classList.add('text-secondary');
+      });
+    }
+
+    const catButtons = document.querySelectorAll('.category-btn');
+    catButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        catButtons.forEach(b => {
+          b.classList.remove('bg-primary', 'text-surface', 'font-semibold');
+          b.classList.add('bg-surface-container', 'text-secondary');
+        });
+        btn.classList.remove('bg-surface-container', 'text-secondary');
+        btn.classList.add('bg-primary', 'text-surface', 'font-semibold');
+      });
+    });
+
+    const loadMoreBtn = document.getElementById('load-more-btn');
+    if (loadMoreBtn) {
+      loadMoreBtn.addEventListener('click', () => {
+        loadMoreBtn.innerText = 'ĐANG ĐỒNG BỘ ARCHIVE...';
+        setTimeout(() => {
+          loadMoreBtn.innerText = 'ĐÃ TẢI TOÀN BỘ 18 MẪU';
+          loadMoreBtn.classList.add('opacity-50', 'cursor-not-allowed');
+        }, 800);
+      });
+    }
+  </script>
+</div></main><footer class="w-full bg-surface-container-lowest text-on-surface pt-space-4xl pb-space-2xl"><div class="w-full px-gutter-mobile lg:px-gutter-desktop"><div class="grid grid-cols-1 md:grid-cols-12 gap-space-xl pb-space-3xl"><div class="md:col-span-5 flex flex-col justify-between"><div class="space-y-space-md"><div class="flex items-center gap-space-sm"><span class="w-2.5 h-2.5 bg-primary-container inline-block"></span><span class="font-label-technical text-label-technical tracking-widest uppercase text-secondary">SYNDICATE PROTOCOL</span></div><h3 class="font-headline-md text-headline-md text-primary uppercase tracking-tight">KINESIS / ATELIER</h3><p class="font-body-sm text-body-sm text-secondary max-w-md">Operating at the razor margin between haute couture poise and biomechanical performance streetwear. Every silhouette is an engineered kinetic instrument produced in strictly monitored low-batch editions.</p></div><div class="pt-space-xl"><div class="font-label-micro text-label-micro text-secondary uppercase tracking-widest pb-space-xs">GLOBAL ATELIER SITES</div><div class="grid grid-cols-3 gap-space-sm font-label-technical text-label-technical text-on-surface-variant"><div class="flex flex-col"><span class="text-primary">PARIS // IX</span><span>48.8744° N</span><span>2.3522° E</span></div><div class="flex flex-col"><span class="text-primary">TOKYO // SHIBUYA</span><span>35.6617° N</span><span>139.7040° E</span></div><div class="flex flex-col"><span class="text-primary">MILANO // BRERA</span><span>45.4721° N</span><span>9.1878° E</span></div></div></div></div><div class="md:col-span-3 flex flex-col space-y-space-md"><span class="font-label-technical text-label-technical uppercase tracking-widest text-primary-container">NAVIGATION INDEX</span><ul class="space-y-space-xs font-label-technical text-label-technical text-secondary uppercase"><li class="hover:text-primary transition-colors"><a href="#">01 // CURRENT EXPERIMENTS</a></li><li class="hover:text-primary transition-colors"><a href="#">02 // PERMANENT VAULT</a></li><li class="hover:text-primary transition-colors"><a href="#">03 // ADVANCED MATERIALS</a></li><li class="hover:text-primary transition-colors"><a href="#">04 // SIZING RUN MATRIX</a></li><li class="hover:text-primary transition-colors"><a href="#">05 // PROTOTYPE REGISTRY</a></li><li class="hover:text-primary transition-colors"><a href="#">06 // PRIVATE FITTING LAB</a></li></ul></div><div class="md:col-span-4 flex flex-col justify-between space-y-space-lg"><div><span class="font-label-technical text-label-technical uppercase tracking-widest text-primary-container block mb-space-xs">COMMUNICATION CHANNEL</span><h4 class="font-headline-sm text-headline-sm text-primary uppercase mb-space-xs">JOIN THE SYNDICATE</h4><p class="font-body-sm text-body-sm text-secondary mb-space-md">Receive biometric drop alerts, secret access hashes, and private showroom invitations prior to global dispatch.</p><form class="flex flex-col sm:flex-row items-stretch gap-space-2xs"><input class="bg-surface-container-high text-on-surface font-label-technical text-label-technical px-space-md py-space-sm focus:outline-none focus:ring-1 focus:ring-primary-container placeholder:text-secondary/50 flex-grow" placeholder="ENTER IDENTIFIER / EMAIL" type="email"/><button class="bg-primary-container text-on-primary-container font-label-technical text-label-technical px-space-lg py-space-sm uppercase font-semibold hover:bg-primary hover:text-on-secondary transition-colors whitespace-nowrap" type="submit">TRANSMIT</button></form></div><div><span class="font-label-micro text-label-micro text-secondary uppercase tracking-widest block mb-space-xs">ACCEPTED PROTOCOLS &amp; LUXURY CLEARANCE</span><div class="flex flex-wrap items-center gap-space-sm font-label-micro text-label-micro text-secondary/80 uppercase"><span>ETHEREUM CORE</span><span>•</span><span>USDC</span><span>•</span><span>AMEX CENTURION</span><span>•</span><span>VISA BLACK</span><span>•</span><span>APPLE PAY VAULT</span></div></div></div></div><div class="pt-space-xl flex flex-col md:flex-row items-center justify-between gap-space-md font-label-micro text-label-micro text-secondary uppercase"><div class="flex items-center gap-space-sm"><span>© 2025 KINESIS / ATELIER CORP. ALL RIGHTS RESERVED.</span><span class="text-secondary/40">//</span><span class="text-primary-container">CODE SPEC: VER 4.09</span></div><div class="flex items-center gap-space-md"><a class="hover:text-primary transition-colors" href="#">CONFIDENTIALITY CLAUSE</a><a class="hover:text-primary transition-colors" href="#">AUTHENTICITY VERIFICATION</a><a class="hover:text-primary transition-colors" href="#">DISPATCH TERMS</a><a class="hover:text-primary transition-colors" href="#">LEGAL NOTICE</a></div></div></div></footer></body></html>

@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;family=Syne:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={"darkMode":"class","theme":{"extend":{"colors":{"inverse-on-surface":"#313032","tertiary":"#ffffff","on-primary-container":"#596c00","secondary":"#c1c7cf","on-tertiary-container":"#576679","surface-tint":"#b0d500","surface-container-low":"#1c1b1d","tertiary-container":"#d4e4fa","surface-container-high":"#2a2a2c","on-error-container":"#ffdad6","background":"#131315","surface-variant":"#353437","on-surface":"#e5e1e4","on-background":"#e5e1e4","error-container":"#93000a","on-tertiary":"#233143","outline":"#8f9378","surface-container":"#201f21","on-secondary-container":"#afb6bd","on-primary-fixed-variant":"#3e4c00","primary-container":"#caf300","on-primary-fixed":"#171e00","on-tertiary-fixed-variant":"#39485a","surface-dim":"#131315","outline-variant":"#444932","surface-container-highest":"#353437","tertiary-fixed":"#d4e4fa","on-secondary-fixed":"#161c22","primary-fixed-dim":"#b0d500","surface-bright":"#39393b","secondary-container":"#41474e","surface":"#131315","error":"#ffb4ab","primary-fixed":"#caf300","tertiary-fixed-dim":"#b9c8de","on-secondary":"#2b3137","on-primary":"#2a3400","surface-container-lowest":"#0e0e10","secondary-fixed":"#dde3eb","on-error":"#690005","primary":"#ffffff","on-secondary-fixed-variant":"#41474e","inverse-surface":"#e5e1e4","inverse-primary":"#536600","on-tertiary-fixed":"#0d1c2d","on-surface-variant":"#c5c9ac","secondary-fixed-dim":"#c1c7cf"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"space-4xl":"6rem","space-xl":"2rem","space-lg":"1.5rem","gutter-desktop":"2rem","space-2xs":"0.25rem","space-xs":"0.5rem","space-3xl":"4.5rem","margin-desktop":"4rem","gutter-mobile":"1rem","space-5xl":"9rem","space-2xl":"3rem","space-3xs":"0.125rem","space-sm":"0.75rem","space-md":"1rem","margin-mobile":"1.25rem"},"fontFamily":{"headline-sm":["Syne"],"display-lg":["Syne"],"label-micro":["JetBrains Mono"],"body-sm":["Geist"],"display-lg-mobile":["Syne"],"label-technical":["JetBrains Mono"],"display-xl-mobile":["Syne"],"body-md":["Geist"],"display-xl":["Syne"],"body-lg":["Geist"],"headline-md":["Syne"]},"fontSize":{"headline-sm":["22px",{"lineHeight":"28px","letterSpacing":"-0.01em","fontWeight":"600"}],"display-lg":["56px",{"lineHeight":"60px","letterSpacing":"-0.03em","fontWeight":"700"}],"label-micro":["10px",{"lineHeight":"12px","letterSpacing":"0.18em","fontWeight":"600"}],"body-sm":["13px",{"lineHeight":"20px","letterSpacing":"0.01em","fontWeight":"400"}],"display-lg-mobile":["32px",{"lineHeight":"36px","letterSpacing":"-0.02em","fontWeight":"700"}],"label-technical":["12px",{"lineHeight":"16px","letterSpacing":"0.12em","fontWeight":"500"}],"display-xl-mobile":["44px",{"lineHeight":"48px","letterSpacing":"-0.03em","fontWeight":"800"}],"body-md":["15px",{"lineHeight":"24px","letterSpacing":"0em","fontWeight":"400"}],"display-xl":["84px",{"lineHeight":"88px","letterSpacing":"-0.04em","fontWeight":"800"}],"body-lg":["18px",{"lineHeight":"28px","letterSpacing":"-0.01em","fontWeight":"400"}],"headline-md":["32px",{"lineHeight":"40px","letterSpacing":"-0.02em","fontWeight":"600"}]}}}}</script></head><body class="bg-surface text-on-surface font-body-md text-body-md antialiased selection:bg-primary-container selection:text-on-primary-container"><header class="fixed top-0 left-0 w-full z-50 bg-surface/85 backdrop-blur-2xl"><div class="w-full bg-surface-container-lowest px-gutter-mobile lg:px-gutter-desktop py-space-2xs flex items-center justify-between font-label-micro text-label-micro text-secondary tracking-widest uppercase"><div class="flex items-center gap-space-xs"><span class="inline-block w-1.5 h-1.5 rounded-full bg-primary-container animate-pulse"></span><span>TELEMETRY ACTIVE // SYSTEM STATUS: SYNCHRONIZED</span></div><div class="flex items-center gap-space-md"><span class="text-primary-container font-medium">LIMITED DROP // K-09 PROTOTYPE AVAILABLE IN 24HRS</span><span class="hidden md:inline text-secondary/40">|</span><span class="hidden md:inline text-secondary/80">PRECISION GEAR // LAB GRADE</span></div><div class="hidden lg:flex items-center gap-space-sm"><span>PARIS 48.8566° N</span><span>•</span><span>TOKYO 35.6762° N</span><span>•</span><span>MILANO 45.4642° N</span></div></div><div class="w-full px-gutter-mobile lg:px-gutter-desktop h-20 flex items-center justify-between gap-space-lg"><div class="flex items-center gap-space-md shrink-0"><img alt="Kinesis Atelier Wordmark Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1UcxBglsIgxqg1MSEt7BhtvC-ZCq5RaNHEKm-SsIy_Z_mUO6WFcDpsbozrZJ6KpTytiO93NFaK_afkv9LCqm5W0_Q0AMOtxbf09XmkkDCYpPsZni9saSzHmaallHBHhAIkLqRxub4C43kqhvJHBCxrJfiOtFZiTsrVs8QHvAUtZ4SzOl64bog5nUrUDuHKCuKVWRQ-JIz4fUwPWXRe3ud-PiSBGOSeLxGzuepLver_7fbMuJI1-OenNgHuS"/><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-primary uppercase tracking-tight leading-none">KINESIS</span><span class="font-label-micro text-label-micro text-secondary tracking-[0.24em] uppercase">ATELIER SYSTEM</span></div></div><nav class="hidden xl:flex items-center gap-space-xs font-label-technical text-label-technical tracking-widest uppercase" data-active-classes="text-primary-container bg-surface-container-high"><a class="px-space-sm py-space-xs text-on-surface-variant hover:text-primary transition-colors" data-path="discovery" href="#">01 / DISCOVERY</a><a class="px-space-sm py-space-xs text-on-surface-variant hover:text-primary transition-colors" data-path="archive-and-shop" href="#">02 / ARCHIVE &amp; SHOP</a><a aria-current="page" class="px-space-sm py-space-xs transition-colors text-primary-container bg-surface-container-high" data-path="the-artifact" href="#">03 / THE ARTIFACT</a><a class="px-space-sm py-space-xs text-on-surface-variant hover:text-primary transition-colors" data-path="manifesto-and-lookbook" href="#">04 / MANIFESTO &amp; LOOKBOOK</a></nav><div class="flex items-center gap-space-sm md:gap-space-md"><button aria-label="Search Archive" class="p-space-xs text-secondary hover:text-primary transition-colors flex items-center justify-center" type="button"><span class="material-symbols-outlined text-[20px]">search</span></button><button aria-label="Wishlist" class="p-space-xs text-secondary hover:text-primary transition-colors flex items-center justify-center relative" type="button"><span class="material-symbols-outlined text-[20px]">favorite</span><span class="absolute top-0 right-0 w-1.5 h-1.5 rounded-full bg-primary-container"></span></button><button aria-label="Cart" class="flex items-center gap-space-2xs px-space-xs py-space-3xs text-secondary hover:text-primary transition-colors font-label-technical text-label-technical" type="button"><span class="material-symbols-outlined text-[20px]">shopping_bag</span><span class="text-primary-container font-bold">[02]</span></button><div class="flex items-center pl-space-xs"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuACHHeBKZoeVLUcp_IXhulVQGt1TyeOgRcbBhpGQNxBhrCQa5L4h0Q1SPL1opCA05QcRF37XbjtSLW1BmkMXlVQOiVoH_4QKxjOkROOZgJfxn1TgzvGuBiZ_xMJBzV5CJ6biKjC0W6pqqoT0aEcrA4zxO8eSCNuowFg0825A25LA9aVH_-Wp2pWwskNZIMfqRN2QL8Z40AxyDtCk6F9iOHwf_WXh1HssCqBpZeZxifQFUYrICF_uuSihA"/></div></div></div></header><main class="w-full pt-20 bg-surface min-h-screen"><div class="flex flex-col w-full">
+<!-- Top Telemetry Micro Bar -->
+<section class="w-full bg-surface-container-lowest py-space-xs px-gutter-mobile lg:px-gutter-desktop">
+<div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-space-xs font-label-technical text-label-technical uppercase text-secondary">
+<div class="flex items-center gap-space-sm">
+<span class="w-2 h-2 rounded-full bg-primary-container animate-ping"></span>
+<span class="text-primary font-bold">ARTIFACT REGISTRY // 09-STRATOS</span>
+<span class="text-secondary/40">/</span>
+<span class="text-primary-container">RUN MATRIX: 84 UNITS ONLY</span>
+</div>
+<div class="flex items-center gap-space-md text-label-micro font-label-micro">
+<span class="text-on-surface-variant">SERIAL: SPEC-K09-V2-8849</span>
+<span class="text-secondary/40">•</span>
+<span class="text-on-surface-variant">CERTIFIED CRYPTO-NFC</span>
+<span class="text-secondary/40">•</span>
+<span class="text-primary">PARIS LAB RELEASE</span>
+</div>
+</div>
+</section>
+<!-- Section 1: Main Product Hero Showcase (Split Layout) -->
+<section class="w-full px-gutter-mobile lg:px-gutter-desktop py-space-xl lg:py-space-2xl bg-surface">
+<div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-space-xl">
+<!-- Left Column: Interactive Visual Showcase (approx. 7 cols / ~60%) -->
+<div class="lg:col-span-7 flex flex-col gap-space-md">
+<!-- Main Stage Visual -->
+<div class="relative w-full aspect-[4/3] lg:aspect-[16/11] bg-surface-container-low overflow-hidden group">
+<!-- Ambient Glow Backdrop -->
+<div class="absolute -top-12 -left-12 w-64 h-64 rounded-full bg-primary-container/10 blur-3xl pointer-events-none"></div>
+<div class="absolute -bottom-16 -right-16 w-80 h-80 rounded-full bg-surface-container-highest/40 blur-2xl pointer-events-none"></div>
+<!-- Hero Sneaker Image -->
+<img class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105" data-alt="Editorial cinematic studio shot of the avant-garde K-09 STRATOS luxury sneaker floating in mid-air against deep obsidian black environment. Sharp directional rim lighting highlighting carbon fiber shank, translucent neon acid volt lattice midsole, woven Kevlar textures, and brushed titanium magnetic hardware clips. Dark futuristic fashion aesthetic." id="mainSneakerDisplay" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD_5kUL1KzBenqboMO2JfX2R_YEtkKG68PRz_PHq5q2_WV5yj0lK_Dlq5JP2pj1W_DH40adya0v-6cAr1Zu8GLSB0nJM68kLICYtELorWxdOHPi6kwwwI-n6-j5wxo-aizh_jvo_BNbd15JyuJ-HnEtJSuyASahyxmogh9u6FA7-B2-DkediFhh1Qt-8jKKIuCKmVLVWqETkJuMiEQdSwIoEMiHcQquv3_9uNzLMZsQe7mH_fABOpbWXw"/>
+<!-- Telemetry Watermark Overlay -->
+<div class="absolute top-space-md left-space-md flex flex-col gap-space-2xs pointer-events-none">
+<div class="flex items-center gap-space-xs bg-surface-container-lowest/80 backdrop-blur-md px-space-sm py-space-3xs">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span>
+<span class="font-label-technical text-label-technical text-primary tracking-widest uppercase">LAB CAD 360° // CALIBRATED</span>
+</div>
+<span class="font-label-micro text-label-micro text-secondary tracking-widest pl-space-3xs">LATITUDE: 48.8566° N // AXIS: 0.941</span>
+</div>
+<!-- Interactive Viewport Badges -->
+<div class="absolute bottom-space-md right-space-md flex items-center gap-space-xs">
+<button class="flex items-center gap-space-2xs bg-surface-container-lowest/90 hover:bg-primary-container hover:text-on-primary-container text-primary font-label-technical text-label-technical px-space-sm py-space-xs transition-colors backdrop-blur-md" type="button">
+<span class="material-symbols-outlined text-[16px]">view_in_ar</span>
+<span>360° AR VIEW</span>
+</button>
+<button class="flex items-center gap-space-2xs bg-surface-container-lowest/90 hover:bg-primary hover:text-on-secondary text-primary font-label-technical text-label-technical px-space-sm py-space-xs transition-colors backdrop-blur-md" type="button">
+<span class="material-symbols-outlined text-[16px]">zoom_in</span>
+<span>SUPER MACRO</span>
+</button>
+</div>
+<!-- Perspective Indicator -->
+<div class="absolute bottom-space-md left-space-md font-label-micro text-label-micro text-secondary bg-surface-container-lowest/60 backdrop-blur-sm px-space-xs py-space-3xs">
+            VIEW: <span class="text-primary-container font-semibold" id="currentViewLabel">[01] LATERAL PROFILE</span>
+</div>
+</div>
+<!-- Thumbnail Selector Ribbon -->
+<div class="grid grid-cols-4 gap-space-xs">
+<button class="thumbnail-btn active relative bg-surface-container-high aspect-[4/3] overflow-hidden transition-all group" data-title="[01] LATERAL PROFILE" type="button">
+<img class="w-full h-full object-cover group-hover:opacity-90" data-alt="Lateral profile macro view of the K-09 Stratos sneaker, showcasing high-tension Kevlar weave and neon acid volt kinetic flex line." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDNZdAIMSPiIMOPUKBYaOMhMU7iuQj41D3ijEWI0UULoUSd8j6zecyF2VLmezAZOGrXXVuc4p1ivSq4r4Xnjav5OUHiNWMmCKBH6WXzjEasGX0w581e_INZeA2Io9x7dxQGK_uNPpgbUoi3rtH6sZVEIFkMJKv-qIwhK3FOpCNsKj8USXjOqS4NrfEMKGOYeaPwh4rMjX58G1RPnzGrvt1c56tRCF15rcTdeL8DMsAVWgqLxbSwQbaKvA"/>
+<span class="absolute bottom-0 left-0 right-0 bg-surface-container-lowest/80 text-primary font-label-micro text-label-micro py-space-3xs text-center uppercase tracking-widest">01 / LATERAL</span>
+</button>
+<button class="thumbnail-btn relative bg-surface-container-high aspect-[4/3] overflow-hidden transition-all group" data-title="[02] 3D LATTICE OUTSOLE" type="button">
+<img class="w-full h-full object-cover group-hover:opacity-90" data-alt="Exploded underside angle of the K-09 Stratos showing the parametric 3D printed lattice outsole with acid volt geometric suspension nodes." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC7EBLFzffOwZ4gKUIpg91EDiZ8mDLBbwOP55fE8raFQB-f8N-PkGlHB70CcfCpp1GMIKnyYCwGgTtQp7DfXOcGhoz9ogK9_hIP5C4cpc2cDz9pnwUq0kyeQqo3xTVWzqZIsRTDpsZljVVboWOxapazo5hHthYD_ozzEKT1qox-qEzHFgBNFvWIs8s12SNOSLfUGPaZDif-NOHtN-vFlMNEoYK3sTvuMWO13XIRu1C0PBEFGoGfTWe76g"/>
+<span class="absolute bottom-0 left-0 right-0 bg-surface-container-lowest/80 text-secondary font-label-micro text-label-micro py-space-3xs text-center uppercase tracking-widest">02 / OUTSOLE</span>
+</button>
+<button class="thumbnail-btn relative bg-surface-container-high aspect-[4/3] overflow-hidden transition-all group" data-title="[03] CHROME HEEL COUNTER" type="button">
+<img class="w-full h-full object-cover group-hover:opacity-90" data-alt="Extreme close-up on the mirror-polished chrome titanium heel counter on the K-09 Stratos sneaker, revealing micro-laser engraved serial and embedded NFC chip port." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBH_wLO82F8SDPMtIpNAOBO9u5N3ESFHRJeEekTBqs_S8dw98JljT__lWkZg2grqph_9-jZ0pZi0tm7sw7uRrRjZVydiMnHO7l0bzFbQe71re_7g1mlqbKPy3ff3nJ1YMmw0JqGMEYvSBHldOMVHwZ6Ptex6iKyNRso7pa8PYaAIMY5HrIod1JntLsvNrzOQFtyrXgmL0QVonMTESfjNQS0EUHDZK_yVhuITFKAwBUq2sgW7cczmHEVaQ"/>
+<span class="absolute bottom-0 left-0 right-0 bg-surface-container-lowest/80 text-secondary font-label-micro text-label-micro py-space-3xs text-center uppercase tracking-widest">03 / CHROME HEEL</span>
+</button>
+<button class="thumbnail-btn relative bg-surface-container-high aspect-[4/3] overflow-hidden transition-all group" data-title="[04] ON-FOOT EDITORIAL" type="button">
+<img class="w-full h-full object-cover group-hover:opacity-90" data-alt="High fashion editorial model wearing the K-09 Stratos with technical pleated trousers stepping across wet Brutalist concrete reflecting Paris street lights." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCeXe3CW1u1ty81tihX0skx6ljY1clQavAa4MDzPHuNagxNetsoUaXDAwWOa2MmGztZwxDEJOk-d5exKe0qXYKj8qjP9TSyy_-spGMWZ4LARel1BchwF5GA4rMyjWUyXF8IUl7-nF4X1UtPTdy8aCHF0yyCUeocml-2g_u6B4nLpVRoHrjeO9IOdqd0gJTn0uZ7zve7GrPYAQ3DSAhjnvllzNrrz8IC3uBF6jaE6MuMErS3fUKv6ptqSg"/>
+<span class="absolute bottom-0 left-0 right-0 bg-surface-container-lowest/80 text-secondary font-label-micro text-label-micro py-space-3xs text-center uppercase tracking-widest">04 / EDITORIAL</span>
+</button>
+</div>
+<!-- Telemetry Data Strip -->
+<div class="bg-surface-container-low p-space-md grid grid-cols-3 gap-space-sm text-center">
+<div>
+<div class="font-label-micro text-label-micro text-secondary uppercase tracking-widest">UNIT WEIGHT</div>
+<div class="font-headline-sm text-headline-sm text-primary font-bold">342<span class="text-primary-container text-body-sm">G</span></div>
+</div>
+<div>
+<div class="font-label-micro text-label-micro text-secondary uppercase tracking-widest">CUSHION MATRIX</div>
+<div class="font-headline-sm text-headline-sm text-primary font-bold">N₂ REBOUND</div>
+</div>
+<div>
+<div class="font-label-micro text-label-micro text-secondary uppercase tracking-widest">TORQUE RIGIDITY</div>
+<div class="font-headline-sm text-headline-sm text-primary font-bold">98.4<span class="text-primary-container text-body-sm">%</span></div>
+</div>
+</div>
+</div>
+<!-- Right Column: Product Intelligence & Purchase Engine (approx. 5 cols / ~40%) -->
+<div class="lg:col-span-5 flex flex-col justify-between bg-surface-container-low p-space-lg lg:p-space-xl">
+<div class="flex flex-col gap-space-md">
+<!-- Monospaced Code & Stock Status -->
+<div class="flex items-center justify-between flex-wrap gap-space-xs">
+<div class="inline-flex items-center gap-space-xs bg-surface-container-lowest px-space-sm py-space-3xs">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span>
+<span class="font-label-technical text-label-technical text-primary-container uppercase tracking-widest">SPECIMEN // K-09_STRATOS_V2</span>
+</div>
+<span class="font-label-micro text-label-micro text-secondary uppercase tracking-widest">LIMITED RUN / DROP 04</span>
+</div>
+<!-- Product Title -->
+<div class="space-y-space-3xs">
+<h1 class="font-headline-md text-headline-md text-primary uppercase tracking-tight">K-09 STRATOS</h1>
+<p class="font-label-technical text-label-technical text-secondary uppercase tracking-widest">CHRONO-KINETIC ATELIER ARTIFACT</p>
+</div>
+<!-- Pricing Block -->
+<div class="bg-surface-container-lowest p-space-md flex flex-col gap-space-3xs">
+<div class="flex items-baseline justify-between flex-wrap gap-space-xs">
+<span class="font-display-lg text-display-lg text-primary font-bold leading-none">$680 <span class="font-label-technical text-label-technical text-secondary font-normal">USD</span></span>
+<span class="font-headline-sm text-headline-sm text-primary-container">≈ 17.200.000 VNĐ</span>
+</div>
+<div class="flex items-center gap-space-xs font-label-micro text-label-micro text-secondary/80 uppercase pt-space-2xs">
+<span class="material-symbols-outlined text-[14px] text-primary-container">verified</span>
+<span>ĐÃ BAO GỒM THUẾ NHẬP KHẨU &amp; BẢO HIỂM VẬN CHUYỂN TOÀN CẦU</span>
+</div>
+</div>
+<!-- Colorway Selector -->
+<div class="space-y-space-xs">
+<div class="flex items-center justify-between font-label-technical text-label-technical uppercase">
+<span class="text-secondary">CHỌN PHỐI MÀU:</span>
+<span class="text-primary font-semibold" id="selectedColorName">OBSIDIAN / ACID VOLT</span>
+</div>
+<div class="flex items-center gap-space-sm">
+<!-- Color 1: Selected -->
+<button class="color-swatch-btn p-1 bg-surface-container-highest flex items-center gap-space-xs transition-all ring-2 ring-primary-container" data-color-name="OBSIDIAN / ACID VOLT" type="button">
+<span class="w-6 h-6 bg-surface-container-lowest flex items-center justify-center">
+<span class="w-3 h-3 bg-primary-container"></span>
+</span>
+<span class="font-label-micro text-label-micro text-primary uppercase pr-space-xs">01 // VOLT</span>
+</button>
+<!-- Color 2 -->
+<button class="color-swatch-btn p-1 bg-surface-container-high hover:bg-surface-container-highest flex items-center gap-space-xs transition-all" data-color-name="PURE PLATINUM CHROME" type="button">
+<span class="w-6 h-6 bg-surface-container-lowest flex items-center justify-center">
+<span class="w-3 h-3 bg-secondary"></span>
+</span>
+<span class="font-label-micro text-label-micro text-secondary uppercase pr-space-xs">02 // CHROME</span>
+</button>
+<!-- Color 3 -->
+<button class="color-swatch-btn p-1 bg-surface-container-high hover:bg-surface-container-highest flex items-center gap-space-xs transition-all" data-color-name="STEALTH TRIPLE BLACK" type="button">
+<span class="w-6 h-6 bg-surface-container-lowest flex items-center justify-center">
+<span class="w-3 h-3 bg-surface-bright"></span>
+</span>
+<span class="font-label-micro text-label-micro text-secondary uppercase pr-space-xs">03 // NOIR</span>
+</button>
+</div>
+</div>
+<!-- Size Matrix -->
+<div class="space-y-space-xs">
+<div class="flex items-center justify-between font-label-technical text-label-technical uppercase">
+<span class="text-secondary">KÍCH THƯỚC (EU STANDARD):</span>
+<button class="text-primary-container hover:text-primary flex items-center gap-space-3xs text-label-micro font-label-micro uppercase transition-colors" type="button">
+<span class="material-symbols-outlined text-[14px]">straighten</span>
+<span>HƯỚNG DẪN CHỌN SIZE // AR FINDER</span>
+</button>
+</div>
+<!-- Size Grid -->
+<div class="grid grid-cols-7 gap-space-2xs" id="sizeMatrix">
+<button class="size-btn py-space-xs text-center font-label-technical text-label-technical uppercase bg-surface-container-highest text-secondary hover:bg-surface-bright transition-colors" data-size="39" data-stock="4 đôi khả dụng" type="button">39</button>
+<button class="size-btn py-space-xs text-center font-label-technical text-label-technical uppercase bg-surface-container-highest text-secondary hover:bg-surface-bright transition-colors" data-size="40" data-stock="3 đôi khả dụng" type="button">40</button>
+<button class="size-btn py-space-xs text-center font-label-technical text-label-technical uppercase bg-surface-container-highest text-secondary hover:bg-surface-bright transition-colors" data-size="41" data-stock="5 đôi khả dụng" type="button">41</button>
+<button class="size-btn py-space-xs text-center font-label-technical text-label-technical uppercase bg-primary-container text-on-primary-container font-bold" data-size="42" data-stock="CHỈ CÒN 2 ĐÔI CUỐI (HIẾM)" type="button">42</button>
+<button class="size-btn py-space-xs text-center font-label-technical text-label-technical uppercase bg-surface-container-highest text-secondary hover:bg-surface-bright transition-colors" data-size="43" data-stock="6 đôi khả dụng" type="button">43</button>
+<button class="size-btn py-space-xs text-center font-label-technical text-label-technical uppercase bg-surface-container-highest text-secondary hover:bg-surface-bright transition-colors" data-size="44" data-stock="1 đôi duy nhất" type="button">44</button>
+<button class="size-btn py-space-xs text-center font-label-technical text-label-technical uppercase bg-surface-container-highest text-secondary/40 line-through cursor-not-allowed" data-size="45" data-stock="ĐÃ HẾT HÀNG TRÊN TOÀN CẦU" type="button">45</button>
+</div>
+<!-- Live Dynamic Stock Indicator -->
+<div class="bg-surface-container-lowest px-space-sm py-space-xs flex items-center justify-between">
+<div class="flex items-center gap-space-xs font-label-technical text-label-technical text-primary-container">
+<span class="inline-block w-1.5 h-1.5 bg-primary-container animate-pulse"></span>
+<span id="stockStatusText">EU 42: CHỈ CÒN 2 ĐÔI CUỐI TẠI KHO PARIS</span>
+</div>
+<span class="font-label-micro text-label-micro text-secondary/60 uppercase">LOCK RESERVATION: 10:00</span>
+</div>
+</div>
+<!-- Action Triggers -->
+<div class="space-y-space-xs pt-space-xs">
+<!-- Primary Kinetic Buy Button -->
+<button class="w-full bg-primary-container hover:bg-tertiary text-on-primary-container hover:text-on-secondary font-label-technical text-label-technical py-space-md uppercase font-bold tracking-widest flex items-center justify-center gap-space-sm transition-all group" type="button">
+<span class="material-symbols-outlined text-[20px] group-hover:scale-110 transition-transform">bolt</span>
+<span>ĐẶT MUA NGAY // PURCHASE ARTIFACT</span>
+</button>
+<!-- Secondary VIP Appointment Trigger -->
+<button class="w-full bg-surface-container-high hover:bg-surface-bright text-primary font-label-technical text-label-technical py-space-sm uppercase tracking-widest flex items-center justify-center gap-space-sm transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">calendar_today</span>
+<span>ĐẶT LỊCH THỬ TẠI ATELIER VIP (PARIS / TOKYO)</span>
+</button>
+</div>
+</div>
+<!-- Dispatch & Authentic Guarantee Micro-Footnote -->
+<div class="pt-space-md mt-space-md bg-surface-container-lowest p-space-sm flex items-center justify-between font-label-micro text-label-micro text-secondary uppercase">
+<span class="flex items-center gap-space-2xs">
+<span class="material-symbols-outlined text-[14px] text-primary-container">lock</span>
+            MÃ HÓA ARTIFACT TOKEN
+          </span>
+<span>BẢO HÀNH CẤP PHÒNG THÍ NGHIỆM 24 THÁNG</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 2: Craftsmanship & Anatomy Breakdown (Exploded View Infographic) -->
+<section class="w-full px-gutter-mobile lg:px-gutter-desktop py-space-3xl bg-surface-container-lowest">
+<div class="max-w-7xl mx-auto space-y-space-2xl">
+<!-- Section Overline & Headline -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-space-md">
+<div class="space-y-space-2xs">
+<div class="flex items-center gap-space-xs font-label-technical text-label-technical text-primary-container uppercase">
+<span>[ ANATOMY &amp; KINETIC ARCHITECTURE ]</span>
+<span>//</span>
+<span>EXPLODED FORM ANALYSIS</span>
+</div>
+<h2 class="font-display-lg text-display-lg text-primary uppercase tracking-tight">KỸ NGHỆ CẤU THÀNH SIÊU THỂ</h2>
+</div>
+<p class="font-body-sm text-body-sm text-secondary max-w-md">
+          Mỗi cấu phần của K-09 STRATOS được đúc kết từ kỹ thuật hàng không vũ trụ kết hợp cùng bàn tay nghệ nhân haute couture tại xưởng chế tác thử nghiệm Paris.
+        </p>
+</div>
+<!-- Exploded Diagram Visualization -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-center">
+<!-- Center Macro Render -->
+<div class="lg:col-span-6 relative aspect-square bg-surface-container-low flex items-center justify-center p-space-md overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-tr from-surface-container-lowest via-transparent to-primary-container/5 pointer-events-none"></div>
+<img class="w-full h-full object-contain" data-alt="Exploded architectural 3D anatomical render of the K-09 STRATOS sneaker, showing four distinct detached layers aligned vertically in sterile futuristic testing laboratory. Carbon shank, 3D printed fluid matrix foam, woven Kevlar shell, and titanium magnetic lacing harness floating in high contrast studio lights." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCvSzpVhtQ_Lf5Cv8wiOojPhxV9UKUrMpawhKVcEdGJzkgSHPRbvpNRIdx36ipJdaBLYf728NW0RVKg0i5qOU51KV2gerlqGe0pU2PzcZdXBsLop0zRYYKAGJKQqh_H9tOB6FM3l0OjhOhIVwXHKF01zdofaw_dRKq3aXXokh5IQESJNRtJAml9fZlNEOVDpGvioWIrzFWSFitQ6A3l0k8SKUS5Jmbh-TCVLGd8XBEiTFYZGKJYIzpCsA"/>
+<!-- Live Coordinate Crosshair Overlay (SVG) -->
+<svg class="absolute inset-0 w-full h-full pointer-events-none text-secondary/20" fill="none" viewbox="0 0 400 400">
+<line stroke="currentColor" stroke-dasharray="4 4" x1="20" x2="380" y1="200" y2="200"></line>
+<line stroke="currentColor" stroke-dasharray="4 4" x1="200" x2="200" y1="20" y2="380"></line>
+<circle cx="200" cy="200" r="160" stroke="currentColor" stroke-dasharray="2 6"></circle>
+<circle cx="200" cy="200" fill="#caf300" r="6"></circle>
+</svg>
+<div class="absolute top-space-sm right-space-sm font-label-micro text-label-micro text-primary-container bg-surface-container-lowest px-space-xs py-space-3xs">
+            CAD EXP // 04 STRATA
+          </div>
+</div>
+<!-- 4 Layer Architectural Cards -->
+<div class="lg:col-span-6 flex flex-col gap-space-sm">
+<!-- Layer 1 -->
+<div class="bg-surface-container p-space-lg hover:bg-surface-container-high transition-colors group">
+<div class="flex items-start justify-between gap-space-md mb-space-xs">
+<div class="flex items-center gap-space-xs">
+<span class="font-label-technical text-label-technical text-primary-container bg-surface-container-lowest px-space-xs py-space-3xs font-bold">L-01</span>
+<h3 class="font-headline-sm text-headline-sm text-primary uppercase">CARBON STABILIZATION SHANK</h3>
+</div>
+<span class="font-label-micro text-label-micro text-secondary">AEROSPACE 3K WEAVE</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary">
+              Tấm chịu lực carbon nguyên khối định hình dưới vòm bàn chân, triệt tiêu 94% lực vặn xoắn khi vận động cường độ cao và tối ưu phản hồi hồi vị năng lượng.
+            </p>
+</div>
+<!-- Layer 2 -->
+<div class="bg-surface-container p-space-lg hover:bg-surface-container-high transition-colors group">
+<div class="flex items-start justify-between gap-space-md mb-space-xs">
+<div class="flex items-center gap-space-xs">
+<span class="font-label-technical text-label-technical text-primary-container bg-surface-container-lowest px-space-xs py-space-3xs font-bold">L-02</span>
+<h3 class="font-headline-sm text-headline-sm text-primary uppercase">REBOUND NITROGEN FOAM</h3>
+</div>
+<span class="font-label-micro text-label-micro text-secondary">INFUSED N₂ CELL</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary">
+              Bọt đệm siêu tới hạn bơm ni-tơ lỏng giúp nén nhẹ hơn 38% so với EVA truyền thống, mang lại cảm giác đệm nâng bồng bềnh và độ bền phân tử trên 1.500 km.
+            </p>
+</div>
+<!-- Layer 3 -->
+<div class="bg-surface-container p-space-lg hover:bg-surface-container-high transition-colors group">
+<div class="flex items-start justify-between gap-space-md mb-space-xs">
+<div class="flex items-center gap-space-xs">
+<span class="font-label-technical text-label-technical text-primary-container bg-surface-container-lowest px-space-xs py-space-3xs font-bold">L-03</span>
+<h3 class="font-headline-sm text-headline-sm text-primary uppercase">SEAMLESS KEVLAR UPPER</h3>
+</div>
+<span class="font-label-micro text-label-micro text-secondary">BALLISTIC HYBRID</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary">
+              Thân giày dệt nguyên khối không đường may từ sợi Kevlar chống đạn kết hợp monofilament thoáng khí cao cấp, ôm sát bàn chân theo bản đồ áp suất sinh học.
+            </p>
+</div>
+<!-- Layer 4 -->
+<div class="bg-surface-container p-space-lg hover:bg-surface-container-high transition-colors group">
+<div class="flex items-start justify-between gap-space-md mb-space-xs">
+<div class="flex items-center gap-space-xs">
+<span class="font-label-technical text-label-technical text-primary-container bg-surface-container-lowest px-space-xs py-space-3xs font-bold">L-04</span>
+<h3 class="font-headline-sm text-headline-sm text-primary uppercase">MAGNETIC TITANIUM LACING</h3>
+</div>
+<span class="font-label-micro text-label-micro text-secondary">FIDLOCK ADAPTIVE</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary">
+              Hệ thống khóa cáp từ tính Titanium tùy biến chỉ bằng 1 thao tác nhấn thả, phân bổ lực siết vi điểm loại bỏ hoàn toàn cảm giác căng tức mu bàn chân.
+            </p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 3: Sustainability & NFC Crypto Certificate of Authenticity -->
+<section class="w-full px-gutter-mobile lg:px-gutter-desktop py-space-3xl bg-surface">
+<div class="max-w-7xl mx-auto bg-surface-container-low p-space-xl lg:p-space-2xl relative overflow-hidden">
+<!-- Background Ambient Glow Discs -->
+<div class="absolute -right-20 -top-20 w-96 h-96 rounded-full bg-primary-container/10 blur-3xl pointer-events-none"></div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-center relative z-10">
+<!-- Left Column: NFC Scanner Telemetry & Interactive Simulation -->
+<div class="lg:col-span-5 space-y-space-md">
+<div class="inline-flex items-center gap-space-xs font-label-technical text-label-technical text-primary-container uppercase bg-surface-container-lowest px-space-sm py-space-3xs">
+<span class="material-symbols-outlined text-[16px]">nfc</span>
+<span>CHIP NFC XÁC THỰC BLOCKCHAIN</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-primary uppercase tracking-tight">
+            ĐẶC QUYỀN SỞ HỮU SỐ ĐỘC BẢN // DIGITAL ARTIFACT
+          </h3>
+<p class="font-body-md text-body-md text-secondary">
+            Mỗi specimen K-09 STRATOS được đúc kèm vi mạch NFC mã hóa bất biến đặt ẩn sâu bên dưới gờ gót Titanium. Chỉ với 1 chạm từ smartphone, bạn kích hoạt chứng chỉ quyền sở hữu số trên sổ cái phân tán.
+          </p>
+<!-- Interactive NFC Simulation Box -->
+<div class="bg-surface-container-lowest p-space-md space-y-space-xs">
+<div class="flex items-center justify-between font-label-technical text-label-technical">
+<span class="text-secondary">CHIP ID PROTOCOL:</span>
+<span class="text-primary font-mono">0x4F92...B99C</span>
+</div>
+<div class="flex items-center justify-between font-label-technical text-label-technical">
+<span class="text-secondary">TRẠNG THÁI KHẢ DỤNG:</span>
+<span class="text-primary-container font-bold uppercase">SẴN SÀNG ĐĂNG KÝ DANH CHÍNH</span>
+</div>
+<div class="flex items-center justify-between font-label-technical text-label-technical">
+<span class="text-secondary">NGUYÊN LIỆU TÁI CHẾ LAB:</span>
+<span class="text-primary font-semibold">68.4% CIRCULAR REBOUND</span>
+</div>
+</div>
+</div>
+<!-- Right Column: Visual of NFC Placement & Physical Specimen Tag -->
+<div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-space-md">
+<!-- Image 1: NFC Heel close-up -->
+<div class="relative bg-surface-container aspect-square overflow-hidden group">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Extreme macro shot of sneaker chrome heel showing subtle engraved NFC wave symbol with a smartphone lightly touching the titanium edge, soft cyan and acid lime laser reflections." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBv6_9_iBLzN9EBltWruJGdrc2aa70udUhlOESIbsulo2Dc5D03aDXc-bIyKwLnR1UrokK7Tm8wlIl6G4-xysqvMGJz4gj-VeOP4qkgX9P21pKEVjEupeoh1lnvxSWlVr8yrpAsCvVwYRVNEs4oyeLsm9K-aW_F6nExcmZlKS7MkJbzAIV1Ajc2Cn_5SDOqr8B9-kKWL6GJN0MYuxMSYHaGDeijTdHawmD9ic4eEl2wCLjtK-Nyz3G5_g"/>
+<div class="absolute bottom-0 inset-x-0 p-space-sm bg-gradient-to-t from-surface-container-lowest to-transparent font-label-micro text-label-micro text-primary uppercase">
+              // HEEL SCAN ZONE [ANTENNA FREQ: 13.56 MHZ]
+            </div>
+</div>
+<!-- Image 2: Digital Passport interface card -->
+<div class="bg-surface-container p-space-lg flex flex-col justify-between">
+<div class="space-y-space-xs">
+<div class="w-10 h-10 bg-primary-container text-on-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-[24px]">fingerprint</span>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-primary uppercase">PASSPORT VĨNH CỬU</h4>
+<p class="font-body-sm text-body-sm text-secondary">
+                Quyền tham dự private showroom tại Tuần lễ Thời trang Paris, quyền pre-order độc quyền bản Collab kế tiếp và xác nhận nguồn gốc khi bán lại trên thị trường thứ cấp cao cấp.
+              </p>
+</div>
+<div class="pt-space-md font-label-technical text-label-technical text-primary-container uppercase flex items-center gap-space-2xs">
+<span>XEM SMART CONTRACT CÔNG KHAI</span>
+<span class="material-symbols-outlined text-[16px]">arrow_outward</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 4: Editorial Styling Suggestions ('HOW TO STYLE THIS ARTIFACT') -->
+<section class="w-full px-gutter-mobile lg:px-gutter-desktop py-space-3xl bg-surface-container-lowest">
+<div class="max-w-7xl mx-auto space-y-space-2xl">
+<!-- Section Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-space-md">
+<div class="space-y-space-2xs">
+<span class="font-label-technical text-label-technical text-primary-container uppercase tracking-widest">[ EDITORIAL RUNWAY CURATION ]</span>
+<h2 class="font-display-lg text-display-lg text-primary uppercase tracking-tight">HƯỚNG DẪN PHỐI ĐỒ CÙNG TÁC PHẨM</h2>
+</div>
+<div class="font-label-technical text-label-technical text-secondary uppercase">
+          CURATED BY KINESIS STYLING DIRECTION // MILANO &amp; TOKYO
+        </div>
+</div>
+<!-- 3 Styling Mood Boards -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-lg">
+<!-- Look 01 -->
+<div class="flex flex-col bg-surface-container-low group overflow-hidden">
+<div class="aspect-[3/4] relative overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="Editorial avant-garde street fashion model standing on reflective city platform wearing oversized architectural charcoal tailored blazer, technical drop-crotch wool trousers, paired with K-09 Stratos sneakers in Acid Volt." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDd76KOFPy9xRU_AmFR1xHsCXtmyxgIcFAEZVlCPHJddsomGgmKOHYHk4TznnM_BVW8rRJuZqTadZUmJ_nHC0vVZ3LEgNl2_nkdpjnRv650cwSwhzKUA5eTpDLo90Q8m7cHMT1ZLLEMyKu8hRzfg4jCOwCNgWpChy1KCTvbl8peezJKGELxl1Bs15Tv714okIGm19xN_FM9oOO33yPtmw3Y1aa47sDmYeAgry8P1npfKwkmN_g0fBYpKw"/>
+<div class="absolute top-space-sm left-space-sm bg-surface-container-lowest/80 backdrop-blur-md px-space-xs py-space-3xs font-label-micro text-label-micro text-primary-container uppercase">
+              LOOK 01 // NEO-TAILORING
+            </div>
+</div>
+<div class="p-space-md flex flex-col justify-between flex-grow space-y-space-xs">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-primary uppercase mb-space-3xs">AVANT-GARDE FORMALISM</h3>
+<p class="font-body-sm text-body-sm text-secondary">
+                Kết hợp cùng áo blazer ngoại cỡ cấu trúc vuông vai, quần len xếp ly công nghệ cao nhằm tạo độ tương phản giữa chuẩn mực may đo cổ điển và cơ chế tương lai.
+              </p>
+</div>
+<div class="pt-space-xs font-label-micro text-label-micro text-secondary uppercase tracking-widest">
+              GỢI Ý: BLAZER OVERSIZED + WOOL CARGO SLACKS
+            </div>
+</div>
+</div>
+<!-- Look 02 -->
+<div class="flex flex-col bg-surface-container-low group overflow-hidden">
+<div class="aspect-[3/4] relative overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="High fashion female editorial model in Tokyo alleyway wearing modular waterproof tactical parka, reflective bonded shorts, carrying industrial leather tote, wearing K-09 Stratos sneakers." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCLLJxe9THfUhEJcacp5r5evhXGJjPQMQN2nznHCczRbBZejBm2F7BBTw1D5KZNT07J3j7Ii3166FRJct6VD1EevtSXcaIszIEpkMDwufGBSDrkcSyKgBmILJ6gr41Wd0w3myDzUtLaj49bvRpPYb5vTnvMWbDDdAHcsiYowsbKm4P0KHBgADFJmKPv2HWWVkaulIVTK4INR6pOmoPOQ12GYn59DY7TN-tO9XpU_pQxd-33mMKQ3CrQHA"/>
+<div class="absolute top-space-sm left-space-sm bg-surface-container-lowest/80 backdrop-blur-md px-space-xs py-space-3xs font-label-micro text-label-micro text-primary-container uppercase">
+              LOOK 02 // TACTICAL CYBER-SHELL
+            </div>
+</div>
+<div class="p-space-md flex flex-col justify-between flex-grow space-y-space-xs">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-primary uppercase mb-space-3xs">BIOMECHANICAL TECHWEAR</h3>
+<p class="font-body-sm text-body-sm text-secondary">
+                Áo khoác chống thấm 3 lớp Gore-Tex Pro màu xám đá, túi đeo chéo Fidlock nam châm cùng tất dệt vi sợi đồng bộ sắc volt tạo diện mạo viễn tưởng đô thị.
+              </p>
+</div>
+<div class="pt-space-xs font-label-micro text-label-micro text-secondary uppercase tracking-widest">
+              GỢI Ý: MODULAR HARNESS + 3L WATERPROOF ANORAK
+            </div>
+</div>
+</div>
+<!-- Look 03 -->
+<div class="flex flex-col bg-surface-container-low group overflow-hidden">
+<div class="aspect-[3/4] relative overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="Editorial lookbook shot of a model walking against minimalist brutalist museum wall in Paris wearing black silk-blend oversized knitwear and wide raw-hem technical denim with K-09 Stratos sneaker." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCnYFC7NI0OCCA6efgmV63DFy3KeBcIsfm611CpokQ6-s7-jZFIJTE91Vm63mKMsiXeAeKEVwf0KRV6oun3jq1fbTmIBWGyIxyRe3l1C8R4g3VxpITY2XdhNMoZs_h6wdA6VPbs8Z2zV0Zkhv9b-cLkRQ97jcipUjPPvbxeG8T9p1NPVxg5dRdNPs6JWiZXBmm7L1UykMNfJS5zJhEmt2OJItErVN18M7feFsOmhuW8rj-SXMunoUr9HA"/>
+<div class="absolute top-space-sm left-space-sm bg-surface-container-lowest/80 backdrop-blur-md px-space-xs py-space-3xs font-label-micro text-label-micro text-primary-container uppercase">
+              LOOK 03 // MINIMAL DECONSTRUCT
+            </div>
+</div>
+<div class="p-space-md flex flex-col justify-between flex-grow space-y-space-xs">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-primary uppercase mb-space-3xs">HAUTE RAW MONOCHROME</h3>
+<p class="font-body-sm text-body-sm text-secondary">
+                Tối giản toàn diện với áo dệt kim lụa thô cắt xẻ ngẫu hứng và quần denim công nghiệp ống rộng rủ tràn trên thân giày, phô diễn trọn vẹn điểm sáng acid volt tại đế.
+              </p>
+</div>
+<div class="pt-space-xs font-label-micro text-label-micro text-secondary uppercase tracking-widest">
+              GỢI Ý: DECONSTRUCTED KNIT + RIGID WIDE DENIM
+            </div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 5: Specimen Guarantee & Global Dispatch Protocols -->
+<section class="w-full px-gutter-mobile lg:px-gutter-desktop py-space-2xl bg-surface">
+<div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-space-md">
+<div class="bg-surface-container-low p-space-md flex items-start gap-space-sm">
+<span class="material-symbols-outlined text-[24px] text-primary-container">flight_takeoff</span>
+<div class="space-y-space-3xs">
+<h4 class="font-headline-sm text-headline-sm text-primary uppercase">GIAO BẢO HIỂM VIP</h4>
+<p class="font-body-sm text-body-sm text-secondary">Vận chuyển bọc thép bảo mật 72 giờ qua DHL Express Global.</p>
+</div>
+</div>
+<div class="bg-surface-container-low p-space-md flex items-start gap-space-sm">
+<span class="material-symbols-outlined text-[24px] text-primary-container">sync_alt</span>
+<div class="space-y-space-3xs">
+<h4 class="font-headline-sm text-headline-sm text-primary uppercase">ĐỔI SIZE 14 NGÀY</h4>
+<p class="font-body-sm text-body-sm text-secondary">Hỗ trợ đối soát size tận nơi miễn phí cho mọi thành viên Syndicate.</p>
+</div>
+</div>
+<div class="bg-surface-container-low p-space-md flex items-start gap-space-sm">
+<span class="material-symbols-outlined text-[24px] text-primary-container">precision_manufacturing</span>
+<div class="space-y-space-3xs">
+<h4 class="font-headline-sm text-headline-sm text-primary uppercase">BẢO TRÌ VÒNG ĐỜI</h4>
+<p class="font-body-sm text-body-sm text-secondary">Dịch vụ thay thế đệm khí và đánh bóng titanium định kỳ tại Atelier.</p>
+</div>
+</div>
+<div class="bg-surface-container-low p-space-md flex items-start gap-space-sm">
+<span class="material-symbols-outlined text-[24px] text-primary-container">encrypted</span>
+<div class="space-y-space-3xs">
+<h4 class="font-headline-sm text-headline-sm text-primary uppercase">XÁC THỰC SỞ HỮU</h4>
+<p class="font-body-sm text-body-sm text-secondary">Hợp đồng điện tử kèm mã QR vật lý gắn niêm phong chân không.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Interactive JavaScript -->
+<script>
+    (function() {
+      // Color selector interaction
+      const colorBtns = document.querySelectorAll('.color-swatch-btn');
+      const selectedColorText = document.getElementById('selectedColorName');
+      
+      colorBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          colorBtns.forEach(b => {
+            b.classList.remove('ring-2', 'ring-primary-container');
+            b.classList.add('bg-surface-container-high');
+          });
+          btn.classList.add('ring-2', 'ring-primary-container');
+          btn.classList.remove('bg-surface-container-high');
+          const colorName = btn.getAttribute('data-color-name');
+          if (selectedColorText) selectedColorText.textContent = colorName;
+        });
+      });
+
+      // Size selector interaction
+      const sizeBtns = document.querySelectorAll('#sizeMatrix .size-btn');
+      const stockStatus = document.getElementById('stockStatusText');
+      
+      sizeBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          if (btn.classList.contains('cursor-not-allowed')) return;
+          sizeBtns.forEach(b => {
+            if (!b.classList.contains('cursor-not-allowed')) {
+              b.classList.remove('bg-primary-container', 'text-on-primary-container', 'font-bold');
+              b.classList.add('bg-surface-container-highest', 'text-secondary');
+            }
+          });
+          btn.classList.remove('bg-surface-container-highest', 'text-secondary');
+          btn.classList.add('bg-primary-container', 'text-on-primary-container', 'font-bold');
+          
+          const sizeVal = btn.getAttribute('data-size');
+          const stockVal = btn.getAttribute('data-stock');
+          if (stockStatus) {
+            stockStatus.textContent = `EU ${sizeVal}: ${stockVal.toUpperCase()}`;
+          }
+        });
+      });
+
+      // Thumbnail gallery view switcher
+      const thumbBtns = document.querySelectorAll('.thumbnail-btn');
+      const viewLabel = document.getElementById('currentViewLabel');
+      
+      thumbBtns.forEach(thumb => {
+        thumb.addEventListener('click', () => {
+          thumbBtns.forEach(t => t.classList.remove('ring-2', 'ring-primary-container'));
+          thumb.classList.add('ring-2', 'ring-primary-container');
+          const title = thumb.getAttribute('data-title');
+          if (viewLabel) viewLabel.textContent = title;
+        });
+      });
+    })();
+  </script>
+</div></main><footer class="w-full bg-surface-container-lowest text-on-surface pt-space-4xl pb-space-2xl"><div class="w-full px-gutter-mobile lg:px-gutter-desktop"><div class="grid grid-cols-1 md:grid-cols-12 gap-space-xl pb-space-3xl"><div class="md:col-span-5 flex flex-col justify-between"><div class="space-y-space-md"><div class="flex items-center gap-space-sm"><span class="w-2.5 h-2.5 bg-primary-container inline-block"></span><span class="font-label-technical text-label-technical tracking-widest uppercase text-secondary">SYNDICATE PROTOCOL</span></div><h3 class="font-headline-md text-headline-md text-primary uppercase tracking-tight">KINESIS / ATELIER</h3><p class="font-body-sm text-body-sm text-secondary max-w-md">Operating at the razor margin between haute couture poise and biomechanical performance streetwear. Every silhouette is an engineered kinetic instrument produced in strictly monitored low-batch editions.</p></div><div class="pt-space-xl"><div class="font-label-micro text-label-micro text-secondary uppercase tracking-widest pb-space-xs">GLOBAL ATELIER SITES</div><div class="grid grid-cols-3 gap-space-sm font-label-technical text-label-technical text-on-surface-variant"><div class="flex flex-col"><span class="text-primary">PARIS // IX</span><span>48.8744° N</span><span>2.3522° E</span></div><div class="flex flex-col"><span class="text-primary">TOKYO // SHIBUYA</span><span>35.6617° N</span><span>139.7040° E</span></div><div class="flex flex-col"><span class="text-primary">MILANO // BRERA</span><span>45.4721° N</span><span>9.1878° E</span></div></div></div></div><div class="md:col-span-3 flex flex-col space-y-space-md"><span class="font-label-technical text-label-technical uppercase tracking-widest text-primary-container">NAVIGATION INDEX</span><ul class="space-y-space-xs font-label-technical text-label-technical text-secondary uppercase"><li class="hover:text-primary transition-colors"><a href="#">01 // CURRENT EXPERIMENTS</a></li><li class="hover:text-primary transition-colors"><a href="#">02 // PERMANENT VAULT</a></li><li class="hover:text-primary transition-colors"><a href="#">03 // ADVANCED MATERIALS</a></li><li class="hover:text-primary transition-colors"><a href="#">04 // SIZING RUN MATRIX</a></li><li class="hover:text-primary transition-colors"><a href="#">05 // PROTOTYPE REGISTRY</a></li><li class="hover:text-primary transition-colors"><a href="#">06 // PRIVATE FITTING LAB</a></li></ul></div><div class="md:col-span-4 flex flex-col justify-between space-y-space-lg"><div><span class="font-label-technical text-label-technical uppercase tracking-widest text-primary-container block mb-space-xs">COMMUNICATION CHANNEL</span><h4 class="font-headline-sm text-headline-sm text-primary uppercase mb-space-xs">JOIN THE SYNDICATE</h4><p class="font-body-sm text-body-sm text-secondary mb-space-md">Receive biometric drop alerts, secret access hashes, and private showroom invitations prior to global dispatch.</p><form class="flex flex-col sm:flex-row items-stretch gap-space-2xs"><input class="bg-surface-container-high text-on-surface font-label-technical text-label-technical px-space-md py-space-sm focus:outline-none focus:ring-1 focus:ring-primary-container placeholder:text-secondary/50 flex-grow" placeholder="ENTER IDENTIFIER / EMAIL" type="email"/><button class="bg-primary-container text-on-primary-container font-label-technical text-label-technical px-space-lg py-space-sm uppercase font-semibold hover:bg-primary hover:text-on-secondary transition-colors whitespace-nowrap" type="submit">TRANSMIT</button></form></div><div><span class="font-label-micro text-label-micro text-secondary uppercase tracking-widest block mb-space-xs">ACCEPTED PROTOCOLS &amp; LUXURY CLEARANCE</span><div class="flex flex-wrap items-center gap-space-sm font-label-micro text-label-micro text-secondary/80 uppercase"><span>ETHEREUM CORE</span><span>•</span><span>USDC</span><span>•</span><span>AMEX CENTURION</span><span>•</span><span>VISA BLACK</span><span>•</span><span>APPLE PAY VAULT</span></div></div></div></div><div class="pt-space-xl flex flex-col md:flex-row items-center justify-between gap-space-md font-label-micro text-label-micro text-secondary uppercase"><div class="flex items-center gap-space-sm"><span>© 2025 KINESIS / ATELIER CORP. ALL RIGHTS RESERVED.</span><span class="text-secondary/40">//</span><span class="text-primary-container">CODE SPEC: VER 4.09</span></div><div class="flex items-center gap-space-md"><a class="hover:text-primary transition-colors" href="#">CONFIDENTIALITY CLAUSE</a><a class="hover:text-primary transition-colors" href="#">AUTHENTICITY VERIFICATION</a><a class="hover:text-primary transition-colors" href="#">DISPATCH TERMS</a><a class="hover:text-primary transition-colors" href="#">LEGAL NOTICE</a></div></div></div></footer></body></html>
