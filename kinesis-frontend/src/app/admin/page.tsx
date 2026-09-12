@@ -22,7 +22,18 @@ export default async function AdminPage({
   const pages = Math.ceil(total / PAGE);
   return (
     <div className="mx-auto max-w-6xl px-gutter-mobile py-space-xl">
-      <h1 className="font-headline-md text-headline-md uppercase tracking-tight text-primary">
+      <div className="flex flex-wrap items-center gap-space-sm">
+        <span className="bg-primary-container px-space-md py-space-2xs font-label-technical text-label-technical font-bold uppercase tracking-widest text-on-primary-container">
+          ĐƠN HÀNG
+        </span>
+        <Link
+          href="/admin/products"
+          className="border border-surface-container-highest px-space-md py-space-2xs font-label-technical text-label-technical uppercase tracking-widest text-secondary hover:text-primary"
+        >
+          SẢN PHẨM
+        </Link>
+      </div>
+      <h1 className="mt-space-md font-headline-md text-headline-md uppercase tracking-tight text-primary">
         Quản lý đơn hàng
       </h1>
       <p className="mt-space-2xs font-label-micro text-label-micro uppercase tracking-widest text-secondary">
