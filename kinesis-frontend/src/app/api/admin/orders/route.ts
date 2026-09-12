@@ -2,12 +2,15 @@ import type { NextRequest } from "next/server";
 import { auth } from "@/lib/auth";
 import { listAllOrders, setOrderStatus } from "@/lib/shop-orders";
 
-/* GET /api/admin/orders — list orders (admin only). */
-export async function GET() {
+/* GET /api/admin/orders?offset=0&limit=50 — list orders (admin only). */
+export async function GET(request: NextRequest) {
   const session = await auth();
   if (session?.user?.role !== "admin") return Response.json({ error: "forbidden" }, { status: 403 });
-  const orders = await listAllOrders(200);
-  return Response.json({ orders });
+  const url = new URL(request.url);
+  const limit = Math.min(100, Math.max(1, Number(url.searchParams.get("limit") ?? 50)));
+  const offset = Math.max(0, Number(url.searchParams.get("offset") ?? 0));
+  const { rows, total } = await listAllOrders(limit, offset);
+  return Response.json({ orders: rows, total, limit, offset });
 }
 
 /* PATCH /api/admin/orders — update status {orderId, status}. */

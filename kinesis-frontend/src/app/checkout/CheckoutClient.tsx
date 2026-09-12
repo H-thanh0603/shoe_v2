@@ -4,13 +4,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { useCart } from "@/lib/cart";
+import { USD_TO_VND } from "@/lib/data";
 
 const field =
   "h-12 w-full border border-surface-container-highest bg-surface px-space-md font-body-md text-body-md text-primary placeholder:text-secondary/40 focus:border-primary-container focus:outline-none transition-colors";
 const flabel =
   "mb-space-2xs block font-label-micro text-label-micro uppercase tracking-widest text-secondary";
 
-const vnd = (usd: number) => `${(usd * 25_000).toLocaleString("vi-VN")} VNĐ`;
+const vnd = (usd: number) => `${(usd * USD_TO_VND).toLocaleString("vi-VN")} VNĐ`;
 
 export default function CheckoutClient() {
   const { items, setQty, remove, subtotal, count, clear } = useCart();
@@ -24,6 +25,7 @@ export default function CheckoutClient() {
   const nameRef = useRef<HTMLInputElement>(null);
   const phoneRef = useRef<HTMLInputElement>(null);
   const addrRef = useRef<HTMLInputElement>(null);
+  const provinceRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -193,6 +195,10 @@ export default function CheckoutClient() {
               <input id="co-addr" ref={addrRef} className={field} />
             </div>
             <div className="sm:col-span-2">
+              <label className={flabel} htmlFor="co-province">Tỉnh / Thành phố</label>
+              <input id="co-province" ref={provinceRef} className={field} />
+            </div>
+            <div className="sm:col-span-2">
               <label className={flabel} htmlFor="co-note">Ghi chú</label>
               <input id="co-note" className={field} />
             </div>
@@ -313,7 +319,7 @@ export default function CheckoutClient() {
                       name,
                       phone,
                       address,
-                      province: "",
+                      province: provinceRef.current?.value.trim() ?? "",
                       note: "",
                       payment: pay,
                       items: items.map((it) => ({

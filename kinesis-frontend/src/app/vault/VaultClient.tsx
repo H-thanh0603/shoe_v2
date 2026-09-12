@@ -93,17 +93,18 @@ export default function VaultClient() {
   const [mine, setMine] = useState<MyOrder[]>([]);
 
   useEffect(() => {
-    if (!session?.user) {
-      setMine([]);
-      return;
-    }
+    let alive = true;
+    if (!session?.user) return;
     fetch("/api/orders/mine")
       .then((r) => (r.ok ? r.json() : { orders: [] }))
-      .then((d: { orders?: MyOrder[] }) => setMine(d.orders ?? []))
-      .catch(() => setMine([]));
+      .then((d: { orders?: MyOrder[] }) => alive && setMine(d.orders ?? []))
+      .catch(() => alive && setMine([]));
+    return () => {
+      alive = false;
+    };
   }, [session]);
 
-  const myRows = mine.map((o) => [
+  const myRows = (session?.user ? mine : []).map((o) => [
     o.id,
     `Đơn hàng ${o.id}`,
     new Date(o.created_at).toLocaleDateString("vi-VN"),

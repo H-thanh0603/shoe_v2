@@ -12,7 +12,7 @@ import { createOrder } from "@/lib/shop-orders";
    The minted order goes through the REAL commerce stack
    (@/lib/shop-orders: transaction, stock decrement, orders table). */
 
-const USD_TO_VND = 25_000;
+import { USD_TO_VND } from "@/lib/data";
 
 export async function POST(request: NextRequest) {
   const b = await readJsonBody(request);

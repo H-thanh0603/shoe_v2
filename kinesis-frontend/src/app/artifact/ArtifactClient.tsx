@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { useCart } from "@/lib/cart";
 import WishButton from "@/components/WishButton";
-import type { Product } from "@/lib/data";
+import { USD_TO_VND, type Product } from "@/lib/data";
 
 /* Ảnh Stitch gốc — các góc nhìn K-09 */
 const EXPLODED =
@@ -133,7 +133,7 @@ export default function ArtifactClient({ product }: { product: Product }) {
     swatch: SWATCH[c] ?? "bg-secondary",
   }));
   const soldOut = product.status === "SOLD OUT";
-  const vnd = `${(product.price * 25000).toLocaleString("vi-VN")} VNĐ`;
+  const vnd = `${(product.price * USD_TO_VND).toLocaleString("vi-VN")} VNĐ`;
 
   const pickSize = (s: (typeof SIZES)[number]) => {
     if (s.out) return;

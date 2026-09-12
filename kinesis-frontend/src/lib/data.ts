@@ -1,5 +1,8 @@
 export type Category = "HYPER-RUNNING" | "AVANT-GARDE" | "LAB EXPERIMENTAL";
 
+/* Single source of truth for USD display price → VND. */
+export const USD_TO_VND = 25_000;
+
 export interface Product {
   slug: string;
   sku: string;

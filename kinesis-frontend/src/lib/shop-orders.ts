@@ -211,12 +211,16 @@ export async function listOrdersForUser(userId: string): Promise<OrderRow[]> {
   return r?.rows ?? [];
 }
 
-export async function listAllOrders(limit = 100): Promise<OrderRow[]> {
-  const r = await withDb((c) =>
-    c.query(`SELECT id, email, name, phone, address, province, note, amount_vnd, status, payment, created_at
-             FROM orders ORDER BY created_at DESC LIMIT $1`, [limit]),
-  );
-  return r?.rows ?? [];
+export async function listAllOrders(limit = 100, offset = 0): Promise<{ rows: OrderRow[]; total: number }> {
+  const r = await withDb(async (c) => {
+    const rows = await c.query<OrderRow>(
+      `SELECT id, email, name, phone, address, province, note, amount_vnd, status, payment, created_at
+       FROM orders ORDER BY created_at DESC LIMIT $1 OFFSET $2`, [limit, offset],
+    );
+    const total = await c.query<{ count: string }>(`SELECT count(*)::text AS count FROM orders`);
+    return { rows: rows.rows, total: Number(total.rows[0]?.count ?? 0) };
+  });
+  return r ?? { rows: [], total: 0 };
 }
 
 export async function getOrder(orderId: string) {
