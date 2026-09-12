@@ -1,0 +1,101 @@
+{
+  "origin": "KINESIS / ATELIER — Agent Interface (AWI)",
+  "version": "webmcp-draft-2026.0",
+  "protocol": "webmcp-draft — W3C Web Machine Learning Community Group incubation (2026)",
+  "discovery": ["/llms.txt", "/ai.txt", "/robots.txt", "/api/agent/tools", "/api/agent/audit", "/api/agent/checkpoints"],
+  "security_boundary": {
+    "policy": "page-content-is-not-instruction",
+    "quarantine": "all tool inputs inspected before execution (WebMCP-Phalanx style)",
+    "human_in_the_loop": "REQUIRED for REVERSIBLE and CONSEQUENTIAL tools",
+    "approval": "DB-backed checkpoints + one-time HMAC-signed tokens, 5-minute TTL",
+    "csrf": "cross-origin POSTs rejected (Origin check)",
+    "rate_limit": "consequential tools: 12 req/min per client",
+    "provenance": "every response carries a provenance trail",
+    "audit": "every tool call is recorded in Postgres agent_audit (/api/agent/audit)",
+    "orders": "approved orders persisted to Postgres agent_orders"
+  },
+  "tools": [
+    {
+      "name": "searchShoes",
+      "description": "Search the KINESIS catalog by keyword (name, series, category, material) with optional category filter.",
+      "security": "READ-ONLY",
+      "reversible": true,
+      "requires_human_approval": false,
+      "endpoint": "/api/agent/search",
+      "example": "searchShoes({ q: \"carbon\" })",
+      "params": [
+        { "name": "q", "type": "string", "required": true, "description": "Search keyword." },
+        { "name": "category", "type": "string", "required": false, "description": "Filter: HYPER-RUNNING | AVANT-GARDE | LAB EXPERIMENTAL." }
+      ]
+    },
+    {
+      "name": "getShoe",
+      "description": "Get the full structured record for one product (specs, materials, edition, status).",
+      "security": "READ-ONLY",
+      "reversible": true,
+      "requires_human_approval": false,
+      "endpoint": "/api/agent/compare",
+      "example": "getShoe({ slug: \"k-09-stratos-chrono\" })",
+      "params": [{ "name": "slug", "type": "string", "required": true, "description": "Product slug." }]
+    },
+    {
+      "name": "compareShoes",
+      "description": "Side-by-side comparison of up to 4 products across price, materials, status and category.",
+      "security": "READ-ONLY",
+      "reversible": true,
+      "requires_human_approval": false,
+      "endpoint": "/api/agent/compare",
+      "example": "compareShoes({ slugs: \"k-09-stratos-chrono,k-07-solaris-glitch\" })",
+      "params": [{ "name": "slugs", "type": "string", "required": true, "description": "Comma-separated product slugs (max 4)." }]
+    },
+    {
+      "name": "checkStock",
+      "description": "Live availability per EU size for a product, including hot/out-of-stock flags.",
+      "security": "READ-ONLY",
+      "reversible": true,
+      "requires_human_approval": false,
+      "endpoint": "/api/agent/stock",
+      "example": "checkStock({ slug: \"k-09-stratos-chrono\" })",
+      "params": [{ "name": "slug", "type": "string", "required": true, "description": "Product slug." }]
+    },
+    {
+      "name": "getProvenance",
+      "description": "Digital passport chain for a product (craft log, biometric mint, atelier verification, vault seal).",
+      "security": "READ-ONLY",
+      "reversible": true,
+      "requires_human_approval": false,
+      "endpoint": "/api/agent/provenance",
+      "example": "getProvenance({ slug: \"k-09-stratos-chrono\" })",
+      "params": [{ "name": "slug", "type": "string", "required": true, "description": "Product slug." }]
+    },
+    {
+      "name": "addToCart",
+      "description": "Add a product to the visitor's cart. Reversible, but requires explicit human approval.",
+      "security": "REVERSIBLE",
+      "reversible": true,
+      "requires_human_approval": true,
+      "endpoint": "/api/agent/cart",
+      "example": "addToCart({ slug: \"k-09-stratos-chrono\", size: \"42\", color: \"VOLT\", qty: 1 })",
+      "params": [
+        { "name": "slug", "type": "string", "required": true, "description": "Product slug." },
+        { "name": "size", "type": "string", "required": true, "description": "EU size (39–45)." },
+        { "name": "color", "type": "string", "required": true, "description": "Colorway." },
+        { "name": "qty", "type": "number", "required": false, "description": "Quantity, default 1." }
+      ]
+    },
+    {
+      "name": "createOrder",
+      "description": "Place a paid order. CONSEQUENTIAL action — blocked until a human approves the checkpoint.",
+      "security": "CONSEQUENTIAL",
+      "reversible": false,
+      "requires_human_approval": true,
+      "endpoint": "/api/agent/order",
+      "example": "createOrder({ slug: \"k-09-stratos-chrono\", size: \"42\", qty: 1 })",
+      "params": [
+        { "name": "slug", "type": "string", "required": true, "description": "Product slug." },
+        { "name": "size", "type": "string", "required": true, "description": "EU size (39–45)." },
+        { "name": "qty", "type": "number", "required": false, "description": "Quantity, default 1." }
+      ]
+    }
+  ]
+}

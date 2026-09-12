@@ -1,0 +1,75 @@
+# KINESIS / ATELIER — robots.txt
+# Human web + Agentic Web (WebMCP-style tools). Behave politely.
+
+User-agent: *
+Allow: /
+Disallow: /api/agent/order
+Disallow: /api/agent/cart
+
+# ---------- Agentic Web: give agents the structured layer ----------
+User-agent: GPTBot
+Allow: /
+Allow: /.well-known/agent-tools.json
+Allow: /llms.txt
+Allow: /api/agent/tools
+Allow: /api/agent/search
+Allow: /api/agent/compare
+Allow: /api/agent/stock
+Allow: /api/agent/provenance
+Allow: /api/agent/audit
+Disallow: /api/agent/cart
+Disallow: /api/agent/order
+
+User-agent: ClaudeBot
+Allow: /
+Allow: /.well-known/agent-tools.json
+Allow: /llms.txt
+Allow: /api/agent/tools
+Allow: /api/agent/search
+Allow: /api/agent/compare
+Allow: /api/agent/stock
+Allow: /api/agent/provenance
+Allow: /api/agent/audit
+Disallow: /api/agent/cart
+Disallow: /api/agent/order
+
+User-agent: Claude-User
+Allow: /
+Allow: /.well-known/agent-tools.json
+Allow: /llms.txt
+Allow: /api/agent/tools
+Allow: /api/agent/search
+Allow: /api/agent/compare
+Allow: /api/agent/stock
+Allow: /api/agent/provenance
+Allow: /api/agent/audit
+Disallow: /api/agent/cart
+Disallow: /api/agent/order
+
+User-agent: PerplexityBot
+Allow: /
+Allow: /.well-known/agent-tools.json
+Allow: /llms.txt
+
+User-agent: ChatGPT-User
+Allow: /
+Allow: /.well-known/agent-tools.json
+Allow: /llms.txt
+Allow: /api/agent/tools
+Allow: /api/agent/search
+Allow: /api/agent/compare
+Allow: /api/agent/stock
+Allow: /api/agent/provenance
+Allow: /api/agent/audit
+Disallow: /api/agent/cart
+Disallow: /api/agent/order
+
+User-agent: OAI-SearchBot
+Allow: /
+Allow: /.well-known/agent-tools.json
+Allow: /llms.txt
+
+# Consequential tools are never auto-crawled:
+# agent writes require human-in-the-loop approval by design.
+
+Sitemap: /sitemap.xml

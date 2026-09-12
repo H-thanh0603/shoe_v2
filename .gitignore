@@ -2,3 +2,10 @@
 .pgsock/
 *.zip
 node_modules/
+node_modules/
+.next/
+tsconfig.tsbuildinfo
+*.tsbuildinfo
+.env
+.env.local
+.vercel

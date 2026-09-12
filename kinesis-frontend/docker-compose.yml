@@ -1,0 +1,25 @@
+// docker-compose.yml — KINESIS / ATELIER dev database
+// Local Postgres 18 for audit trail + approval checkpoints + orders.
+// Usage: docker compose up -d db   (needs Docker daemon)
+// The app also works without DB via in-memory fallback.
+services:
+  db:
+    image: postgres:18
+    container_name: kinesis-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-kinesis}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-kinesis-dev}
+      POSTGRES_DB: ${POSTGRES_DB:-kinesis}
+    ports:
+      - "${POSTGRES_PORT:-5433}:5432"
+    volumes:
+      - kinesis-pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER:-kinesis}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  kinesis-pgdata:

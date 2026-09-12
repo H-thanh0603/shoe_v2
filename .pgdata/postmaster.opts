@@ -1,1 +1,0 @@
-/usr/lib/postgresql/18/bin/postgres "-D" "/home/nht/Downloads/github_H-Thanh0603/shoe_v2/.pgdata" "-k" "/home/nht/Downloads/github_H-Thanh0603/shoe_v2/.pgsock" "-p" "5433" "-c" "listen_addresses="
