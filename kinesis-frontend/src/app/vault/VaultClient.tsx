@@ -2,8 +2,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
-import { readOrders } from "@/lib/orders";
+import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 
 const AVATAR =
   "https://lh3.googleusercontent.com/aida/AEtjO1Wi5jXuIs3FPwUNC6pKq3_cDdLE2y4DMDul6fNPYYND3bJBuJzWtxhx4LaIRdVQDJX_2ijmCDbd4bdwu1Mf3jJ9bVTTH-1W4wMr-MNw0wMvVNTIzV6Yb3icJRW4Z5B8cj4No-LN3y0K9ZS8o2WPIDQgzRy4X1E2fVgaBJUNQSlqOT1tdlESUiUYd2mFG0SAuoEmO8Mo1xmAzw2OXDdJ_Ltmxacq5FLx-C7XcTPjdAsWWtY7A0dufiHtTvST";
@@ -69,13 +69,48 @@ const LOGS = [
   ["#ORD-6502", "Khắc laser & sơn mài bespoke", "02/07/2025", "MIỄN PHÍ", "ĐÃ BÀN GIAO"],
 ];
 
+const STATUS_VI: Record<string, string> = {
+  pending: "CHỜ THANH TOÁN",
+  paid: "ĐÃ THANH TOÁN",
+  confirmed: "ĐANG ĐIỀU PHỐI",
+  shipped: "ĐANG GIAO",
+  delivered: "ĐÃ BÀN GIAO",
+  cancelled: "ĐÃ HỦY",
+  failed: "THẤT BẠI",
+};
+
+interface MyOrder {
+  id: string;
+  amount_vnd: number;
+  status: string;
+  created_at: string;
+}
+
 export default function VaultClient() {
   const [tab, setTab] = useState<string>("all");
   const shown = tab === "all" ? VAULT : VAULT.filter((v) => v.group === tab);
-  const [logs] = useState<string[][]>(() => {
-    const mine = readOrders().map((o) => [o.id, o.items, o.date, o.total, "ĐANG ĐIỀU PHỐI"]);
-    return [...mine, ...LOGS];
-  });
+  const { data: session } = useSession();
+  const [mine, setMine] = useState<MyOrder[]>([]);
+
+  useEffect(() => {
+    if (!session?.user) {
+      setMine([]);
+      return;
+    }
+    fetch("/api/orders/mine")
+      .then((r) => (r.ok ? r.json() : { orders: [] }))
+      .then((d: { orders?: MyOrder[] }) => setMine(d.orders ?? []))
+      .catch(() => setMine([]));
+  }, [session]);
+
+  const myRows = mine.map((o) => [
+    o.id,
+    `Đơn hàng ${o.id}`,
+    new Date(o.created_at).toLocaleDateString("vi-VN"),
+    `${o.amount_vnd.toLocaleString("vi-VN")} VNĐ`,
+    STATUS_VI[o.status] ?? o.status.toUpperCase(),
+  ] as string[]);
+  const logs = [...myRows, ...LOGS];
 
   return (
     <div className="mx-auto max-w-6xl px-gutter-mobile py-space-xl lg:px-gutter-desktop lg:py-space-2xl">

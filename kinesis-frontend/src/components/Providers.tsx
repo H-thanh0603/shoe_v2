@@ -2,6 +2,7 @@
 
 import { MotionConfig } from "motion/react";
 import Lenis from "lenis";
+import { SessionProvider } from "next-auth/react";
 import { useEffect, type ReactNode } from "react";
 
 export default function Providers({ children }: { children: ReactNode }) {
@@ -10,5 +11,9 @@ export default function Providers({ children }: { children: ReactNode }) {
     return () => lenis.destroy();
   }, []);
 
-  return <MotionConfig reducedMotion="user">{children}</MotionConfig>;
+  return (
+    <SessionProvider>
+      <MotionConfig reducedMotion="user">{children}</MotionConfig>
+    </SessionProvider>
+  );
 }
