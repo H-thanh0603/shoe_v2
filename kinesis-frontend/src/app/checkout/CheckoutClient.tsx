@@ -2,9 +2,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useCart } from "@/lib/cart";
-import { saveOrder, todayVI } from "@/lib/orders";
 
 const field =
   "h-12 w-full border border-surface-container-highest bg-surface px-space-md font-body-md text-body-md text-primary placeholder:text-secondary/40 focus:border-primary-container focus:outline-none transition-colors";
@@ -18,9 +17,14 @@ export default function CheckoutClient() {
   const [secs, setSecs] = useState(14 * 60 + 38);
   const [promo, setPromo] = useState("");
   const [promoOk, setPromoOk] = useState<boolean | null>(null);
-  const [pay, setPay] = useState("card");
+  const [pay, setPay] = useState<"vnpay" | "cod">("vnpay");
   const [state, setState] = useState<"idle" | "securing" | "done">("idle");
-  const [dispatchId, setDispatchId] = useState("KNS-DSP-9042");
+  const [dispatchId, setDispatchId] = useState("");
+  const [error, setError] = useState("");
+  const nameRef = useRef<HTMLInputElement>(null);
+  const phoneRef = useRef<HTMLInputElement>(null);
+  const addrRef = useRef<HTMLInputElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const t = setInterval(() => setSecs((s) => (s > 0 ? s - 1 : 0)), 1000);
@@ -174,32 +178,23 @@ export default function CheckoutClient() {
           <div className="mt-space-md grid grid-cols-1 gap-space-md sm:grid-cols-2">
             <div>
               <label className={flabel} htmlFor="co-name">Họ và tên *</label>
-              <input id="co-name" defaultValue="Alexander Trần" className={field} />
+              <input id="co-name" ref={nameRef} className={field} />
             </div>
             <div>
               <label className={flabel} htmlFor="co-phone">Số điện thoại *</label>
-              <input id="co-phone" defaultValue="+84 908 241 889" className={field} />
+              <input id="co-phone" ref={phoneRef} className={field} />
+            </div>
+            <div className="sm:col-span-2">
+              <label className={flabel} htmlFor="co-email">Email *</label>
+              <input id="co-email" ref={emailRef} type="email" className={field} />
             </div>
             <div className="sm:col-span-2">
               <label className={flabel} htmlFor="co-addr">Địa chỉ *</label>
-              <input
-                id="co-addr"
-                defaultValue="Tòa nhà Landmark 81, Bình Thạnh, TP. Hồ Chí Minh"
-                className={field}
-              />
+              <input id="co-addr" ref={addrRef} className={field} />
             </div>
-            <div>
-              <label className={flabel} htmlFor="co-country">Quốc gia</label>
-              <select id="co-country" className={field}>
-                <option>VIỆT NAM</option>
-                <option>FRANCE</option>
-                <option>JAPAN</option>
-                <option>SINGAPORE</option>
-              </select>
-            </div>
-            <div>
-              <label className={flabel} htmlFor="co-member">Mã thành viên</label>
-              <input id="co-member" defaultValue="SYN-0042" className={field} />
+            <div className="sm:col-span-2">
+              <label className={flabel} htmlFor="co-note">Ghi chú</label>
+              <input id="co-note" className={field} />
             </div>
           </div>
         </div>
@@ -273,10 +268,10 @@ export default function CheckoutClient() {
 
             {/* Payment */}
             <div className="mt-space-md grid grid-cols-2 gap-space-2xs">
-              {[
-                ["card", "THẺ QUỐC TẾ"],
-                ["wallet", "APPLE / GOOGLE PAY"],
-              ].map(([v, label]) => (
+              {([
+                ["vnpay", "VNPAY · QR / THẺ"],
+                ["cod", "COD · NHẬN HÀNG"],
+              ] as const).map(([v, label]) => (
                 <button
                   key={v}
                   onClick={() => setPay(v)}
@@ -290,48 +285,77 @@ export default function CheckoutClient() {
                 </button>
               ))}
             </div>
-            {pay === "card" && (
-              <div className="mt-space-xs space-y-space-2xs">
-                <input
-                  defaultValue="4111 8890 2341 9002"
-                  aria-label="Số thẻ"
-                  className="h-11 w-full border border-surface-container-highest bg-surface px-space-sm font-label-technical text-label-technical text-primary focus:border-primary-container focus:outline-none"
-                />
-                <div className="grid grid-cols-2 gap-space-2xs">
-                  <input
-                    defaultValue="09/28"
-                    aria-label="Hết hạn"
-                    className="h-11 w-full border border-surface-container-highest bg-surface px-space-sm font-label-technical text-label-technical text-primary focus:border-primary-container focus:outline-none"
-                  />
-                  <input
-                    defaultValue="889"
-                    type="password"
-                    aria-label="CVV"
-                    className="h-11 w-full border border-surface-container-highest bg-surface px-space-sm font-label-technical text-label-technical text-primary focus:border-primary-container focus:outline-none"
-                  />
-                </div>
-              </div>
+            {error && (
+              <p className="mt-space-sm font-label-micro text-label-micro uppercase tracking-widest text-error">
+                {error}
+              </p>
             )}
 
             <button
-              onClick={() => {
+              onClick={async () => {
                 if (!items.length || state === "securing") return;
+                setError("");
+                const email = emailRef.current?.value.trim() ?? "";
+                const name = nameRef.current?.value.trim() ?? "";
+                const phone = phoneRef.current?.value.trim() ?? "";
+                const address = addrRef.current?.value.trim() ?? "";
+                if (!email || !name || !phone || !address) {
+                  setError("Thiếu thông tin giao hàng");
+                  return;
+                }
                 setState("securing");
-                const id = `KNS-DSP-${Math.floor(1000 + Math.random() * 9000)}`;
-                const summary = items.map((it) => `${it.name} ×${it.qty}`).join(" + ");
-                const amount = items.reduce((n, it) => n + it.qty * it.price, 0);
-                setTimeout(() => {
-                  saveOrder({
-                    id,
-                    date: todayVI(),
-                    items: summary,
-                    sub: `Checkout Protocol // ${items.length} silhouette${items.length > 1 ? "s" : ""}`,
-                    total: `$${amount.toLocaleString("en-US")}`,
+                try {
+                  const res = await fetch("/api/orders", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                      email,
+                      name,
+                      phone,
+                      address,
+                      province: "",
+                      note: "",
+                      payment: pay,
+                      items: items.map((it) => ({
+                        slug: it.slug,
+                        size: it.size,
+                        color: it.color,
+                        qty: it.qty,
+                      })),
+                    }),
                   });
-                  setDispatchId(id);
+                  const data = (await res.json()) as {
+                    ok?: boolean;
+                    orderId?: string;
+                    payUrl?: string | null;
+                    error?: string;
+                  };
+                  if (!res.ok || !data.ok) {
+                    const vi: Record<string, string> = {
+                      empty_cart: "Giỏ hàng trống",
+                      invalid_qty: "Số lượng không hợp lệ",
+                      invalid_customer_info: "Thông tin giao hàng thiếu hoặc sai",
+                      insufficient_stock: "Hết hàng / không đủ số lượng",
+                      sold_out: "Sản phẩm đã bán hết",
+                      db_unreachable: "Lỗi hệ thống — thử lại sau",
+                    };
+                    const key = data.error?.split(":")[0] ?? "";
+                    setError(vi[key] ?? `Lỗi: ${data.error ?? res.status}`);
+                    setState("idle");
+                    return;
+                  }
+                  setDispatchId(data.orderId ?? "");
+                  if (data.payUrl) {
+                    clear();
+                    window.location.href = data.payUrl;
+                    return;
+                  }
                   setState("done");
                   clear();
-                }, 1400);
+                } catch {
+                  setError("Lỗi kết nối — thử lại");
+                  setState("idle");
+                }
               }}
               disabled={!items.length}
               className={`mt-space-lg flex w-full items-center justify-center gap-space-xs py-space-md font-label-technical text-label-technical font-bold uppercase tracking-widest transition-colors ${
@@ -356,7 +380,7 @@ export default function CheckoutClient() {
               <span className="material-symbols-outlined text-[14px] text-primary-container">
                 encrypted
               </span>
-              MÃ HÓA 256-BIT · ĐỔI SIZE 14 NGÀY · DEMO
+              MÃ HÓA 256-BIT · ĐỔI SIZE 14 NGÀY
             </p>
           </div>
         </aside>

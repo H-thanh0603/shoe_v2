@@ -335,7 +335,11 @@ export default function AgentConsole() {
     return () => window.clearInterval(timer);
   }, []);
 
-  const nowMs = Date.now();
+  const [nowMs, setNowMs] = useState(() => Date.now());
+  useEffect(() => {
+    const t = setInterval(() => setNowMs(Date.now()), 1000);
+    return () => clearInterval(t);
+  }, []);
 
   const checkpointBoard = (title: string, list: CheckpointView[]) => {
     if (list.length === 0) return null;
