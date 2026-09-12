@@ -54,6 +54,53 @@ async function loadProducts(client: PoolClient, slugs: string[]): Promise<Map<st
 
 /* Atomically decrement stock and create the order in one transaction.
    Throws Error with code/message on: unknown product, sold out product, insufficient stock. */
+/* Expire stale pending orders older than PENDING_TTL_MS and restock their items.
+   Called lazily on new orders + via /api/admin/sweep (cron). */
+const PENDING_TTL_MS = 24 * 60 * 60 * 1000; // 24h — VNPay links stay valid ~24h
+
+export async function sweepStalePending(): Promise<number> {
+  const pool = getPool();
+  if (!pool) return 0;
+  const client = await pool.connect();
+  let expired = 0;
+  try {
+    await client.query("BEGIN");
+    const { rows } = await client.query<{ id: string }>(
+      `SELECT id FROM orders
+       WHERE status='pending' AND payment='vnpay' AND created_at < now() - interval '1 millisecond' * $1
+       LIMIT 50 FOR UPDATE SKIP LOCKED`,
+      [PENDING_TTL_MS],
+    );
+    for (const o of rows) {
+      const restocked = await restockOrder(client, o.id);
+      if (!restocked) continue;
+      await client.query(`UPDATE orders SET status='failed', updated_at=now() WHERE id=$1 AND status='pending'`, [o.id]);
+      expired++;
+    }
+    await client.query("COMMIT");
+  } catch {
+    await client.query("ROLLBACK");
+  } finally {
+    client.release();
+  }
+  return expired;
+}
+
+/* Restock order_items back into product_stock. Caller holds the transaction. */
+async function restockOrder(client: PoolClient, orderId: string): Promise<boolean> {
+  const { rows } = await client.query<{ slug: string; size: string; qty: number }>(
+    `SELECT slug, size, qty FROM order_items WHERE order_id=$1`, [orderId],
+  );
+  for (const it of rows) {
+    await client.query(
+      `INSERT INTO product_stock (slug, size, qty) VALUES ($1,$2,$3)
+       ON CONFLICT (slug, size) DO UPDATE SET qty = product_stock.qty + $3`,
+      [it.slug, it.size, it.qty],
+    );
+  }
+  return true;
+}
+
 export async function createOrder(userId: string | null, input: CreateOrderInput): Promise<{ id: string; amountVnd: number }> {
   if (!input.items?.length) throw new Error("empty_cart");
   for (const it of input.items) {
@@ -67,6 +114,8 @@ export async function createOrder(userId: string | null, input: CreateOrderInput
 
   const pool = getPool();
   if (!pool) throw new Error("db_unreachable");
+  // Fire-and-forget: free stock from abandoned pending VNPay orders.
+  void sweepStalePending().catch(() => {});
   const client = await pool.connect();
   try {
     return await createOrderTx(client, userId, input);
@@ -142,17 +191,7 @@ export async function setOrderStatus(orderId: string, status: string): Promise<b
     const isCancel = status === "cancelled" && was !== "cancelled" && was !== "delivered";
     await client.query(`UPDATE orders SET status=$2, updated_at=now() WHERE id=$1`, [orderId, status]);
     if (isCancel) {
-      // Restock the reserved items.
-      const { rows } = await client.query<{ slug: string; size: string; qty: number }>(
-        `SELECT slug, size, qty FROM order_items WHERE order_id=$1`, [orderId],
-      );
-      for (const it of rows) {
-        await client.query(
-          `INSERT INTO product_stock (slug, size, qty) VALUES ($1,$2,$3)
-           ON CONFLICT (slug, size) DO UPDATE SET qty = product_stock.qty + $3`,
-          [it.slug, it.size, it.qty],
-        );
-      }
+      await restockOrder(client, orderId);
     }
     await client.query("COMMIT");
     return true;
