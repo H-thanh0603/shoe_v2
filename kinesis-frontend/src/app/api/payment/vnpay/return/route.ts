@@ -1,6 +1,7 @@
 import type { NextRequest } from "next/server";
 import { vnpayVerify } from "@/lib/vnpay";
 import { getOrderAmount, markPaid } from "@/lib/shop-orders";
+import { notifyOrder } from "@/lib/email";
 
 /* GET /api/payment/vnpay/return — browser redirect back from VNPay.
    Verify HMAC + amount, then redirect the user to the result page. */
@@ -22,7 +23,8 @@ export async function GET(request: NextRequest) {
   if (expected === null || expected !== amountVnd) return fail("invalid");
 
   if (responseCode === "00") {
-    await markPaid(orderId, params.vnp_TransactionNo ?? "");
+    const ok = await markPaid(orderId, params.vnp_TransactionNo ?? "");
+    if (ok) await notifyOrder(orderId, "vnpay_paid"); // first confirmer only
     return Response.redirect(new URL(`/checkout/result?order=${orderId}&status=success`, request.url), 302);
   }
   return fail("failed");

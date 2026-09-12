@@ -4,6 +4,7 @@ import { guardConsequential, readJsonBody } from "../_shared";
 import { recordAudit } from "@/lib/audit-db";
 import { issueCheckpoint, approveCheckpoint } from "@/lib/checkpoint-db";
 import { createOrder } from "@/lib/shop-orders";
+import { notifyOrder } from "@/lib/email";
 
 /* POST /api/agent/order — createOrder()
    CONSEQUENTIAL tool → hard human boundary:
@@ -126,6 +127,7 @@ export async function POST(request: NextRequest) {
       payment: "cod",
       items: [{ slug: product.slug, size, color, qty }],
     });
+    await notifyOrder(order.id, "cod_created");
     await recordAudit("createOrder", "POST", 201, Date.now() - t0);
     return Response.json(
       {

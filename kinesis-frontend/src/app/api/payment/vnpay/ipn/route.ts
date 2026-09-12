@@ -1,6 +1,7 @@
 import type { NextRequest } from "next/server";
 import { vnpayVerify } from "@/lib/vnpay";
 import { getOrderAmount, markPaid, setOrderStatus } from "@/lib/shop-orders";
+import { notifyOrder } from "@/lib/email";
 
 /* GET /api/payment/vnpay/ipn — server-to-server confirmation from VNPay.
    Must always answer 200 with vnp_SecureHash; idempotent.
@@ -28,6 +29,7 @@ export async function GET(request: NextRequest) {
 
   if (params.vnp_ResponseCode === "00") {
     const ok = await markPaid(orderId, params.vnp_TransactionNo ?? "");
+    if (ok) await notifyOrder(orderId, "vnpay_paid"); // first confirmer only (markPaid is idempotent)
     return Response.json({ RspCode: "00", Message: ok ? "Confirm success" : "Order already confirmed" });
   }
   await setOrderStatus(orderId, "failed");

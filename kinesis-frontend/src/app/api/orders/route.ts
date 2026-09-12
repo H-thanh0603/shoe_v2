@@ -1,6 +1,7 @@
 import type { NextRequest } from "next/server";
 import { auth } from "@/lib/auth";
 import { createOrder, type CreateOrderInput } from "@/lib/shop-orders";
+import { notifyOrder } from "@/lib/email";
 import { buildPaymentUrl, vnpayConfig } from "@/lib/vnpay";
 
 /* POST /api/orders — create order from validated cart, optionally return a VNPay URL. */
@@ -35,6 +36,7 @@ export async function POST(request: NextRequest) {
         payUrl: buildPaymentUrl({ orderId: order.id, amountVnd: order.amountVnd, ip }, cfg),
       });
     }
+    await notifyOrder(order.id, "cod_created");
     return Response.json({ ok: true, orderId: order.id, amountVnd: order.amountVnd });
   } catch (err) {
     const msg = err instanceof Error ? err.message : "unknown_error";
