@@ -2,12 +2,18 @@ import type { NextRequest } from "next/server";
 import { PRODUCTS } from "@/lib/data";
 import { guardConsequential, readJsonBody } from "../_shared";
 import { recordAudit } from "@/lib/audit-db";
-import { issueCheckpoint, approveCheckpoint, persistOrder } from "@/lib/checkpoint-db";
+import { issueCheckpoint, approveCheckpoint } from "@/lib/checkpoint-db";
+import { createOrder } from "@/lib/shop-orders";
 
 /* POST /api/agent/order — createOrder()
    CONSEQUENTIAL tool → hard human boundary:
    without a valid signed approval token the server returns 402 with the
-   exact checkpoint an agent must surface to its human operator. */
+   exact checkpoint an agent must surface to its human operator.
+   The minted order goes through the REAL commerce stack
+   (@/lib/shop-orders: transaction, stock decrement, orders table). */
+
+const USD_TO_VND = 25_000;
+
 export async function POST(request: NextRequest) {
   const b = await readJsonBody(request);
   if (!b) return Response.json({ error: "invalid_json" }, { status: 400 });
@@ -17,7 +23,12 @@ export async function POST(request: NextRequest) {
 
   const slug = typeof b.slug === "string" ? b.slug : "";
   const size = typeof b.size === "string" ? b.size : "";
+  const color = typeof b.color === "string" ? b.color : "";
   const qty = typeof b.qty === "number" && b.qty >= 1 ? Math.floor(b.qty) : 1;
+  const email = typeof b.email === "string" ? b.email : "";
+  const name = typeof b.name === "string" ? b.name : "";
+  const phone = typeof b.phone === "string" ? b.phone : "";
+  const address = typeof b.address === "string" ? b.address : "";
   const checkpoint_id = typeof b.checkpoint_id === "string" ? b.checkpoint_id : "";
 
   const product = PRODUCTS.find((p) => p.slug === slug);
@@ -28,12 +39,12 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const amount = product.price * qty;
+  const amountVnd = product.price * USD_TO_VND * qty;
   const item = {
     slug: product.slug,
     name: product.name,
     sku: product.sku,
-    price: product.price,
+    price_vnd: product.price * USD_TO_VND,
     qty,
     size,
   };
@@ -43,8 +54,8 @@ export async function POST(request: NextRequest) {
   if (!approvedToken) {
     const { id, token, expires_in_seconds } = await issueCheckpoint(
       "create_order",
-      amount,
-      "USD",
+      amountVnd,
+      "VND",
       item,
     );
     const checkpoint = {
@@ -52,12 +63,12 @@ export async function POST(request: NextRequest) {
       action: "create_order",
       tool: "createOrder",
       item,
-      amount,
-      currency: "USD",
+      amount: amountVnd,
+      currency: "VND",
       status: "pending",
       reversible: false,
       consequential: true,
-      reason: "creates a paid order binding the atelier and minting a digital passport",
+      reason: "creates a real order reserving stock from the drop ledger",
       human_in_the_loop: true,
     };
     await recordAudit("createOrder", "POST", 402, Date.now() - t0);
@@ -67,9 +78,9 @@ export async function POST(request: NextRequest) {
         checkpoint,
         approval_token: token,
         expires_in_seconds,
+        required_fields: { email, name, phone, address },
         message:
-          "STOP → ASK HUMAN: consequential action. To execute, resend this exact body + field 'checkpoint_id' from the response, with header 'x-human-approval: <approval_token>'.",
-        note: "READ-ONLY tools never reach this boundary. WebMCP security is NOT solved by trust — it is enforced by DB-backed checkpoints.",
+          "STOP → ASK HUMAN: consequential action. To execute, resend this body + customer fields (email,name,phone,address) + field 'checkpoint_id', with header 'x-human-approval: <approval_token>'.",
       },
       { status: 402 },
     );
@@ -83,7 +94,7 @@ export async function POST(request: NextRequest) {
       { status: 400 },
     );
   }
-  const verdict = await approveCheckpoint("create_order", checkpoint_id, amount, approvedToken);
+  const verdict = await approveCheckpoint("create_order", checkpoint_id, amountVnd, approvedToken);
   if (verdict !== "OK") {
     await recordAudit("createOrder", "POST", 403, Date.now() - t0);
     return Response.json(
@@ -103,54 +114,37 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const txRef = `TX-${String(Math.floor(Math.random() * 9000) + 1000)}`;
-  const orderId = `ORD-${String(Date.now()).slice(-6)}-${size}`;
-  const passportHash = `0x${bufferHash(`${product.sku}:${size}:${orderId}`)}`;
-
-  await persistOrder({
-    order_id: orderId,
-    checkpoint_id,
-    tx_ref: txRef,
-    slug: product.slug,
-    sku: product.sku,
-    name: product.name,
-    size,
-    qty,
-    amount,
-    currency: "USD",
-    passport_hash: passportHash,
-  });
-
-  await recordAudit("createOrder", "POST", 201, Date.now() - t0);
-
-  return Response.json(
-    {
-      status: "MINTED",
-      order_id: orderId,
-      tx_ref: txRef,
-      approved_at: new Date().toISOString(),
-      item: { slug: product.slug, name: product.name, sku: product.sku, size, qty },
-      amount,
-      currency: "USD",
-      passport: {
-        minted: true,
-        chip: "NFC SEAL",
-        hash: passportHash,
-        policy: "digital passport — see /passport",
+  // Real commerce stack: transaction + stock decrement + orders table.
+  try {
+    const order = await createOrder(null, {
+      email,
+      name,
+      phone,
+      address,
+      province: "",
+      note: `via agent console, checkpoint ${checkpoint_id}`,
+      payment: "cod",
+      items: [{ slug: product.slug, size, color, qty }],
+    });
+    await recordAudit("createOrder", "POST", 201, Date.now() - t0);
+    return Response.json(
+      {
+        status: "MINTED",
+        order_id: order.id,
+        amount_vnd: order.amountVnd,
+        currency: "VND",
+        approved_at: new Date().toISOString(),
+        item: { slug: product.slug, name: product.name, sku: product.sku, size, qty },
+        note: "Real order persisted (COD). Payment delegated to the human (browser checkout).",
+        human_readable: "/checkout/result?order=" + order.id + "&status=cod",
       },
-      note: "Order persisted to Postgres. Payment is delegated back to the human (browser checkout).",
-      human_readable: "/passport",
-    },
-    { status: 201 },
-  );
-}
-
-/* Tiny FNV-1a digest for demo order hashes. */
-function bufferHash(input: string): string {
-  let h = 2166136261;
-  for (let i = 0; i < input.length; i++) {
-    h ^= input.charCodeAt(i);
-    h = (h * 16777619) & 0xffffffff;
+      { status: 201 },
+    );
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : "unknown_error";
+    const known = ["empty_cart", "invalid_qty", "invalid_customer_info", "db_unreachable"];
+    const status = known.includes(msg) || /^(unknown_product|sold_out|insufficient_stock):/.test(msg) ? 400 : 500;
+    await recordAudit("createOrder", "POST", status, Date.now() - t0);
+    return Response.json({ error: msg }, { status });
   }
-  return (h ^ (h >> 16)).toString(16).padStart(8, "0");
 }
