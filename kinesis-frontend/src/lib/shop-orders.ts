@@ -189,3 +189,10 @@ export async function getOrder(orderId: string) {
   });
   return r;
 }
+
+/* Amount stored for the order, in VND. Null when the order does not exist. */
+export async function getOrderAmount(orderId: string): Promise<number | null> {
+  const r = await withDb((c) => c.query<{ amount_vnd: number }>(`SELECT amount_vnd FROM orders WHERE id=$1`, [orderId]));
+  if (!r || r.rows.length === 0) return null;
+  return r.rows[0].amount_vnd;
+}
