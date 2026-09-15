@@ -1,5 +1,5 @@
 import type { PoolClient } from "pg";
-import { getPool, withDb } from "@/lib/db";
+import { getPool, withDb, withDbStrict } from "@/lib/db";
 
 /* ============================================================
    Shop orders — real DB persistence (orders + order_items).
@@ -168,10 +168,10 @@ async function createOrderTx(client: PoolClient, userId: string | null, input: C
 }
 
 export async function markPaid(orderId: string, paymentRef: string): Promise<boolean> {
-  const r = await withDb(
+  const r = await withDbStrict(
     (c) => c.query(`UPDATE orders SET status='paid', paid_at=now(), payment_ref=$2, updated_at=now() WHERE id=$1 AND status='pending'`, [orderId, paymentRef]),
   );
-  return (r?.rowCount ?? 0) > 0;
+  return (r.rowCount ?? 0) > 0;
 }
 
 export async function setOrderStatus(orderId: string, status: string): Promise<boolean> {
@@ -233,9 +233,10 @@ export async function getOrder(orderId: string) {
   return r;
 }
 
-/* Amount stored for the order, in VND. Null when the order does not exist. */
+/* Amount stored for the order, in VND. Null when the order does not exist.
+   Throws DbError on DB failure — callers must NOT treat that as "not found". */
 export async function getOrderAmount(orderId: string): Promise<number | null> {
-  const r = await withDb((c) => c.query<{ amount_vnd: number }>(`SELECT amount_vnd FROM orders WHERE id=$1`, [orderId]));
-  if (!r || r.rows.length === 0) return null;
+  const r = await withDbStrict((c) => c.query<{ amount_vnd: number }>(`SELECT amount_vnd FROM orders WHERE id=$1`, [orderId]));
+  if (r.rows.length === 0) return null;
   return r.rows[0].amount_vnd;
 }

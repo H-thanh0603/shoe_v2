@@ -8,25 +8,34 @@ export default async function CheckoutResultPage({
   const { order, status, code } = await searchParams;
   const success = status === "success";
   const cod = status === "cod";
+  const retry = status === "retry";
   return (
     <div className="mx-auto flex max-w-2xl flex-col items-center px-gutter-mobile py-space-4xl text-center">
       <span
-        className={`grid size-16 place-items-center ${success || cod ? "bg-primary-container text-on-primary-container" : "bg-error-container text-on-error-container"}`}
+        className={`grid size-16 place-items-center ${success || cod ? "bg-primary-container text-on-primary-container" : retry ? "border border-surface-container-highest text-secondary" : "bg-error-container text-on-error-container"}`}
       >
         <span className="material-symbols-outlined text-3xl">
-          {success || cod ? "verified" : "error"}
+          {success || cod ? "verified" : retry ? "hourglass_top" : "error"}
         </span>
       </span>
       <p className="mt-space-lg font-label-micro text-label-micro uppercase tracking-widest text-secondary">
-        {success ? "PAYMENT CONFIRMED" : cod ? "ORDER PLACED" : "PAYMENT FAILED"}
+        {success ? "PAYMENT CONFIRMED" : cod ? "ORDER PLACED" : retry ? "PAYMENT UNCLEAR" : "PAYMENT FAILED"}
       </p>
       <h1 className="mt-space-xs font-headline-md text-headline-md uppercase tracking-tight text-primary">
         {success
           ? "Cảm ơn — thanh toán thành công"
           : cod
             ? "Đơn hàng đã được ghi nhận"
-            : `Thanh toán không thành công${code ? ` (mã ${code})` : ""}`}
+            : retry
+              ? "Hệ thống đang bận — đừng thanh toán lại"
+              : `Thanh toán không thành công${code ? ` (mã ${code})` : ""}`}
       </h1>
+      {retry && (
+        <p className="mt-space-sm max-w-md font-body-md text-body-md text-secondary">
+          Kết quả thanh toán chưa xác định (lỗi hệ thống tạm thời). Vui lòng chờ vài phút rồi
+          kiểm tra lại — thanh toán lại có thể bị trừ tiền 2 lần.
+        </p>
+      )}
       {order && (
         <p className="mt-space-sm max-w-md font-body-md text-body-md text-secondary">
           Mã đơn hàng{" "}

@@ -36,7 +36,10 @@ export function dbWarnOnce(msg: string) {
   }
 }
 
-/* Runs fn(client) when the DB is reachable, else null. */
+/* Runs fn(client) when the DB is reachable, else null.
+   NON-CRITICAL paths only (demo fallbacks, email, audit). Never use on
+   money paths — a swallowed DB error there turns into a wrong payment
+   status (paid user, failed order). Use withDbStrict instead. */
 export async function withDb<T>(fn: (c: PoolClient) => Promise<T>): Promise<T | null> {
   const p = getPool();
   if (!p) return null;
@@ -47,6 +50,37 @@ export async function withDb<T>(fn: (c: PoolClient) => Promise<T>): Promise<T | 
   } catch (err) {
     dbWarnOnce(err instanceof Error ? err.message : String(err));
     return null;
+  } finally {
+    client?.release();
+  }
+}
+
+/* Money-path DB access: throws DbError instead of returning null, so
+   callers can answer 500 (VNPay retries IPN) instead of inventing a
+   wrong status like "order not found" or "payment failed". */
+export class DbError extends Error {
+  constructor(message: string, readonly cause?: unknown) {
+    super(`db_error: ${message}`);
+    this.name = "DbError";
+  }
+}
+
+export function isDbError(err: unknown): err is DbError {
+  return err instanceof DbError;
+}
+
+export async function withDbStrict<T>(fn: (c: PoolClient) => Promise<T>): Promise<T> {
+  const p = getPool();
+  if (!p) throw new DbError("unreachable (DATABASE_URL missing)");
+  let client: PoolClient | null = null;
+  try {
+    client = await p.connect();
+    return await fn(client);
+  } catch (err) {
+    if (isDbError(err)) throw err;
+    const msg = err instanceof Error ? err.message : String(err);
+    console.error(`[kinesis-db] strict query failed: ${msg}`);
+    throw new DbError(msg, err);
   } finally {
     client?.release();
   }

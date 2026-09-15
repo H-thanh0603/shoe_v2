@@ -1,10 +1,12 @@
 import type { NextRequest } from "next/server";
 import { vnpayVerify } from "@/lib/vnpay";
+import { isDbError } from "@/lib/db";
 import { getOrderAmount, markPaid } from "@/lib/shop-orders";
 import { notifyOrder } from "@/lib/email";
 
 /* GET /api/payment/vnpay/return — browser redirect back from VNPay.
-   Verify HMAC + amount, then redirect the user to the result page. */
+   Verify HMAC + amount, then redirect the user to the result page.
+   DB failure → status=retry (order outcome unknown, do NOT claim failed). */
 export async function GET(request: NextRequest) {
   const params: Record<string, string> = {};
   new URL(request.url).searchParams.forEach((v, k) => {
@@ -19,13 +21,18 @@ export async function GET(request: NextRequest) {
 
   if (!vnpayVerify(params) || !orderId) return fail("invalid");
 
-  const expected = await getOrderAmount(orderId);
-  if (expected === null || expected !== amountVnd) return fail("invalid");
+  try {
+    const expected = await getOrderAmount(orderId);
+    if (expected === null || expected !== amountVnd) return fail("invalid");
 
-  if (responseCode === "00") {
-    const ok = await markPaid(orderId, params.vnp_TransactionNo ?? "");
-    if (ok) await notifyOrder(orderId, "vnpay_paid"); // first confirmer only
-    return Response.redirect(new URL(`/checkout/result?order=${orderId}&status=success`, request.url), 302);
+    if (responseCode === "00") {
+      const ok = await markPaid(orderId, params.vnp_TransactionNo ?? "");
+      if (ok) void notifyOrder(orderId, "vnpay_paid"); // first confirmer only
+      return Response.redirect(new URL(`/checkout/result?order=${orderId}&status=success`, request.url), 302);
+    }
+    return fail("failed");
+  } catch (err) {
+    if (isDbError(err)) return fail("retry");
+    throw err;
   }
-  return fail("failed");
 }
