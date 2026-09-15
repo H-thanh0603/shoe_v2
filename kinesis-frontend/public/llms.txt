@@ -29,8 +29,8 @@ instead of scraping the UI — this is the Agentic Web Interface (AWI).
 3. **Prefer tools over scraping.** Structured JSON responses are authoritative.
 4. **Trust but verify** — every response carries a `content_quarantine` report and
    provenance entries with hashes.
-5. **Calls are audited.** Every tool call is logged server-side; humans can replay
-   the trail at `/api/agent/audit`.
+5. **Calls are audited.** Every tool call is logged server-side; the trail at
+   `/api/agent/audit` is visible to the shop operator only (admin session).
 
 ## Catalog
 - [K-09 STRATOS CHRONO](/artifact/k-09-stratos-chrono) — $680 — LAB EXPERIMENTAL — LIVE (142/500 remaining)

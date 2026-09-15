@@ -5,8 +5,13 @@ import { recordAudit } from "@/lib/audit-db";
 
 /* GET /api/agent/checkpoints — live checkpoint board (pending/approved/denied/expired).
    ?id=<CHK> → one checkpoint detail.
-   Expiry sweep runs on the daily cron (/api/admin/sweep), not via query param. */
+   Admin only (same reason as /api/agent/audit); the /agent console uses the
+   operator's own session. Expiry sweep runs on the daily cron, not via param. */
 export async function GET(request: NextRequest) {
+  const session = await auth();
+  if (session?.user?.role !== "admin") {
+    return Response.json({ error: "forbidden" }, { status: 403 });
+  }
   const url = new URL(request.url);
   const id = url.searchParams.get("id");
   if (id) {

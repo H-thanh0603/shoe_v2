@@ -9,7 +9,7 @@ export async function GET() {
     origin: AGENT_ORIGIN,
     version: AGENT_VERSION,
     protocol: "webmcp-draft — W3C Web Machine Learning Community Group incubation (2026)",
-    discovery: ["/llms.txt", "/.well-known/agent-tools.json", "/robots.txt", "/api/agent/audit"],
+    discovery: ["/llms.txt", "/.well-known/agent-tools.json", "/robots.txt"],
     security_boundary: {
       policy: "page-content-is-not-instruction",
       quarantine: "all tool inputs are inspected before execution (WebMCP-Phalanx style)",
@@ -19,7 +19,7 @@ export async function GET() {
       csrf: "cross-origin POSTs rejected (Origin check)",
       rate_limit: "consequential tools: 12 req/min per client (per-process; not a hard cap on serverless)",
       provenance: "every response carries a provenance trail",
-      audit: "every tool call is recorded in Postgres agent_audit (/api/agent/audit, 90-day retention)",
+      audit: "every tool call is recorded in Postgres agent_audit (90-day retention); the trail endpoint is operator-only (admin session)",
       orders: "approved orders persisted to Postgres orders + agent_orders",
       stock: "stock/price are read live from Postgres; static snapshots are fallback only",
     },
