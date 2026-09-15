@@ -58,7 +58,7 @@ export default function CheckoutClient() {
         <p className="mt-space-sm max-w-md font-body-md text-body-md text-secondary">
           Mã dispatch{" "}
           <span className="font-label-technical text-primary-container">{dispatchId}</span>.
-          Hộ chiếu số NFT sẽ được đúc vào Syndicate Vault của bạn trong 24h.
+          Hồ sơ provenance sẽ được ghi nhận vào Syndicate Vault của bạn trong 24h.
         </p>
         <Link
           href="/vault"

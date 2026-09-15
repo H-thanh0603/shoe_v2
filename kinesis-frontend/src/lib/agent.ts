@@ -92,7 +92,7 @@ export const AGENT_TOOLS: AgentTool[] = [
   },
   {
     name: "getProvenance",
-    description: "Digital passport chain for a product (craft log, biometric mint, atelier verification, vault seal).",
+    description: "Shop-kept provenance record for a product (craft log, atelier verification, vault seal). No on-chain mint yet.",
     security: "READ-ONLY",
     reversible: true,
     requires_human_approval: false,

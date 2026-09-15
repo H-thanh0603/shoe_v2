@@ -12,7 +12,7 @@ import { notifyOrder } from "@/lib/email";
    CONSEQUENTIAL tool → hard human boundary:
    without a valid signed approval token the server returns 402 with the
    exact checkpoint an agent must surface to its human operator.
-   The minted order goes through the REAL commerce stack
+   The approved order goes through the REAL commerce stack
    (@/lib/shop-orders: transaction, stock decrement, orders table). */
 
 export async function POST(request: NextRequest) {
@@ -184,7 +184,7 @@ export async function POST(request: NextRequest) {
     await recordAudit("createOrder", "POST", 201, Date.now() - t0, approver ?? "anonymous");
     return Response.json(
       {
-        status: "MINTED",
+        status: "CREATED",
         order_id: order.id,
         amount_vnd: order.amountVnd,
         currency: "VND",

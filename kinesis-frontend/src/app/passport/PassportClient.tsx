@@ -174,11 +174,18 @@ export default function PassportClient() {
               <span className="material-symbols-outlined text-[18px]">verified_user</span>
               <span>XUẤT BẢNG KHAI CHỨNG THỰC (.PDF)</span>
             </button>
-            <button className="flex items-center justify-center gap-space-xs bg-primary-container px-space-lg py-space-sm font-label-technical text-label-technical font-semibold uppercase tracking-wider text-on-primary-container shadow-md transition-all hover:bg-primary hover:text-on-secondary">
+            <button
+              disabled
+              title="Chuyển giao on-chain chưa mở — liên hệ shop để sang tên thủ công"
+              className="flex cursor-not-allowed items-center justify-center gap-space-xs bg-primary-container px-space-lg py-space-sm font-label-technical text-label-technical font-semibold uppercase tracking-wider text-on-primary-container opacity-60"
+            >
               <span className="material-symbols-outlined text-[18px]">swap_horiz</span>
-              <span>CHUYỂN GIAO QUYỀN SỞ HỮU SỐ (NFT)</span>
+              <span>CHUYỂN GIAO QUYỀN SỞ HỮU SỐ (SẮP MỞ)</span>
             </button>
           </div>
+          <p className="mt-space-xs w-full font-label-micro text-label-micro uppercase tracking-widest text-secondary/60">
+            Hồ sơ provenance hiện do shop lưu trữ và đối soát — bản ghi on-chain đang triển khai.
+          </p>
         </div>
       </section>
 
@@ -346,14 +353,13 @@ export default function PassportClient() {
                 <span className="material-symbols-outlined text-[18px]">cell_tower</span>
                 <span>CHẠM NFC ĐỂ ĐỐI CHIẾU THỰC ĐỊA</span>
               </button>
-              <a
-                href="#"
-                onClick={(e) => e.preventDefault()}
-                className="flex w-full items-center justify-center gap-space-2xs whitespace-nowrap bg-surface-container-high px-space-md py-space-sm font-label-technical text-label-technical uppercase text-primary transition-colors hover:bg-surface-bright sm:w-auto"
+              <span
+                title="Block explorer chưa kết nối — provenance hiện lưu trong hồ sơ shop"
+                className="flex w-full cursor-not-allowed items-center justify-center gap-space-2xs whitespace-nowrap bg-surface-container-high px-space-md py-space-sm font-label-technical text-label-technical uppercase text-secondary/60 sm:w-auto"
               >
-                <span>EXPLORER</span>
+                <span>EXPLORER (SẮP MỞ)</span>
                 <span className="material-symbols-outlined text-[16px]">north_east</span>
-              </a>
+              </span>
             </div>
           </div>
         </div>

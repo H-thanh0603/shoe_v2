@@ -18,9 +18,10 @@ export async function GET(request: NextRequest) {
       : null,
     origin: "KINESIS ATELIER — PARIS / TOKYO / MILAN",
     chain,
-    chip: { type: "NFC SEAL", status: "VERIFIED", policy: "tamper-evident vault seal (mint)" },
+    chip: { type: "NFC SEAL", status: "PLANNED", policy: "record kept by the shop until on-chain mint opens" },
     content_quarantine: scan,
-    note: "Provenance is machine-verifiable: every artifact ships with a digital passport (see /passport).",
+    note: "Provenance records are shop-kept (see /passport). No tokens are minted on-chain yet.",
+    custody: "shop-kept",
     human_readable: product ? `/passport` : null,
   });
 }

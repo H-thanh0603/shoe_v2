@@ -18,7 +18,7 @@ const AGENT_LAYER = [
 ];
 
 const SUPPORT = [
-  { label: "Hộ chiếu số NFT", href: "/passport" },
+  { label: "Hộ chiếu số (Provenance)", href: "/passport" },
   { label: "Syndicate Vault", href: "/vault" },
   { label: "Manifesto & Lookbook", href: "/lookbook" },
   { label: "Bảng size & Fitting", href: "/artifact/k-09-stratos-chrono" },

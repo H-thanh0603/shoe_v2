@@ -5,7 +5,7 @@ import { useState } from "react";
 const FAQS = [
   {
     q: "Làm sao biết giày là chính hãng?",
-    a: "Mỗi đôi có chip NFC NTAG 424 trong lưỡi gà + hộ chiếu số NFT trên Polygon. Chạm điện thoại vào gót để đối chiếu provenance ngay lập tức.",
+    a: "Mỗi đôi có mã định danh + hồ sơ provenance do shop lưu trữ và đối soát khi cần. Tem NFC và bản ghi on-chain đang triển khai — shop sẽ cập nhật khi mở.",
   },
   {
     q: "Chính sách đổi size thế nào?",
@@ -21,7 +21,7 @@ const FAQS = [
   },
   {
     q: "Có bán lại được không?",
-    a: "Được — và giá trị hơn nhờ provenance on-chain. Chuyển giao NFT là chuyển giao quyền sở hữu chính thức, xác thực nguồn gốc khi sang tay.",
+    a: "Được — liên hệ shop để sang tên hồ sơ provenance thủ công. Chuyển giao on-chain tự động đang triển khai.",
   },
 ];
 
