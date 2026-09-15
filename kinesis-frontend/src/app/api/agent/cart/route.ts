@@ -93,6 +93,7 @@ export async function POST(request: NextRequest) {
       amount,
       "USD",
       item,
+      approver,
     );
     const checkpoint = {
       id,
@@ -142,7 +143,9 @@ export async function POST(request: NextRequest) {
             ? "checkpoint_already_decided"
             : verdict === "DB_DOWN"
               ? "approval_store_unreachable"
-              : "invalid_approval_token",
+              : verdict === "WRONG_HUMAN"
+                ? "checkpoint_issued_to_another_human"
+                : "invalid_approval_token",
         detail: verdict,
         hint: "tokens are bound to one checkpoint and expire after 5 minutes",
       },

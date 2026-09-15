@@ -85,12 +85,14 @@ export async function POST(request: NextRequest) {
   };
 
   const t0 = Date.now();
+  const issuer = approver;
   if (!approvedToken) {
     const { id, token, expires_in_seconds } = await issueCheckpoint(
       "create_order",
       amountVnd,
       "VND",
       item,
+      issuer,
     );
     const checkpoint = {
       id,
@@ -143,7 +145,9 @@ export async function POST(request: NextRequest) {
                 ? "unknown_checkpoint"
                 : verdict === "DB_DOWN"
                   ? "approval_store_unreachable"
-                  : "invalid_approval_token",
+                  : verdict === "WRONG_HUMAN"
+                    ? "checkpoint_issued_to_another_human"
+                    : "invalid_approval_token",
         detail: verdict,
         hint: "tokens are bound to one checkpoint and expire after 5 minutes",
       },

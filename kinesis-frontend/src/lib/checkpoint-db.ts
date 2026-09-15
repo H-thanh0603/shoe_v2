@@ -29,24 +29,31 @@ export interface DbCheckpoint {
 
 const rid = () => `CHK-${Date.now().toString(36).toUpperCase()}${Math.floor(Math.random() * 36).toString(36).toUpperCase()}`;
 
+/* issuedBy binds the checkpoint to the human who will approve it (session
+   user id/email when present, else 'anonymous'). The approve leg requires
+   the same identity, so a checkpoint issued in one browser cannot be
+   consumed from another — anonymous checkpoints accept any logged-in human. */
 export async function issueCheckpoint(
   action: string,
   amount: number,
   currency: string,
   item: unknown,
+  issuedBy?: string,
 ): Promise<{ id: string; token: string; expires_in_seconds: number }> {
   const id = rid();
   const token = issueStateless(action, id, amount);
   const inDb = await withDb(async (c) => {
     await c.query(
-      `INSERT INTO agent_checkpoints (id, action, amount, currency, item, status, expires_at)
-       VALUES ($1, $2, $3, $4, $5::jsonb, 'pending', now() + make_interval(secs => $6))`,
-      [id, action, amount, currency, JSON.stringify(item ?? null), CHECKPOINT_TTL_S],
+      `INSERT INTO agent_checkpoints (id, action, amount, currency, item, status, expires_at, actor)
+       VALUES ($1, $2, $3, $4, $5::jsonb, 'pending', now() + make_interval(secs => $6), $7)`,
+      [id, action, amount, currency, JSON.stringify(item ?? null), CHECKPOINT_TTL_S, issuedBy ?? "anonymous"],
     );
   });
   void inDb; /* stateless token works standalone; DB is the record of truth */
   return { id, token, expires_in_seconds: CHECKPOINT_TTL_S };
 }
+
+export type CheckpointVerdict = "OK" | "FORGED" | "EXPIRED" | "UNKNOWN" | "ALREADY" | "DB_DOWN" | "WRONG_HUMAN";
 
 export async function approveCheckpoint(
   action: string,
@@ -54,26 +61,32 @@ export async function approveCheckpoint(
   amount: number,
   token: string,
   decidedBy?: string,
-): Promise<"OK" | "FORGED" | "EXPIRED" | "UNKNOWN" | "ALREADY" | "DB_DOWN"> {
+): Promise<CheckpointVerdict> {
   if (!verifyStateless(token, action, id, amount)) return "FORGED";
   const verdict = await withDb(async (c) => {
     await sweepExpiredTx(c);
     /* Atomic consume: exactly one concurrent approver wins. Plain
-       SELECT-then-UPDATE would let two requests both execute the order. */
+       SELECT-then-UPDATE would let two requests both execute the order.
+       Identity: a checkpoint issued by a named human only that human
+       consumes; 'anonymous' checkpoints accept any logged-in human. */
     const won = await c.query(
       `UPDATE agent_checkpoints
           SET status='approved', decided_at=now(), decided_by=$2
-        WHERE id=$1 AND status='pending' AND expires_at >= now()`,
+        WHERE id=$1 AND status='pending' AND expires_at >= now()
+          AND (actor = 'anonymous' OR $2 IS NULL OR actor = $2)`,
       [id, decidedBy ?? null],
     );
     if ((won.rowCount ?? 0) > 0) return "OK" as const;
     const cur = await c.query(
-      `SELECT status, expires_at FROM agent_checkpoints WHERE id = $1`,
+      `SELECT status, expires_at, actor FROM agent_checkpoints WHERE id = $1`,
       [id],
     );
     if (cur.rowCount === 0) return "UNKNOWN" as const;
-    const row = cur.rows[0] as { status: string; expires_at: string };
+    const row = cur.rows[0] as { status: string; expires_at: string; actor: string };
     if (row.status === "approved") return "ALREADY" as const;
+    if (row.status === "pending" && row.actor !== "anonymous" && decidedBy && row.actor !== decidedBy) {
+      return "WRONG_HUMAN" as const;
+    }
     if (row.status !== "pending" || new Date(row.expires_at).getTime() < Date.now()) {
       await c.query(
         `UPDATE agent_checkpoints SET status='expired' WHERE id=$1 AND status='pending'`,
