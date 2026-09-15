@@ -1,4 +1,5 @@
 import type { NextRequest } from "next/server";
+import { auth } from "@/lib/auth";
 import { PRODUCTS } from "@/lib/data";
 import { guardConsequential, readJsonBody } from "../_shared";
 import { recordAudit } from "@/lib/audit-db";
@@ -21,6 +22,22 @@ export async function POST(request: NextRequest) {
 
   const refused = guardConsequential(request);
   if (refused) return refused;
+
+  /* The approval token alone proves nothing about WHO approved: the 402
+     body hands it to the caller itself. Require the human's own login
+     session on the execute leg, and record it on the checkpoint. */
+  const session = await auth();
+  const approver = session?.user?.id || session?.user?.email || undefined;
+  const approvedToken = request.headers.get("x-human-approval");
+  if (approvedToken && !approver) {
+    return Response.json(
+      {
+        error: "human_login_required",
+        hint: "sign in (Google) in this browser, then resend with the approval token",
+      },
+      { status: 401 },
+    );
+  }
 
   const slug = typeof b.slug === "string" ? b.slug : "";
   const size = typeof b.size === "string" ? b.size : "";
@@ -51,7 +68,6 @@ export async function POST(request: NextRequest) {
   };
 
   const t0 = Date.now();
-  const approvedToken = request.headers.get("x-human-approval");
   if (!approvedToken) {
     const { id, token, expires_in_seconds } = await issueCheckpoint(
       "create_order",
@@ -95,9 +111,10 @@ export async function POST(request: NextRequest) {
       { status: 400 },
     );
   }
-  const verdict = await approveCheckpoint("create_order", checkpoint_id, amountVnd, approvedToken);
+  const verdict = await approveCheckpoint("create_order", checkpoint_id, amountVnd, approvedToken, approver);
   if (verdict !== "OK") {
-    await recordAudit("createOrder", "POST", 403, Date.now() - t0);
+    const status = verdict === "DB_DOWN" ? 503 : 403;
+    await recordAudit("createOrder", "POST", status, Date.now() - t0);
     return Response.json(
       {
         error:
@@ -107,11 +124,13 @@ export async function POST(request: NextRequest) {
               ? "checkpoint_expired"
               : verdict === "UNKNOWN"
                 ? "unknown_checkpoint"
-                : "invalid_approval_token",
+                : verdict === "DB_DOWN"
+                  ? "approval_store_unreachable"
+                  : "invalid_approval_token",
         detail: verdict,
         hint: "tokens are bound to one checkpoint and expire after 5 minutes",
       },
-      { status: 403 },
+      { status },
     );
   }
 

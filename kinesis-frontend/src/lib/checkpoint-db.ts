@@ -53,37 +53,47 @@ export async function approveCheckpoint(
   id: string,
   amount: number,
   token: string,
-): Promise<"OK" | "FORGED" | "EXPIRED" | "UNKNOWN" | "ALREADY"> {
+  decidedBy?: string,
+): Promise<"OK" | "FORGED" | "EXPIRED" | "UNKNOWN" | "ALREADY" | "DB_DOWN"> {
   if (!verifyStateless(token, action, id, amount)) return "FORGED";
-  return (
-    (await withDb(async (c) => {
-      await sweepExpiredTx(c);
-      const cur = await c.query(
-        `SELECT status, expires_at FROM agent_checkpoints WHERE id = $1`,
-        [id],
-      );
-      if (cur.rowCount === 0) return "UNKNOWN" as const;
-      const row = cur.rows[0] as { status: string; expires_at: string };
-      if (new Date(row.expires_at).getTime() < Date.now()) {
-        await c.query(`UPDATE agent_checkpoints SET status='expired' WHERE id=$1`, [id]);
-        return "EXPIRED" as const;
-      }
-      if (row.status !== "pending") return "ALREADY" as const;
+  const verdict = await withDb(async (c) => {
+    await sweepExpiredTx(c);
+    /* Atomic consume: exactly one concurrent approver wins. Plain
+       SELECT-then-UPDATE would let two requests both execute the order. */
+    const won = await c.query(
+      `UPDATE agent_checkpoints
+          SET status='approved', decided_at=now(), decided_by=$2
+        WHERE id=$1 AND status='pending' AND expires_at >= now()`,
+      [id, decidedBy ?? null],
+    );
+    if ((won.rowCount ?? 0) > 0) return "OK" as const;
+    const cur = await c.query(
+      `SELECT status, expires_at FROM agent_checkpoints WHERE id = $1`,
+      [id],
+    );
+    if (cur.rowCount === 0) return "UNKNOWN" as const;
+    const row = cur.rows[0] as { status: string; expires_at: string };
+    if (row.status === "approved") return "ALREADY" as const;
+    if (row.status !== "pending" || new Date(row.expires_at).getTime() < Date.now()) {
       await c.query(
-        `UPDATE agent_checkpoints SET status='approved', decided_at=now() WHERE id=$1`,
+        `UPDATE agent_checkpoints SET status='expired' WHERE id=$1 AND status='pending'`,
         [id],
       );
-      return "OK" as const;
-    })) ?? "OK" /* no DB → trust the stateless HMAC verdict */
-  );
+      return "EXPIRED" as const;
+    }
+    return "ALREADY" as const;
+  });
+  /* Fail closed: with the DB unreachable we cannot consume the checkpoint
+     exactly once, so a consequential action must NOT execute. */
+  return verdict ?? "DB_DOWN";
 }
 
-export async function denyCheckpoint(id: string): Promise<void> {
+export async function denyCheckpoint(id: string, decidedBy?: string): Promise<void> {
   await withDb(async (c) => {
     await c.query(
-      `UPDATE agent_checkpoints SET status='denied', decided_at=now()
+      `UPDATE agent_checkpoints SET status='denied', decided_at=now(), decided_by=$2
        WHERE id=$1 AND status='pending'`,
-      [id],
+      [id, decidedBy ?? null],
     );
   });
 }

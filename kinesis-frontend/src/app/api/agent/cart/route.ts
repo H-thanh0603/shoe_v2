@@ -1,4 +1,5 @@
 import type { NextRequest } from "next/server";
+import { auth } from "@/lib/auth";
 import { PRODUCTS } from "@/lib/data";
 import { guardConsequential, readJsonBody } from "../_shared";
 import { recordAudit } from "@/lib/audit-db";
@@ -41,6 +42,19 @@ export async function POST(request: NextRequest) {
   const refused = guardConsequential(request);
   if (refused) return refused;
 
+  const session = await auth();
+  const approver = session?.user?.id || session?.user?.email || undefined;
+  const approvedToken = request.headers.get("x-human-approval");
+  if (approvedToken && !approver) {
+    return Response.json(
+      {
+        error: "human_login_required",
+        hint: "sign in (Google) in this browser, then resend with the approval token",
+      },
+      { status: 401 },
+    );
+  }
+
   const slug = typeof b.slug === "string" ? b.slug : "";
   const size = typeof b.size === "string" ? b.size : "";
   const color = typeof b.color === "string" ? b.color : "";
@@ -73,7 +87,6 @@ export async function POST(request: NextRequest) {
   };
 
   const t0 = Date.now();
-  const approvedToken = request.headers.get("x-human-approval");
   if (!approvedToken) {
     const { id, token, expires_in_seconds } = await issueCheckpoint(
       "add_to_cart",
@@ -118,16 +131,22 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const verdict = await approveCheckpoint("add_to_cart", checkpoint_id, amount, approvedToken);
+  const verdict = await approveCheckpoint("add_to_cart", checkpoint_id, amount, approvedToken, approver);
   if (verdict !== "OK") {
-    await recordAudit("addToCart", "POST", 403, Date.now() - t0);
+    const status = verdict === "DB_DOWN" ? 503 : 403;
+    await recordAudit("addToCart", "POST", status, Date.now() - t0);
     return Response.json(
       {
-        error: verdict === "ALREADY" ? "checkpoint_already_decided" : "invalid_approval_token",
+        error:
+          verdict === "ALREADY"
+            ? "checkpoint_already_decided"
+            : verdict === "DB_DOWN"
+              ? "approval_store_unreachable"
+              : "invalid_approval_token",
         detail: verdict,
         hint: "tokens are bound to one checkpoint and expire after 5 minutes",
       },
-      { status: 403 },
+      { status },
     );
   }
 

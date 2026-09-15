@@ -1,4 +1,5 @@
 import type { NextRequest } from "next/server";
+import { auth } from "@/lib/auth";
 import { checkpointStatus, denyCheckpoint } from "@/lib/checkpoint-db";
 import { recordAudit } from "@/lib/audit-db";
 
@@ -50,8 +51,17 @@ export async function POST(request: NextRequest) {
     );
   }
 
+  /* Both legs require the human's own login session: checkpoint ids are
+     guessable (CHK-<time><char>), so an unauthenticated deny/approve is
+     someone else's decision, not the human's. */
+  const session = await auth();
+  const decider = session?.user?.id || session?.user?.email || undefined;
+  if (!decider) {
+    return Response.json({ error: "human_login_required" }, { status: 401 });
+  }
+
   if (decision === "deny") {
-    await denyCheckpoint(id);
+    await denyCheckpoint(id, decider);
     await recordAudit("decideCheckpoint", "POST", 200, Date.now() - t0);
     return Response.json({ status: "denied", id });
   }
@@ -61,10 +71,11 @@ export async function POST(request: NextRequest) {
   const cp = await checkpointStatus(id);
   if (!cp) return Response.json({ error: "unknown_checkpoint" }, { status: 404 });
   const { approveCheckpoint } = await import("@/lib/checkpoint-db");
-  const verdict = await approveCheckpoint(cp.action, id, cp.amount, token);
-  await recordAudit("decideCheckpoint", "POST", verdict === "OK" ? 200 : 403, Date.now() - t0);
+  const verdict = await approveCheckpoint(cp.action, id, cp.amount, token, decider);
+  const status = verdict === "OK" ? 200 : verdict === "DB_DOWN" ? 503 : 403;
+  await recordAudit("decideCheckpoint", "POST", status, Date.now() - t0);
   if (verdict !== "OK") {
-    return Response.json({ error: "cannot_approve", detail: verdict }, { status: 403 });
+    return Response.json({ error: "cannot_approve", detail: verdict }, { status });
   }
   return Response.json({ status: "approved", id });
 }
