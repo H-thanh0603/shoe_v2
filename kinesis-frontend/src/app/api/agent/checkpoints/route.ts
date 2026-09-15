@@ -4,8 +4,8 @@ import { checkpointStatus, denyCheckpoint } from "@/lib/checkpoint-db";
 import { recordAudit } from "@/lib/audit-db";
 
 /* GET /api/agent/checkpoints — live checkpoint board (pending/approved/denied/expired).
-   ?id=<CHK>   → one checkpoint detail
-   ?sweep=1    → sweep expired now (demo convenience) */
+   ?id=<CHK> → one checkpoint detail.
+   Expiry sweep runs on the daily cron (/api/admin/sweep), not via query param. */
 export async function GET(request: NextRequest) {
   const url = new URL(request.url);
   const id = url.searchParams.get("id");
@@ -15,16 +15,13 @@ export async function GET(request: NextRequest) {
     return Response.json({ tool: "getCheckpoint", checkpoint: cp });
   }
   const t0 = Date.now();
-  const { listCheckpoints, sweepExpired } = await import("@/lib/checkpoint-db");
-  let swept = 0;
-  if (url.searchParams.get("sweep") === "1") swept = await sweepExpired();
+  const { listCheckpoints } = await import("@/lib/checkpoint-db");
   const checkpoints = await listCheckpoints(40);
   await recordAudit("getCheckpoints", "GET", 200, Date.now() - t0);
   return Response.json({
     tool: "getCheckpoints",
     source: "postgres",
     total: checkpoints.length,
-    swept_expired: swept,
     checkpoints,
   });
 }

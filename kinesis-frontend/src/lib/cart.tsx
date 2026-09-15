@@ -62,22 +62,10 @@ function write(items: CartItem[]) {
   }
 }
 
-const SEED: CartItem[] = [
-  {
-    slug: "k-09-stratos-chrono",
-    name: "K-09 STRATOS CHRONO",
-    sku: "KNS-K09-004-VOLT",
-    price: 680,
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuCKMHELlXfmNzxocRGSAjON35prEgJPZjsYlAfMKYCCfqwxd6aY4-uUNR1HA8yK7HcQUcK8kaNyQqCRIJCynxLP9tXsHuN4Yaezbo1jTrLvU9KMzBCQDmlBCgU-so9ekm3ZowgOXeNobEtioZunVf3Q-NhJQguHlMsPtPxCdJ421Z3X9JGV814NN-FbLpO6r3fmdp-RW4d4cKCq4WMTkwFv6InA7O7aUqJILUqSN8BCyiVHAG9xPMT9hQ=s1600",
-    size: "42",
-    color: "VOLT",
-    qty: 1,
-  },
-];
-
 export function CartProvider({ children }: { children: ReactNode }) {
-  const [items, setItems] = useState<CartItem[]>(() => read() ?? SEED);
+  /* Empty by default — seeding a product silently put an unchosen item in
+     every new visitor's checkout. */
+  const [items, setItems] = useState<CartItem[]>(() => read() ?? []);
 
   useEffect(() => {
     write(items);
