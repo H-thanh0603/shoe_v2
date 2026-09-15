@@ -53,3 +53,24 @@ export async function recentAuditDb(count = 60): Promise<AuditEntry[]> {
   if (rows !== null) return rows;
   return MEM.slice(-count).reverse();
 }
+
+/* Retention for the daily cron: agent_audit grows on every tool call.
+   Checkpoints keep 90 days too (decided ones; pending rows are swept live). */
+export const AUDIT_RETENTION_DAYS = 90;
+
+export async function pruneAudit(): Promise<{ audit: number; checkpoints: number }> {
+  const r = await withDb(async (c) => {
+    const a = await c.query(
+      `DELETE FROM agent_audit WHERE ts < now() - make_interval(days => $1)`,
+      [AUDIT_RETENTION_DAYS],
+    );
+    const k = await c.query(
+      `DELETE FROM agent_checkpoints
+        WHERE status <> 'pending'
+          AND created_at < now() - make_interval(days => $1)`,
+      [AUDIT_RETENTION_DAYS],
+    );
+    return { audit: a.rowCount ?? 0, checkpoints: k.rowCount ?? 0 };
+  });
+  return r ?? { audit: 0, checkpoints: 0 };
+}

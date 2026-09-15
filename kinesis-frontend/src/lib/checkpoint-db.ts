@@ -145,7 +145,7 @@ export async function persistOrder(o: {
   qty: number;
   amount: number;
   currency: string;
-  passport_hash: string;
+  passport_hash: string | null;
 }): Promise<void> {
   await withDb(async (c) => {
     await c.query(

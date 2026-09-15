@@ -1,9 +1,10 @@
 import type { NextRequest } from "next/server";
 import { auth } from "@/lib/auth";
+import { withDbStrict } from "@/lib/db";
 import { PRODUCTS } from "@/lib/data";
 import { guardConsequential, readJsonBody } from "../_shared";
 import { recordAudit } from "@/lib/audit-db";
-import { issueCheckpoint, approveCheckpoint } from "@/lib/checkpoint-db";
+import { issueCheckpoint, approveCheckpoint, persistOrder } from "@/lib/checkpoint-db";
 import { createOrder } from "@/lib/shop-orders";
 import { notifyOrder } from "@/lib/email";
 
@@ -13,8 +14,6 @@ import { notifyOrder } from "@/lib/email";
    exact checkpoint an agent must surface to its human operator.
    The minted order goes through the REAL commerce stack
    (@/lib/shop-orders: transaction, stock decrement, orders table). */
-
-import { USD_TO_VND } from "@/lib/data";
 
 export async function POST(request: NextRequest) {
   const b = await readJsonBody(request);
@@ -57,12 +56,30 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const amountVnd = product.price * USD_TO_VND * qty;
+  /* Price from Postgres, not the static file — admin edits must apply. */
+  let dbPrice: { price_vnd: number; name: string; sku: string } | null = null;
+  try {
+    dbPrice = await withDbStrict(async (c) => {
+      const r = await c.query<{ price_vnd: number; name: string; sku: string }>(
+        `SELECT price_vnd, name, sku FROM products WHERE slug=$1`, [slug],
+      );
+      return r.rows[0] ?? null;
+    });
+  } catch {
+    return Response.json({ error: "catalog_unreachable" }, { status: 503 });
+  }
+  if (!dbPrice) {
+    return Response.json(
+      { error: "unknown_product", known_slugs: PRODUCTS.map((p) => p.slug) },
+      { status: 404 },
+    );
+  }
+  const amountVnd = dbPrice.price_vnd * qty;
   const item = {
     slug: product.slug,
-    name: product.name,
-    sku: product.sku,
-    price_vnd: product.price * USD_TO_VND,
+    name: dbPrice.name,
+    sku: dbPrice.sku,
+    price_vnd: dbPrice.price_vnd,
     qty,
     size,
   };
@@ -146,8 +163,21 @@ export async function POST(request: NextRequest) {
       payment: "cod",
       items: [{ slug: product.slug, size, color, qty }],
     });
-    await notifyOrder(order.id, "cod_created");
-    await recordAudit("createOrder", "POST", 201, Date.now() - t0);
+    await persistOrder({
+      order_id: order.id,
+      checkpoint_id,
+      tx_ref: `agent-${checkpoint_id}`,
+      slug: product.slug,
+      sku: dbPrice.sku,
+      name: dbPrice.name,
+      size,
+      qty,
+      amount: order.amountVnd,
+      currency: "VND",
+      passport_hash: null,
+    });
+    void notifyOrder(order.id, "cod_created");
+    await recordAudit("createOrder", "POST", 201, Date.now() - t0, approver ?? "anonymous");
     return Response.json(
       {
         status: "MINTED",
@@ -155,7 +185,8 @@ export async function POST(request: NextRequest) {
         amount_vnd: order.amountVnd,
         currency: "VND",
         approved_at: new Date().toISOString(),
-        item: { slug: product.slug, name: product.name, sku: product.sku, size, qty },
+        approved_by: approver,
+        item: { slug: product.slug, name: dbPrice.name, sku: dbPrice.sku, size, qty },
         note: "Real order persisted (COD). Payment delegated to the human (browser checkout).",
         human_readable: "/checkout/result?order=" + order.id + "&status=cod",
       },
