@@ -22,6 +22,11 @@ export default function CheckoutClient() {
   const [state, setState] = useState<"idle" | "securing" | "done">("idle");
   const [dispatchId, setDispatchId] = useState("");
   const [error, setError] = useState("");
+  /* Stable for the whole checkout session: double-click and network retry
+     hit the same idempotency key, so only one order is ever created. */
+  const [idemKey] = useState(
+    () => `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`,
+  );
   const nameRef = useRef<HTMLInputElement>(null);
   const phoneRef = useRef<HTMLInputElement>(null);
   const addrRef = useRef<HTMLInputElement>(null);
@@ -245,7 +250,21 @@ export default function CheckoutClient() {
                 className="h-11 min-w-0 flex-1 border border-surface-container-highest bg-surface px-space-sm font-label-technical text-label-technical uppercase tracking-wider text-primary placeholder:text-secondary/40 focus:border-primary-container focus:outline-none"
               />
               <button
-                onClick={() => setPromoOk(promo.trim().toUpperCase() === "SYNDICATE")}
+                onClick={async () => {
+                  const code = promo.trim().toUpperCase();
+                  if (!code || !items.length) {
+                    setPromoOk(code ? false : null);
+                    return;
+                  }
+                  /* Server is the source of truth for promos; verify before display. */
+                  try {
+                    const res = await fetch("/api/promo?code=" + encodeURIComponent(code));
+                    const data = (await res.json()) as { ok?: boolean; rate?: number };
+                    setPromoOk(res.ok && data.ok ? true : false);
+                  } catch {
+                    setPromoOk(false);
+                  }
+                }}
                 className="h-11 shrink-0 border border-surface-container-highest px-space-md font-label-technical text-label-technical uppercase tracking-wider text-primary transition-colors hover:border-primary-container hover:text-primary-container"
               >
                 ÁP DỤNG
@@ -313,7 +332,10 @@ export default function CheckoutClient() {
                 try {
                   const res = await fetch("/api/orders", {
                     method: "POST",
-                    headers: { "Content-Type": "application/json" },
+                    headers: {
+                      "Content-Type": "application/json",
+                      "Idempotency-Key": idemKey,
+                    },
                     body: JSON.stringify({
                       email,
                       name,
@@ -322,6 +344,7 @@ export default function CheckoutClient() {
                       province: provinceRef.current?.value.trim() ?? "",
                       note: "",
                       payment: pay,
+                      promo: promoOk ? promo.trim() : "",
                       items: items.map((it) => ({
                         slug: it.slug,
                         size: it.size,
@@ -341,6 +364,8 @@ export default function CheckoutClient() {
                       empty_cart: "Giỏ hàng trống",
                       invalid_qty: "Số lượng không hợp lệ",
                       invalid_customer_info: "Thông tin giao hàng thiếu hoặc sai",
+                      invalid_promo: "Mã ưu đãi không hợp lệ",
+                      rate_limited: "Bạn đặt quá nhanh — thử lại sau vài phút",
                       insufficient_stock: "Hết hàng / không đủ số lượng",
                       sold_out: "Sản phẩm đã bán hết",
                       db_unreachable: "Lỗi hệ thống — thử lại sau",

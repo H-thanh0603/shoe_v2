@@ -74,13 +74,16 @@ export function isSameOrigin(request: NextRequest): boolean {
   }
 }
 
-/* ---------- Rate limiting (in-memory sliding window) ---------- */
-const WINDOW_MS = 60_000;
+/* ---------- Rate limiting (in-memory sliding window) ----------
+   Per-process only: on serverless each instance has its own buckets, so
+   this is abuse friction, not a hard cap. Tighten with a shared store
+   (Upstash/KV) when order spam becomes real. */
+const DEFAULT_WINDOW_MS = 60_000;
 const buckets = new Map<string, number[]>();
 
-export function rateLimit(key: string, limit = 12): boolean {
+export function rateLimit(key: string, limit = 12, windowMs = DEFAULT_WINDOW_MS): boolean {
   const now = Date.now();
-  const arr = (buckets.get(key) ?? []).filter((t) => now - t < WINDOW_MS);
+  const arr = (buckets.get(key) ?? []).filter((t) => now - t < windowMs);
   if (arr.length >= limit) {
     buckets.set(key, arr);
     return false;

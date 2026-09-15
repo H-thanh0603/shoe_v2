@@ -21,7 +21,22 @@ export interface CreateOrderInput {
   province: string;
   note: string;
   payment: "vnpay" | "cod";
+  promo?: string;
+  idempotencyKey?: string;
   items: OrderItemInput[];
+}
+
+/* Field length caps — unbounded strings go straight into Postgres. */
+const LEN = { email: 254, name: 120, phone: 32, address: 500, province: 120, note: 500, promo: 32 };
+
+/* Server-side promos. The UI used to discount client-side only while the
+   server charged full price; now the discount is computed here. */
+const PROMOS: Record<string, number> = {
+  SYNDICATE: 0.1,
+};
+
+export function promoRate(code: string): number {
+  return PROMOS[code.trim().toUpperCase()] ?? 0;
 }
 
 export interface OrderRow {
@@ -101,32 +116,54 @@ async function restockOrder(client: PoolClient, orderId: string): Promise<boolea
   return true;
 }
 
-export async function createOrder(userId: string | null, input: CreateOrderInput): Promise<{ id: string; amountVnd: number }> {
+export async function createOrder(userId: string | null, input: CreateOrderInput): Promise<{ id: string; amountVnd: number; deduped?: boolean }> {
   if (!input.items?.length) throw new Error("empty_cart");
+  if (input.items.length > 20) throw new Error("invalid_qty");
+  const key = input.idempotencyKey?.trim() ?? "";
+  if (key && (key.length > 64 || !/^[A-Za-z0-9_-]+$/.test(key))) throw new Error("invalid_customer_info");
   for (const it of input.items) {
     if (!Number.isInteger(it.qty) || it.qty < 1 || it.qty > 10) throw new Error("invalid_qty");
+    if (typeof it.size !== "string" || it.size.length > 8 || typeof it.color !== "string" || it.color.length > 32) {
+      throw new Error("invalid_qty");
+    }
     if (input.payment !== "vnpay" && input.payment !== "cod") throw new Error("invalid_payment");
   }
   const emailOk = /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(input.email);
-  if (!emailOk || !input.name.trim() || !input.phone.trim() || !input.address.trim()) {
+  if (
+    !emailOk || input.email.length > LEN.email ||
+    !input.name.trim() || input.name.length > LEN.name ||
+    !input.phone.trim() || input.phone.length > LEN.phone ||
+    !input.address.trim() || input.address.length > LEN.address ||
+    input.province.length > LEN.province || input.note.length > LEN.note
+  ) {
     throw new Error("invalid_customer_info");
   }
+  const promo = (input.promo ?? "").trim().toUpperCase().slice(0, LEN.promo);
+  if (promo && !(promo in PROMOS)) throw new Error("invalid_promo");
 
   const pool = getPool();
   if (!pool) throw new Error("db_unreachable");
-  // Fire-and-forget: free stock from abandoned pending VNPay orders.
-  void sweepStalePending().catch(() => {});
   const client = await pool.connect();
   try {
-    return await createOrderTx(client, userId, input);
+    return await createOrderTx(client, userId, { ...input, promo }, key || undefined);
   } finally {
     client.release();
   }
 }
 
-async function createOrderTx(client: PoolClient, userId: string | null, input: CreateOrderInput): Promise<{ id: string; amountVnd: number }> {
+async function createOrderTx(client: PoolClient, userId: string | null, input: CreateOrderInput, key?: string): Promise<{ id: string; amountVnd: number; deduped?: boolean }> {
   await client.query("BEGIN");
   try {
+    // Idempotent retry: same key → return the first order, reserve nothing.
+    if (key) {
+      const dup = await client.query<{ id: string; amount_vnd: number }>(
+        `SELECT id, amount_vnd FROM orders WHERE idempotency_key=$1`, [key],
+      );
+      if (dup.rows.length > 0) {
+        await client.query("ROLLBACK");
+        return { id: dup.rows[0].id, amountVnd: dup.rows[0].amount_vnd, deduped: true };
+      }
+    }
     const products = await loadProducts(client, input.items.map((i) => i.slug));
     const id = orderId();
     let total = 0;
@@ -148,10 +185,13 @@ async function createOrderTx(client: PoolClient, userId: string | null, input: C
       lines.push({ slug: it.slug, sku: p.sku, name: p.name, size: it.size, color: it.color, qty: it.qty, price_vnd: p.price_vnd });
     }
 
+    const rate = promoRate(input.promo ?? "");
+    const discount = Math.round(total * rate);
+    const charged = total - discount;
     await client.query(
-      `INSERT INTO orders (id, user_id, email, name, phone, address, province, note, amount_vnd, status, payment)
-       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,'pending',$10)`,
-      [id, userId, input.email, input.name, input.phone, input.address, input.province, input.note, total, input.payment],
+      `INSERT INTO orders (id, user_id, email, name, phone, address, province, note, amount_vnd, status, payment, promo_code, discount_vnd, idempotency_key)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,'pending',$10,$11,$12,$13)`,
+      [id, userId, input.email, input.name, input.phone, input.address, input.province, input.note, charged, input.payment, input.promo || null, discount, key ?? null],
     );
     for (const l of lines) {
       await client.query(
@@ -160,7 +200,7 @@ async function createOrderTx(client: PoolClient, userId: string | null, input: C
       );
     }
     await client.query("COMMIT");
-    return { id, amountVnd: total };
+    return { id, amountVnd: charged };
   } catch (err) {
     await client.query("ROLLBACK");
     throw err;
