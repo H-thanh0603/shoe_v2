@@ -3,11 +3,12 @@
 ## 1. Database (Neon — free tier đủ cho start)
 
 1. Tạo project tại https://neon.tech → copy `DATABASE_URL` (branch `main`).
-2. Chạy migrations theo thứ tự:
+   Bật **pooled connection** (PgBouncer) nếu traffic tăng — pool app chỉ 5 conn/instance.
+2. Chạy migrations theo thứ tự (mới chỉ chạy file chưa chạy):
    ```bash
-   psql "$DATABASE_URL" -f kinesis-frontend/db/migrations/001_agent.sql
-   psql "$DATABASE_URL" -f kinesis-frontend/db/migrations/002_commerce.sql
-   psql "$DATABASE_URL" -f kinesis-frontend/db/migrations/003_seed.sql
+   for f in 001_agent 002_commerce 003_seed 004_checkpoint_hardening 005_orders_idempotency_promo; do
+     psql "$DATABASE_URL" -f kinesis-frontend/db/migrations/$f.sql
+   done
    DATABASE_URL="$DATABASE_URL" node kinesis-frontend/db/seed-images.mjs
    ```
    Neon hỗ trợ psql qua SSO connector, hoặc chạy local với connection string.
@@ -43,8 +44,17 @@ vercel env add ADMIN_EMAILS          # email của bạn (admin panel)
 vercel env add VNPAY_TMN_CODE
 vercel env add VNPAY_HASH_SECRET
 vercel env add VNPAY_RETURN_URL      # https://<domain>/api/payment/vnpay/return
+vercel env add KINESIS_CHECKPOINT_SECRET  # openssl rand -hex 32 (BẮT BUỘC prod)
+vercel env add CRON_SECRET               # openssl rand -hex 32 (cho cron sweep)
+vercel env add RESEND_API_KEY
+vercel env add ORDER_FROM_EMAIL
 vercel --prod
 ```
+
+Lưu ý cron: Vercel Cron gọi `GET /api/admin/sweep` với
+`Authorization: Bearer $CRON_SECRET` (tự động). Kiểm tra sau deploy:
+`GET https://<domain>/api/health` → `{"ok":true,"db":"up"}`.
+Nếu VNPay sandbox đổi secret → verify fail toàn bộ, check IPN log ngay.
 
 Sau deploy: cập nhật Google OAuth redirect URI + VNPay return URL với domain thật.
 
@@ -53,10 +63,21 @@ Sau deploy: cập nhật Google OAuth redirect URI + VNPay return URL với doma
 Truy cập `/admin` — chỉ email trong `ADMIN_EMAILS` (đã login Google) xem được.
 Chức năng: danh sách đơn, chuyển trạng thái (pending → confirmed → shipped → delivered, hủy hoàn stock).
 
-## 6. Chưa có — thêm khi cần
+## 6. Vận hành sau deploy
 
-- Email xác nhận đơn (Resend) — stub env sẵn, chưa wire.
+- Cron sweep chạy daily 03:00 (`vercel.json`) — hết đơn pending quá 24h tự hoàn kho.
+  Nếu cron không chạy: check `CRON_SECRET` + Vercel Cron logs.
+- Health: `GET /api/health` cho uptime monitor (UptimeRobot/BetterStack).
+- Email xác nhận đơn (Resend) đã wire: COD + VNPay paid. Không có key → bỏ qua im lặng.
+- DB backup: Neon PITR (check plan). Audit log giữ 90 ngày (cron tự prune).
+- 2h sáng sập: xem Vercel function logs → `/api/health` → Neon dashboard
+  (connections/locks) → VNPay merchant portal đối soát `payment_ref`.
+
+## 7. Chưa có — thêm khi cần
+
 - User management / roles ngoài ADMIN_EMAILS.
 - Refund/VNPay queryDR (truy vấn giao dịch).
 - Đơn vị vận chuyển (GHTK/Shippo) — hiện nhập tay.
-- Tests tự động — e2e đã verify tay qua API (xem git log).
+- Rate limit cứng dùng KV (hiện in-memory, per-instance).
+- CI chạy trên mọi push (`/.github/workflows/ci.yml`): tsc + lint + test
+  (Postgres service) + build.

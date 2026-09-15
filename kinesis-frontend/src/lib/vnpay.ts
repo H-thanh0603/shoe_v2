@@ -47,7 +47,8 @@ export function vnpaySign(params: Record<string, string>, hashSecret: string): {
 export function vnpayVerify(params: Record<string, string>): boolean {
   const cfg = vnpayConfig();
   if (!cfg) return false;
-  const { vnp_SecureHash, vnp_SecureHashType: _ignored, ...rest } = params;
+  const { vnp_SecureHash, ...rest } = params;
+  delete rest.vnp_SecureHashType;
   if (!vnp_SecureHash) return false;
   const { secureHash } = vnpaySign(rest, cfg.hashSecret);
   if (secureHash.length !== vnp_SecureHash.length) return false;

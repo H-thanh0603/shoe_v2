@@ -1,5 +1,13 @@
 import { withDb } from "./db";
-import type { AuditEntry } from "./audit";
+
+export interface AuditEntry {
+  id: number;
+  ts: string;
+  tool: string;
+  method: string;
+  status: number | string;
+  ms: number;
+}
 
 /* ============================================================
    AUDIT — Postgres-backed trail with in-memory fallback.

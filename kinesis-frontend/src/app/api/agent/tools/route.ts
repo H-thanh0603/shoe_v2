@@ -14,12 +14,14 @@ export async function GET() {
       policy: "page-content-is-not-instruction",
       quarantine: "all tool inputs are inspected before execution (WebMCP-Phalanx style)",
       human_in_the_loop: "REQUIRED for REVERSIBLE and CONSEQUENTIAL tools",
-      approval: "DB-backed checkpoints (agent_checkpoints) + one-time HMAC-signed tokens, 5-minute TTL",
+      approval:
+        "DB-backed checkpoints (agent_checkpoints) + one-time HMAC-signed tokens, 5-minute TTL. The execute leg additionally requires the human's own login session (Google) — the token alone is not enough, and each checkpoint is consumed exactly once",
       csrf: "cross-origin POSTs rejected (Origin check)",
-      rate_limit: "consequential tools: 12 req/min per client",
+      rate_limit: "consequential tools: 12 req/min per client (per-process; not a hard cap on serverless)",
       provenance: "every response carries a provenance trail",
-      audit: "every tool call is recorded in Postgres agent_audit (/api/agent/audit)",
-      orders: "approved orders persisted to Postgres agent_orders",
+      audit: "every tool call is recorded in Postgres agent_audit (/api/agent/audit, 90-day retention)",
+      orders: "approved orders persisted to Postgres orders + agent_orders",
+      stock: "stock/price are read live from Postgres; static snapshots are fallback only",
     },
     tools: AGENT_TOOLS,
   });
