@@ -92,4 +92,20 @@ describe.skipIf(!HAS_DB)("shop-orders (DB)", () => {
     expect(await orderStatus(order.id)).toBe("failed");
     expect(await stockOf()).toBe(reserved + 1);
   });
+
+  it("applies SYNDICATE promo server-side and rejects unknown codes", async () => {
+    const withPromo = await createOrder(null, { ...input("cod", 1), promo: "syndicate" });
+    expect(withPromo.amountVnd).toBe(4_500_000); // 5M - 10%
+    await expect(createOrder(null, { ...input("cod", 1), promo: "FAKE" })).rejects.toThrow(/invalid_promo/);
+  });
+
+  it("same idempotency key returns the first order without reserving twice", async () => {
+    const before = await stockOf();
+    const key = `CITEST-${Date.now().toString(36)}`;
+    const first = await createOrder(null, { ...input("cod", 1), idempotencyKey: key });
+    const second = await createOrder(null, { ...input("cod", 1), idempotencyKey: key });
+    expect(second.id).toBe(first.id);
+    expect(second.deduped).toBe(true);
+    expect(await stockOf()).toBe(before - 1);
+  });
 });
