@@ -1,7 +1,8 @@
 import type { NextRequest } from "next/server";
 import { auth } from "@/lib/auth";
 import { isDbError } from "@/lib/db";
-import { clientKey, rateLimit } from "@/lib/checkpoint";
+import { clientKey } from "@/lib/checkpoint";
+import { rateLimitDb } from "@/lib/rate-limit-db";
 import { createOrder, type CreateOrderInput } from "@/lib/shop-orders";
 import { notifyOrder } from "@/lib/email";
 import { buildPaymentUrl, vnpayConfig } from "@/lib/vnpay";
@@ -16,12 +17,8 @@ const ORDER_WINDOW_MS = 10 * 60 * 1000;
 export async function POST(request: NextRequest) {
   const session = await auth();
   const userId = session?.user?.id ?? null;
-  const key = clientKey(request);
-  if (userId) {
-    if (!rateLimit(`order:user:${userId}`, ORDER_RATE_LIMIT, ORDER_WINDOW_MS)) {
-      return Response.json({ error: "rate_limited" }, { status: 429 });
-    }
-  } else if (!rateLimit(`order:ip:${key}`, ORDER_RATE_LIMIT, ORDER_WINDOW_MS)) {
+  const key = userId ? `order:user:${userId}` : `order:ip:${clientKey(request)}`;
+  if (!(await rateLimitDb(key, ORDER_RATE_LIMIT, ORDER_WINDOW_MS))) {
     return Response.json({ error: "rate_limited" }, { status: 429 });
   }
   let body: Partial<CreateOrderInput>;

@@ -47,7 +47,7 @@ jobs:
 
       - name: Migrate test DB
         run: |
-          for f in db/migrations/001_agent.sql db/migrations/002_commerce.sql db/migrations/004_checkpoint_hardening.sql db/migrations/005_orders_idempotency_promo.sql; do
+          for f in db/migrations/001_agent.sql db/migrations/002_commerce.sql db/migrations/004_checkpoint_hardening.sql db/migrations/005_orders_idempotency_promo.sql db/migrations/006_rate_limit.sql; do
             psql "$DATABASE_URL" -f "$f"
           done
 

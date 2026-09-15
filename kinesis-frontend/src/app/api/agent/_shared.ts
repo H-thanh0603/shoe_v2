@@ -1,14 +1,16 @@
 import type { NextRequest } from "next/server";
-import { isSameOrigin, rateLimit, clientKey } from "@/lib/checkpoint";
+import { isSameOrigin, clientKey } from "@/lib/checkpoint";
+import { rateLimitDb } from "@/lib/rate-limit-db";
 import { recordAudit } from "@/lib/audit-db";
 
 /* Shared guard for consequential agent tools.
-   Returns a 403/429 Response when the request must be refused, else null. */
-export function guardConsequential(request: NextRequest): Response | null {
+   Returns a 403/429 Response when the request must be refused, else null.
+   Shared (Postgres) limiter so the cap holds across serverless instances. */
+export async function guardConsequential(request: NextRequest): Promise<Response | null> {
   if (!isSameOrigin(request)) {
     return Response.json({ error: "cross_origin_forbidden" }, { status: 403 });
   }
-  if (!rateLimit(clientKey(request))) {
+  if (!(await rateLimitDb(`agent:${clientKey(request)}`, 12, 60_000))) {
     return Response.json(
       {
         error: "rate_limited",

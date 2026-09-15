@@ -19,12 +19,17 @@ async function handleSweep(request: Request) {
   if (!(await isAuthorized(request))) {
     return Response.json({ error: "forbidden" }, { status: 403 });
   }
-  const [{ sweepStalePending }, { pruneAudit }] = await Promise.all([
+  const [{ sweepStalePending }, { pruneAudit }, { pruneRateHits }] = await Promise.all([
     import("@/lib/shop-orders"),
     import("@/lib/audit-db"),
+    import("@/lib/rate-limit-db"),
   ]);
-  const [expired, pruned] = await Promise.all([sweepStalePending(), pruneAudit()]);
-  return Response.json({ ok: true, expired, pruned });
+  const [expired, pruned, rateHits] = await Promise.all([
+    sweepStalePending(),
+    pruneAudit(),
+    pruneRateHits(),
+  ]);
+  return Response.json({ ok: true, expired, pruned, rateHits });
 }
 
 export async function GET(request: Request) {

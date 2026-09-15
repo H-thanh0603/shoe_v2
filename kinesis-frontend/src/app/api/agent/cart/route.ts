@@ -39,7 +39,7 @@ export async function POST(request: NextRequest) {
   const b = await readJsonBody(request);
   if (!b) return Response.json({ error: "invalid_json" }, { status: 400 });
 
-  const refused = guardConsequential(request);
+  const refused = await guardConsequential(request);
   if (refused) return refused;
 
   const session = await auth();
