@@ -39,6 +39,18 @@ describe("vnpaySign / vnpayVerify", () => {
     expect(vnpayVerify({ vnp_TmnCode: "TESTCODE" })).toBe(false);
   });
 
+  it("ignores vnp_SecureHashType (sent by real VNPay v2 callbacks)", () => {
+    const params = { vnp_TmnCode: "TESTCODE", vnp_Amount: "1700000000", vnp_TxnRef: "KNS-ORD-1" };
+    const { secureHash } = vnpaySign(params, "test-secret-123");
+    expect(
+      vnpayVerify({ ...params, vnp_SecureHash: secureHash, vnp_SecureHashType: "SHA256" }),
+    ).toBe(true);
+  });
+
+  it("rejects truncated hash without throwing", () => {
+    expect(vnpayVerify({ vnp_TmnCode: "TESTCODE", vnp_SecureHash: "ab" })).toBe(false);
+  });
+
   it("returns null config when keys missing", () => {
     const tmn = process.env.VNPAY_TMN_CODE;
     delete process.env.VNPAY_TMN_CODE;

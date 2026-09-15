@@ -32,7 +32,9 @@ function escape(s: string): string {
   return encodeURIComponent(s).replace(/%20/g, "+");
 }
 
-/* Sort params, build query string without empty values, sign with HMAC SHA512. */
+/* Sort params (excluding signature fields), build query string without empty
+   values, sign with HMAC SHA512. Mirrors VNPay v2 spec: vnp_SecureHash and
+   vnp_SecureHashType are never part of the signed data. */
 export function vnpaySign(params: Record<string, string>, hashSecret: string): { query: string; secureHash: string } {
   const filtered = Object.entries(params)
     .filter(([, v]) => v !== "" && v !== undefined && v !== null)
@@ -45,9 +47,10 @@ export function vnpaySign(params: Record<string, string>, hashSecret: string): {
 export function vnpayVerify(params: Record<string, string>): boolean {
   const cfg = vnpayConfig();
   if (!cfg) return false;
-  const { vnp_SecureHash, ...rest } = params;
+  const { vnp_SecureHash, vnp_SecureHashType: _ignored, ...rest } = params;
   if (!vnp_SecureHash) return false;
   const { secureHash } = vnpaySign(rest, cfg.hashSecret);
+  if (secureHash.length !== vnp_SecureHash.length) return false;
   return crypto.timingSafeEqual(Buffer.from(secureHash), Buffer.from(vnp_SecureHash));
 }
 
