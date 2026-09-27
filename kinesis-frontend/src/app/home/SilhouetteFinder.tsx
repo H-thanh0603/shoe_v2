@@ -109,7 +109,6 @@ export default function SilhouetteFinder() {
               fill
               sizes="(max-width: 1024px) 100vw, 50vw"
               className="object-cover"
-              unoptimized
             />
             <span className="absolute top-space-md left-space-md bg-surface-container-lowest/90 px-space-sm py-space-2xs font-label-micro text-label-micro uppercase tracking-widest text-primary-container backdrop-blur">
               ĐỀ XUẤT CHO BẠN

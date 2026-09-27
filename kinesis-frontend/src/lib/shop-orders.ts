@@ -1,5 +1,6 @@
 import type { PoolClient } from "pg";
 import { getPool, withDb, withDbStrict } from "@/lib/db";
+import { shippingQuote } from "@/lib/shipping";
 
 /* ============================================================
    Shop orders — real DB persistence (orders + order_items).
@@ -48,6 +49,8 @@ export interface OrderRow {
   province: string;
   note: string;
   amount_vnd: number;
+  shipping_fee_vnd: number;
+  eta_days: string;
   status: string;
   payment: string;
   created_at: string;
@@ -188,10 +191,12 @@ async function createOrderTx(client: PoolClient, userId: string | null, input: C
     const rate = promoRate(input.promo ?? "");
     const discount = Math.round(total * rate);
     const charged = total - discount;
+    const quote = shippingQuote(input.province, charged);
+    const amountVnd = charged + quote.feeVnd;
     await client.query(
-      `INSERT INTO orders (id, user_id, email, name, phone, address, province, note, amount_vnd, status, payment, promo_code, discount_vnd, idempotency_key)
-       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,'pending',$10,$11,$12,$13)`,
-      [id, userId, input.email, input.name, input.phone, input.address, input.province, input.note, charged, input.payment, input.promo || null, discount, key ?? null],
+      `INSERT INTO orders (id, user_id, email, name, phone, address, province, note, amount_vnd, status, payment, promo_code, discount_vnd, idempotency_key, shipping_fee_vnd, eta_days)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,'pending',$10,$11,$12,$13,$14,$15)`,
+      [id, userId, input.email, input.name, input.phone, input.address, input.province, input.note, amountVnd, input.payment, input.promo || null, discount, key ?? null, quote.feeVnd, quote.eta],
     );
     for (const l of lines) {
       await client.query(
@@ -200,7 +205,7 @@ async function createOrderTx(client: PoolClient, userId: string | null, input: C
       );
     }
     await client.query("COMMIT");
-    return { id, amountVnd: charged };
+    return { id, amountVnd };
   } catch (err) {
     await client.query("ROLLBACK");
     throw err;
@@ -245,7 +250,7 @@ export async function setOrderStatus(orderId: string, status: string): Promise<b
 
 export async function listOrdersForUser(userId: string): Promise<OrderRow[]> {
   const r = await withDb((c) =>
-    c.query(`SELECT id, email, name, phone, address, province, note, amount_vnd, status, payment, created_at
+    c.query(`SELECT id, email, name, phone, address, province, note, amount_vnd, shipping_fee_vnd, eta_days, status, payment, created_at
              FROM orders WHERE user_id=$1 ORDER BY created_at DESC LIMIT 50`, [userId]),
   );
   return r?.rows ?? [];
@@ -254,7 +259,7 @@ export async function listOrdersForUser(userId: string): Promise<OrderRow[]> {
 export async function listAllOrders(limit = 100, offset = 0): Promise<{ rows: OrderRow[]; total: number }> {
   const r = await withDb(async (c) => {
     const rows = await c.query<OrderRow>(
-      `SELECT id, email, name, phone, address, province, note, amount_vnd, status, payment, created_at
+      `SELECT id, email, name, phone, address, province, note, amount_vnd, shipping_fee_vnd, eta_days, status, payment, created_at
        FROM orders ORDER BY created_at DESC LIMIT $1 OFFSET $2`, [limit, offset],
     );
     const total = await c.query<{ count: string }>(`SELECT count(*)::text AS count FROM orders`);

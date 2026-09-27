@@ -25,7 +25,14 @@ const esc = (s: unknown) =>
 
 const vnd = (n: number) => `${Number(n).toLocaleString("vi-VN")} VNĐ`;
 
-export function buildOrderMailBody(kind: OrderMailKind, orderId: string, name: string, items: MailItem[], amountVnd: number): string {
+export function buildOrderMailBody(
+  kind: OrderMailKind,
+  orderId: string,
+  name: string,
+  items: MailItem[],
+  amountVnd: number,
+  shipping?: { feeVnd: number; eta: string },
+): string {
   const rows = items
     .map(
       (it) =>
@@ -41,6 +48,11 @@ export function buildOrderMailBody(kind: OrderMailKind, orderId: string, name: s
 <h2 style="letter-spacing:2px">KINESIS / ATELIER</h2>${head}
 <p>Mã đơn: <b>${esc(orderId)}</b></p>
 <table style="width:100%;border-collapse:collapse">${rows}</table>
+${
+  shipping && shipping.feeVnd > 0
+    ? `<p style="margin:4px 0">Vận chuyển: <b>${vnd(shipping.feeVnd)}</b>${shipping.eta ? ` · Dự kiến giao: ${esc(shipping.eta)}` : ""}</p>`
+    : `<p style="margin:4px 0">Vận chuyển: <b>Miễn phí</b>${shipping?.eta ? ` · Dự kiến giao: ${esc(shipping.eta)}` : ""}</p>`
+}
 <p style="font-size:18px"><b>Tổng: ${vnd(amountVnd)}</b></p>
 <p style="color:#666;font-size:13px">Đổi size trong 14 ngày · Hỗ trợ: reply email này.</p></div>`;
 }
@@ -67,7 +79,10 @@ export async function notifyOrder(orderId: string, kind: OrderMailKind): Promise
         from,
         to: [order.email],
         subject,
-        html: buildOrderMailBody(kind, orderId, order.name, order.items as MailItem[], order.amount_vnd),
+        html: buildOrderMailBody(kind, orderId, order.name, order.items as MailItem[], order.amount_vnd, {
+          feeVnd: Number(order.shipping_fee_vnd ?? 0),
+          eta: String(order.eta_days ?? ""),
+        }),
       }),
     });
     return res.ok;

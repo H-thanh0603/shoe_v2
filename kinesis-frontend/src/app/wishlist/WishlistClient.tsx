@@ -68,7 +68,6 @@ export default function WishlistClient() {
                   fill
                   sizes="80px"
                   className="object-cover"
-                  unoptimized
                 />
               </Link>
               <div className="min-w-0 flex-1">

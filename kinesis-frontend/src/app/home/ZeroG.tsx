@@ -182,7 +182,6 @@ export default function ZeroG() {
                   priority={i === 0}
                   sizes="(max-width: 1024px) 100vw, 900px"
                   className="object-cover"
-                  unoptimized
                   draggable={false}
                 />
               </div>

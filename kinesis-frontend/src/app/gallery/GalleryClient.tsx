@@ -321,7 +321,6 @@ export default function GalleryClient({
                       fill
                       sizes="(max-width: 768px) 100vw, 33vw"
                       className={`object-cover transition-transform duration-500 group-hover:scale-105 ${p.status === "SOLD OUT" ? "opacity-60" : ""}`}
-                      unoptimized
                     />
                     {/* Top badges + wishlist */}
                     <div className="pointer-events-none absolute inset-x-space-xs top-space-xs z-10 flex items-center justify-between">

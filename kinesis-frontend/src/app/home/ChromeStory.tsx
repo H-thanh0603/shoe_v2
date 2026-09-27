@@ -18,7 +18,6 @@ export default function ChromeStory() {
           fill
           sizes="(max-width: 1024px) 100vw, 40vw"
           className="object-cover transition-transform duration-700 hover:scale-105"
-          unoptimized
         />
         <span className="absolute top-space-md left-space-md bg-primary-container px-space-xs py-space-3xs font-label-micro text-label-micro font-bold uppercase tracking-widest text-on-primary-container">
           READY TO SHIP

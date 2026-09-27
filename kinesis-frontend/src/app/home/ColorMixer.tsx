@@ -43,7 +43,6 @@ export default function ColorMixer() {
           sizes="(max-width: 1024px) 100vw, 40vw"
           className="object-cover transition-all duration-500"
           style={{ filter: upper.filter }}
-          unoptimized
           draggable={false}
         />
         <div

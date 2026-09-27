@@ -49,7 +49,6 @@ const STITCH_IMG = {
           priority
           sizes="100vw"
           className="animate-kenburns object-cover"
-          unoptimized
         />
         {/* Cinematic gradients */}
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/35 to-surface-container-lowest/60" />
@@ -176,7 +175,7 @@ const STITCH_IMG = {
       {/* ============ MARQUEE DIVIDER ============ */}
       <div className="flex select-none items-center overflow-hidden border-y border-surface-container-highest bg-surface-container-lowest py-space-md">
         <div className="animate-marquee flex items-center gap-space-xl font-label-technical text-label-technical font-bold uppercase tracking-widest whitespace-nowrap text-secondary">
-          {["DROP 04 // LIVE", "MIỄN PHÍ VẬN CHUYỂN TOÀN CẦU", "NFC CERTIFIED", "500 ĐÔI GIỚI HẠN", "PARIS — TOKYO — MILAN", "DROP 04 // LIVE", "MIỄN PHÍ VẬN CHUYỂN TOÀN CẦU", "NFC CERTIFIED", "500 ĐÔI GIỚI HẠN", "PARIS — TOKYO — MILAN"].map((m, i) => (
+          {["DROP 04 // LIVE", "SHIP TOÀN QUỐC · MIỄN PHÍ TỪ 5.000.000₫", "HỒ SƠ SỐ LƯU TẠI SHOP", "500 ĐÔI GIỚI HẠN", "PARIS — TOKYO — MILAN", "DROP 04 // LIVE", "SHIP TOÀN QUỐC · MIỄN PHÍ TỪ 5.000.000₫", "HỒ SƠ SỐ LƯU TẠI SHOP", "500 ĐÔI GIỚI HẠN", "PARIS — TOKYO — MILAN"].map((m, i) => (
             <span key={i} className="flex items-center gap-space-xl">
               <span>{m}</span>
               <span className="size-1.5 bg-primary-container" />
@@ -249,7 +248,6 @@ const STITCH_IMG = {
                   fill
                   sizes="(max-width: 768px) 100vw, 66vw"
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
-                  unoptimized
                 />
                 <div className="absolute bottom-space-md left-space-md flex items-center gap-space-md bg-surface-container-lowest/90 px-space-md py-space-xs backdrop-blur">
                   <span className="font-label-technical text-label-technical text-primary-container uppercase">

@@ -101,8 +101,8 @@ const LOOKS = [
 const GUARANTEES = [
   {
     icon: "flight_takeoff",
-    title: "GIAO BẢO HIỂM VIP",
-    body: "Vận chuyển bọc thép bảo mật 72 giờ qua DHL Express Global.",
+    title: "GIAO HÀNG TOÀN QUỐC",
+    body: "Nội thành đô thị lớn 1–2 ngày, tỉnh khác 3–5 ngày. Miễn phí vận chuyển cho đơn từ 5.000.000₫.",
   },
   {
     icon: "sync_alt",
@@ -220,7 +220,6 @@ const GUARANTEES = [
                 priority
                 sizes="(max-width: 1024px) 100vw, 58vw"
                 className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                unoptimized
               />
               {/* Telemetry watermark */}
               <div className="pointer-events-none absolute top-space-md left-space-md flex flex-col gap-space-2xs">
@@ -269,7 +268,6 @@ const GUARANTEES = [
                     fill
                     sizes="25vw"
                     className="object-cover transition-opacity group-hover:opacity-90"
-                    unoptimized
                   />
                   <span
                     className={`absolute inset-x-0 bottom-0 py-space-3xs text-center font-label-micro text-label-micro uppercase tracking-widest backdrop-blur-sm ${
@@ -512,7 +510,6 @@ const GUARANTEES = [
                 fill
                 sizes="(max-width: 1024px) 100vw, 50vw"
                 className="object-contain"
-                unoptimized
               />
               <svg
                 className="pointer-events-none absolute inset-0 h-full w-full text-secondary/20"
@@ -596,7 +593,6 @@ const GUARANTEES = [
                   fill
                   sizes="(max-width: 768px) 100vw, 29vw"
                   className="object-cover transition-transform duration-500 group-hover:scale-105"
-                  unoptimized
                 />
                 <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-surface-container-lowest to-transparent p-space-sm font-label-micro text-label-micro uppercase text-primary">
                   {"//"} HEEL SCAN ZONE [ANTENNA FREQ: 13.56 MHZ]
@@ -654,7 +650,6 @@ const GUARANTEES = [
                     fill
                     sizes="(max-width: 768px) 100vw, 33vw"
                     className="object-cover transition-transform duration-700 group-hover:scale-105"
-                    unoptimized
                   />
                   <div className="absolute top-space-sm left-space-sm bg-surface-container-lowest/80 px-space-xs py-space-3xs font-label-micro text-label-micro uppercase text-primary-container backdrop-blur-md">
                     {look.badge}

@@ -77,7 +77,6 @@ export default function HomeDrops({ products }: { products: Product[] }) {
                 fill
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                 className={`object-cover transition-transform duration-500 group-hover:scale-105 ${p.status === "SOLD OUT" ? "opacity-70" : ""}`}
-                unoptimized
               />
               <span
                 className={`absolute top-space-md left-space-md inline-flex items-center gap-space-2xs px-space-xs py-space-3xs font-label-micro text-label-micro uppercase tracking-wider ${pill(p.status)}`}

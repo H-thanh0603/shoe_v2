@@ -5,13 +5,14 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { useCart } from "@/lib/cart";
 import { USD_TO_VND } from "@/lib/data";
+import { shippingQuote, FREE_SHIP_THRESHOLD_VND } from "@/lib/shipping";
 
 const field =
   "h-12 w-full border border-surface-container-highest bg-surface px-space-md font-body-md text-body-md text-primary placeholder:text-secondary/40 focus:border-primary-container focus:outline-none transition-colors";
 const flabel =
   "mb-space-2xs block font-label-micro text-label-micro uppercase tracking-widest text-secondary";
 
-const vnd = (usd: number) => `${(usd * USD_TO_VND).toLocaleString("vi-VN")} VNĐ`;
+const vnd = (usd: number) => `${Math.round(usd * USD_TO_VND).toLocaleString("vi-VN")} VNĐ`;
 
 export default function CheckoutClient() {
   const { items, setQty, remove, subtotal, count, clear } = useCart();
@@ -30,7 +31,7 @@ export default function CheckoutClient() {
   const nameRef = useRef<HTMLInputElement>(null);
   const phoneRef = useRef<HTMLInputElement>(null);
   const addrRef = useRef<HTMLInputElement>(null);
-  const provinceRef = useRef<HTMLInputElement>(null);
+  const [province, setProvince] = useState("");
   const emailRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -39,7 +40,11 @@ export default function CheckoutClient() {
   }, []);
 
   const discount = promoOk ? Math.round(subtotal * 0.1) : 0;
-  const total = subtotal - discount;
+  const goodsUsd = subtotal - discount;
+  /* Quote shown to the buyer; the server recomputes it from DB prices at
+     order creation, so this can only ever under/overstate by rounding. */
+  const ship = shippingQuote(province, Math.round(goodsUsd * USD_TO_VND));
+  const total = goodsUsd + ship.feeVnd / USD_TO_VND;
   const mm = String(Math.floor(secs / 60)).padStart(2, "0");
   const ss = String(secs % 60).padStart(2, "0");
 
@@ -112,7 +117,6 @@ export default function CheckoutClient() {
                     fill
                     sizes="80px"
                     className="object-cover"
-                    unoptimized
                   />
                 </div>
                 <div className="min-w-0 flex-1">
@@ -180,7 +184,8 @@ export default function CheckoutClient() {
             Thông tin giao hàng
           </h2>
           <p className="mt-space-3xs font-label-micro text-label-micro uppercase tracking-widest text-secondary">
-            DHL BỌC THÉP 48–72H · MIỄN PHÍ · ĐÃ GỒM THUẾ &amp; HẢI QUAN
+            GIAO TOÀN QUỐC · NỘI THÀNH ĐÔ THỊ LỚN 1–2 NGÀY, TỈNH KHÁC 3–5 NGÀY · MIỄN PHÍ CHO ĐƠN TỪ{" "}
+            {FREE_SHIP_THRESHOLD_VND.toLocaleString("vi-VN")}₫
           </p>
           <div className="mt-space-md grid grid-cols-1 gap-space-md sm:grid-cols-2">
             <div>
@@ -201,7 +206,13 @@ export default function CheckoutClient() {
             </div>
             <div className="sm:col-span-2">
               <label className={flabel} htmlFor="co-province">Tỉnh / Thành phố</label>
-              <input id="co-province" ref={provinceRef} className={field} />
+              <input
+                id="co-province"
+                value={province}
+                onChange={(e) => setProvince(e.target.value)}
+                placeholder="VD: Hà Nội, Hồ Chí Minh, Đà Nẵng…"
+                className={field}
+              />
             </div>
             <div className="sm:col-span-2">
               <label className={flabel} htmlFor="co-note">Ghi chú</label>
@@ -233,8 +244,12 @@ export default function CheckoutClient() {
               <div className="flex justify-between text-secondary">
                 <span>Vận chuyển</span>
                 <span className="font-label-technical font-bold text-primary-container">
-                  MIỄN PHÍ
+                  {ship.feeVnd === 0 ? "MIỄN PHÍ" : `${ship.feeVnd.toLocaleString("vi-VN")}₫`}
                 </span>
+              </div>
+              <div className="flex justify-between text-secondary/70">
+                <span>Dự kiến giao</span>
+                <span className="font-label-technical text-primary">{ship.eta}</span>
               </div>
             </div>
 
@@ -282,12 +297,12 @@ export default function CheckoutClient() {
                   Tổng cộng
                 </span>
                 <span className="font-headline-sm text-headline-sm font-extrabold text-primary-container">
-                  ${total.toLocaleString("en-US")}{" "}
+                  ${total.toLocaleString("en-US", { maximumFractionDigits: 2 })}{" "}
                   <span className="font-label-technical text-label-technical text-primary">USD</span>
                 </span>
               </div>
               <p className="mt-space-3xs text-right font-label-micro text-label-micro tracking-wider text-secondary">
-                ≈ {vnd(total)}
+                ≈ {vnd(total)} · đã gồm vận chuyển
               </p>
             </div>
 
@@ -341,7 +356,7 @@ export default function CheckoutClient() {
                       name,
                       phone,
                       address,
-                      province: provinceRef.current?.value.trim() ?? "",
+                      province: province.trim(),
                       note: "",
                       payment: pay,
                       promo: promoOk ? promo.trim() : "",

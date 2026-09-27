@@ -221,7 +221,6 @@ export default function PassportClient() {
                 priority
                 sizes="(max-width: 1024px) 100vw, 58vw"
                 className={`object-contain p-space-lg transition-all duration-700 group-hover:scale-105 ${FILTER[mode]}`}
-                unoptimized
               />
               {/* Hotspots */}
               {HOTSPOTS.map((h) => (

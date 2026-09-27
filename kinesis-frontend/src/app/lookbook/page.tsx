@@ -192,7 +192,6 @@ export default function LookbookPage() {
                 priority
                 sizes="(max-width: 1024px) 100vw, 58vw"
                 className="object-cover transition-transform duration-700 group-hover:scale-105"
-                unoptimized
               />
               <div className="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/30 to-transparent" />
               <div className="absolute top-space-md left-space-md flex items-center gap-space-sm bg-surface-container-lowest/80 px-space-md py-space-xs font-label-technical text-label-technical uppercase backdrop-blur-md">
@@ -274,7 +273,6 @@ export default function LookbookPage() {
                 fill
                 sizes="(max-width: 1024px) 100vw, 42vw"
                 className="object-cover transition-transform duration-700 group-hover:scale-105"
-                unoptimized
               />
               <div className="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/40 to-transparent" />
               <div className="absolute top-space-md left-space-md flex items-center gap-space-sm bg-surface-container-lowest/80 px-space-md py-space-xs font-label-technical text-label-technical uppercase backdrop-blur-md">
@@ -326,7 +324,6 @@ export default function LookbookPage() {
                 fill
                 sizes="(max-width: 1024px) 100vw, 42vw"
                 className="object-cover transition-transform duration-700 group-hover:scale-105"
-                unoptimized
               />
               <div className="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/40 to-transparent" />
               <div className="absolute top-space-md left-space-md flex items-center gap-space-sm bg-surface-container-lowest/80 px-space-md py-space-xs font-label-technical text-label-technical uppercase backdrop-blur-md">
@@ -470,7 +467,6 @@ export default function LookbookPage() {
                   fill
                   sizes="(max-width: 640px) 100vw, 25vw"
                   className="object-cover"
-                  unoptimized
                 />
                 <div className="absolute inset-x-0 bottom-0 bg-surface-container-lowest/80 p-space-sm font-label-micro text-label-micro uppercase text-secondary backdrop-blur-sm">
                   STUDIO 01: PARIS IX {"//"} LE MARAIS
@@ -485,7 +481,6 @@ export default function LookbookPage() {
                   fill
                   sizes="(max-width: 640px) 100vw, 25vw"
                   className="object-cover"
-                  unoptimized
                 />
                 <div className="absolute inset-x-0 bottom-0 bg-surface-container-lowest/80 p-space-sm font-label-micro text-label-micro uppercase text-secondary backdrop-blur-sm">
                   STUDIO 02: TOKYO {"//"} MEGURO LAB

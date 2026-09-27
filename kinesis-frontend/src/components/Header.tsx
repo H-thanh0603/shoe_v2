@@ -50,7 +50,7 @@ function HeaderBar({ pathname }: { pathname: string }) {
           DROP 04 LIVE — K-09 STRATOS CHRONO
         </p>
         <p className="hidden font-label-micro text-label-micro font-bold uppercase tracking-widest text-on-primary-container sm:block">
-          MIỄN PHÍ DHL 48–72H · HOTLINE 1900 8888
+          GIAO HÀNG TOÀN QUỐC 1–5 NGÀY · MIỄN PHÍ CHO ĐƠN TỪ 5.000.000₫ · HOTLINE 1900 8888
         </p>
       </div>
 

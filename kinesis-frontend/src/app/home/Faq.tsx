@@ -13,7 +13,7 @@ const FAQS = [
   },
   {
     q: "Vận chuyển mất bao lâu?",
-    a: "DHL bọc thép 48–72h toàn cầu, miễn phí cho mọi drop. Mỗi kiện có bảo hiểm nguyên giá và mã GPS theo dõi.",
+    a: "Nội thành các đô thị lớn 1–2 ngày, tỉnh khác 3–5 ngày. Phí 30.000₫–50.000₫, miễn phí cho đơn từ 5.000.000₫. Mã vận đơn sẽ gửi qua email khi đơn được giao cho đơn vị vận chuyển (đang triển khai).",
   },
   {
     q: "Bảo hành và bảo dưỡng ra sao?",

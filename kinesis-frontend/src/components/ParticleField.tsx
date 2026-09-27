@@ -36,7 +36,9 @@ export default function ParticleField({ density = 70 }: { density?: number }) {
     resize();
     window.addEventListener("resize", resize);
 
-    const n = Math.min(density, Math.floor((w * h) / 22000));
+    /* Link drawing is O(n²) per frame — keep the count low on phones. */
+    const cap = w < 768 ? Math.min(density, 28) : density;
+    const n = Math.min(cap, Math.floor((w * h) / 22000));
     for (let i = 0; i < n; i++) {
       dots.push({
         x: Math.random() * w,

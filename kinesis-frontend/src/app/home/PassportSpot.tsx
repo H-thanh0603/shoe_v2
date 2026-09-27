@@ -22,7 +22,6 @@ export default function PassportSpot() {
               fill
               sizes="(max-width: 1024px) 100vw, 42vw"
               className="object-cover"
-              unoptimized
             />
             <div className="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-transparent" />
             <div className="absolute top-space-md left-space-md flex items-center gap-space-2xs bg-surface-container-lowest/90 px-space-sm py-space-2xs backdrop-blur-md">

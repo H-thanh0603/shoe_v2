@@ -2,6 +2,7 @@ import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { withDb } from "@/lib/db";
 import { createProduct, setStock } from "@/lib/shop-products";
 import { createOrder, markPaid, setOrderStatus, sweepStalePending, type CreateOrderInput } from "@/lib/shop-orders";
+import { shippingQuote } from "@/lib/shipping";
 
 const HAS_DB = !!process.env.DATABASE_URL;
 const SLUG = "test-kinesis-ord";
@@ -95,7 +96,13 @@ describe.skipIf(!HAS_DB)("shop-orders (DB)", () => {
 
   it("applies SYNDICATE promo server-side and rejects unknown codes", async () => {
     const withPromo = await createOrder(null, { ...input("cod", 1), promo: "syndicate" });
-    expect(withPromo.amountVnd).toBe(4_500_000); // 5M - 10%
+    // 5M - 10% = 4.5M goods; below the free-ship threshold, fee is added server-side.
+    const fee = shippingQuote("HCM", 4_500_000).feeVnd;
+    expect(withPromo.amountVnd).toBe(4_500_000 + fee);
+    const stored = await withDb((c) =>
+      c.query<{ shipping_fee_vnd: number }>(`SELECT shipping_fee_vnd FROM orders WHERE id = $1`, [withPromo.id]),
+    );
+    expect(stored?.rows[0]?.shipping_fee_vnd).toBe(fee);
     await expect(createOrder(null, { ...input("cod", 1), promo: "FAKE" })).rejects.toThrow(/invalid_promo/);
   });
 
