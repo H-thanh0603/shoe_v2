@@ -1,3 +1,4 @@
+import { createHash, randomBytes, timingSafeEqual } from "node:crypto";
 import type { PoolClient } from "pg";
 import { getPool, withDb, withDbStrict } from "@/lib/db";
 import { shippingQuote } from "@/lib/shipping";
@@ -51,6 +52,8 @@ export interface OrderRow {
   amount_vnd: number;
   shipping_fee_vnd: number;
   eta_days: string;
+  lookup_token: string;
+  tracking_code: string;
   status: string;
   payment: string;
   created_at: string;
@@ -119,7 +122,7 @@ async function restockOrder(client: PoolClient, orderId: string): Promise<boolea
   return true;
 }
 
-export async function createOrder(userId: string | null, input: CreateOrderInput): Promise<{ id: string; amountVnd: number; deduped?: boolean }> {
+export async function createOrder(userId: string | null, input: CreateOrderInput): Promise<{ id: string; amountVnd: number; token?: string; deduped?: boolean }> {
   if (!input.items?.length) throw new Error("empty_cart");
   if (input.items.length > 20) throw new Error("invalid_qty");
   const key = input.idempotencyKey?.trim() ?? "";
@@ -154,17 +157,17 @@ export async function createOrder(userId: string | null, input: CreateOrderInput
   }
 }
 
-async function createOrderTx(client: PoolClient, userId: string | null, input: CreateOrderInput, key?: string): Promise<{ id: string; amountVnd: number; deduped?: boolean }> {
+async function createOrderTx(client: PoolClient, userId: string | null, input: CreateOrderInput, key?: string): Promise<{ id: string; amountVnd: number; token?: string; deduped?: boolean }> {
   await client.query("BEGIN");
   try {
     // Idempotent retry: same key → return the first order, reserve nothing.
     if (key) {
-      const dup = await client.query<{ id: string; amount_vnd: number }>(
-        `SELECT id, amount_vnd FROM orders WHERE idempotency_key=$1`, [key],
+      const dup = await client.query<{ id: string; amount_vnd: number; lookup_token: string }>(
+        `SELECT id, amount_vnd, lookup_token FROM orders WHERE idempotency_key=$1`, [key],
       );
       if (dup.rows.length > 0) {
         await client.query("ROLLBACK");
-        return { id: dup.rows[0].id, amountVnd: dup.rows[0].amount_vnd, deduped: true };
+        return { id: dup.rows[0].id, amountVnd: dup.rows[0].amount_vnd, token: dup.rows[0].lookup_token || undefined, deduped: true };
       }
     }
     const products = await loadProducts(client, input.items.map((i) => i.slug));
@@ -193,10 +196,13 @@ async function createOrderTx(client: PoolClient, userId: string | null, input: C
     const charged = total - discount;
     const quote = shippingQuote(input.province, charged);
     const amountVnd = charged + quote.feeVnd;
+    /* Guest-safe secret: the /track link in the order email proves nothing
+       but possession of this token + the order id. */
+    const token = randomBytes(12).toString("base64url");
     await client.query(
-      `INSERT INTO orders (id, user_id, email, name, phone, address, province, note, amount_vnd, status, payment, promo_code, discount_vnd, idempotency_key, shipping_fee_vnd, eta_days)
-       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,'pending',$10,$11,$12,$13,$14,$15)`,
-      [id, userId, input.email, input.name, input.phone, input.address, input.province, input.note, amountVnd, input.payment, input.promo || null, discount, key ?? null, quote.feeVnd, quote.eta],
+      `INSERT INTO orders (id, user_id, email, name, phone, address, province, note, amount_vnd, status, payment, promo_code, discount_vnd, idempotency_key, shipping_fee_vnd, eta_days, lookup_token)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,'pending',$10,$11,$12,$13,$14,$15,$16)`,
+      [id, userId, input.email, input.name, input.phone, input.address, input.province, input.note, amountVnd, input.payment, input.promo || null, discount, key ?? null, quote.feeVnd, quote.eta, token],
     );
     for (const l of lines) {
       await client.query(
@@ -205,7 +211,7 @@ async function createOrderTx(client: PoolClient, userId: string | null, input: C
       );
     }
     await client.query("COMMIT");
-    return { id, amountVnd };
+    return { id, amountVnd, token };
   } catch (err) {
     await client.query("ROLLBACK");
     throw err;
@@ -250,7 +256,7 @@ export async function setOrderStatus(orderId: string, status: string): Promise<b
 
 export async function listOrdersForUser(userId: string): Promise<OrderRow[]> {
   const r = await withDb((c) =>
-    c.query(`SELECT id, email, name, phone, address, province, note, amount_vnd, shipping_fee_vnd, eta_days, status, payment, created_at
+    c.query(`SELECT id, email, name, phone, address, province, note, amount_vnd, shipping_fee_vnd, eta_days, lookup_token, tracking_code, status, payment, created_at
              FROM orders WHERE user_id=$1 ORDER BY created_at DESC LIMIT 50`, [userId]),
   );
   return r?.rows ?? [];
@@ -259,7 +265,7 @@ export async function listOrdersForUser(userId: string): Promise<OrderRow[]> {
 export async function listAllOrders(limit = 100, offset = 0): Promise<{ rows: OrderRow[]; total: number }> {
   const r = await withDb(async (c) => {
     const rows = await c.query<OrderRow>(
-      `SELECT id, email, name, phone, address, province, note, amount_vnd, shipping_fee_vnd, eta_days, status, payment, created_at
+      `SELECT id, email, name, phone, address, province, note, amount_vnd, shipping_fee_vnd, eta_days, lookup_token, tracking_code, status, payment, created_at
        FROM orders ORDER BY created_at DESC LIMIT $1 OFFSET $2`, [limit, offset],
     );
     const total = await c.query<{ count: string }>(`SELECT count(*)::text AS count FROM orders`);
@@ -284,4 +290,105 @@ export async function getOrderAmount(orderId: string): Promise<number | null> {
   const r = await withDbStrict((c) => c.query<{ amount_vnd: number }>(`SELECT amount_vnd FROM orders WHERE id=$1`, [orderId]));
   if (r.rows.length === 0) return null;
   return r.rows[0].amount_vnd;
+}
+
+/* ---------- Tracking + guest lookup ---------- */
+
+function safeEq(a: string, b: string): boolean {
+  const ha = createHash("sha256").update(a).digest();
+  const hb = createHash("sha256").update(b).digest();
+  return timingSafeEqual(ha, hb);
+}
+
+export interface TrackView {
+  id: string;
+  status: string;
+  created_at: string;
+  eta_days: string;
+  tracking_code: string;
+  carrier: string;
+  payment: string;
+  amount_vnd: number;
+  name: string;
+  canCancel: boolean;
+  items: { name: string; size: string; color: string; qty: number; price_vnd: number }[];
+}
+
+/* Guest-facing status view: possession of the email-delivered token is the
+   credential. The token itself never leaves the server. */
+export async function getOrderForLookup(orderId: string, token: string): Promise<TrackView | null> {
+  if (!orderId || !token) return null;
+  const r = await withDb(async (c) => {
+    const o = await c.query(
+      `SELECT id, status, created_at, eta_days, tracking_code, carrier, payment, amount_vnd, name, lookup_token
+       FROM orders WHERE id=$1`, [orderId],
+    );
+    const row = o.rows[0] as (Omit<TrackView, "canCancel" | "items"> & { lookup_token: string }) | undefined;
+    if (!row || !row.lookup_token || !safeEq(row.lookup_token, token)) return null;
+    const items = await c.query(
+      `SELECT name, size, color, qty, price_vnd FROM order_items WHERE order_id=$1`, [orderId],
+    );
+    return { row, items: items.rows };
+  });
+  if (!r) return null;
+  const row = r.row;
+  return {
+    id: row.id,
+    status: row.status,
+    created_at: row.created_at,
+    eta_days: row.eta_days,
+    tracking_code: row.tracking_code,
+    carrier: row.carrier,
+    payment: row.payment,
+    amount_vnd: row.amount_vnd,
+    name: row.name,
+    canCancel: row.status === "pending",
+    items: r.items,
+  };
+}
+
+const TRACKING_RE = /^[A-Za-z0-9_-]{4,64}$/;
+
+export async function setOrderTracking(orderId: string, code: string, carrier: string): Promise<boolean> {
+  if (!TRACKING_RE.test(code)) return false;
+  const r = await withDb((c) =>
+    c.query(`UPDATE orders SET tracking_code=$2, carrier=$3, updated_at=now() WHERE id=$1`, [
+      orderId, code, carrier.trim().slice(0, 40),
+    ]),
+  );
+  return (r?.rowCount ?? 0) > 0;
+}
+
+/* Cancel a pending order — authorized by the signed-in owner or by holding
+   the lookup token (guest link). Restocks the reserved pairs. */
+export async function cancelOrder(orderId: string, caller: { userId?: string | null; token?: string | null }): Promise<boolean> {
+  const pool = getPool();
+  if (!pool) return false;
+  const client = await pool.connect();
+  try {
+    await client.query("BEGIN");
+    const { rows } = await client.query<{ user_id: string | null; lookup_token: string; status: string }>(
+      `SELECT user_id, lookup_token, status FROM orders WHERE id=$1 FOR UPDATE`, [orderId],
+    );
+    const o = rows[0];
+    if (!o || o.status !== "pending") {
+      await client.query("ROLLBACK");
+      return false;
+    }
+    const okUser = !!caller.userId && o.user_id === caller.userId;
+    const okToken = !!caller.token && !!o.lookup_token && safeEq(o.lookup_token, caller.token);
+    if (!okUser && !okToken) {
+      await client.query("ROLLBACK");
+      return false;
+    }
+    await client.query(`UPDATE orders SET status='cancelled', updated_at=now() WHERE id=$1`, [orderId]);
+    await restockOrder(client, orderId);
+    await client.query("COMMIT");
+    return true;
+  } catch {
+    await client.query("ROLLBACK");
+    return false;
+  } finally {
+    client.release();
+  }
 }

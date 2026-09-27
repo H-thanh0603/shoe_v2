@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useCart } from "@/lib/cart";
 import { USD_TO_VND } from "@/lib/data";
 import { shippingQuote, FREE_SHIP_THRESHOLD_VND } from "@/lib/shipping";
@@ -16,12 +16,12 @@ const vnd = (usd: number) => `${Math.round(usd * USD_TO_VND).toLocaleString("vi-
 
 export default function CheckoutClient() {
   const { items, setQty, remove, subtotal, count, clear } = useCart();
-  const [secs, setSecs] = useState(14 * 60 + 38);
   const [promo, setPromo] = useState("");
   const [promoOk, setPromoOk] = useState<boolean | null>(null);
   const [pay, setPay] = useState<"vnpay" | "cod">("vnpay");
   const [state, setState] = useState<"idle" | "securing" | "done">("idle");
   const [dispatchId, setDispatchId] = useState("");
+  const [trackToken, setTrackToken] = useState("");
   const [error, setError] = useState("");
   /* Stable for the whole checkout session: double-click and network retry
      hit the same idempotency key, so only one order is ever created. */
@@ -34,19 +34,12 @@ export default function CheckoutClient() {
   const [province, setProvince] = useState("");
   const emailRef = useRef<HTMLInputElement>(null);
 
-  useEffect(() => {
-    const t = setInterval(() => setSecs((s) => (s > 0 ? s - 1 : 0)), 1000);
-    return () => clearInterval(t);
-  }, []);
-
   const discount = promoOk ? Math.round(subtotal * 0.1) : 0;
   const goodsUsd = subtotal - discount;
   /* Quote shown to the buyer; the server recomputes it from DB prices at
      order creation, so this can only ever under/overstate by rounding. */
   const ship = shippingQuote(province, Math.round(goodsUsd * USD_TO_VND));
   const total = goodsUsd + ship.feeVnd / USD_TO_VND;
-  const mm = String(Math.floor(secs / 60)).padStart(2, "0");
-  const ss = String(secs % 60).padStart(2, "0");
 
   if (state === "done") {
     return (
@@ -61,15 +54,24 @@ export default function CheckoutClient() {
           Cảm ơn — đơn hàng đã được ghi nhận
         </h1>
         <p className="mt-space-sm max-w-md font-body-md text-body-md text-secondary">
-          Mã dispatch{" "}
+          Mã đơn{" "}
           <span className="font-label-technical text-primary-container">{dispatchId}</span>.
-          Hồ sơ provenance sẽ được ghi nhận vào Syndicate Vault của bạn trong 24h.
+          Email xác nhận kèm đường dẫn theo dõi đã gửi tới hòm thư của bạn — lưu lại để tra
+          trạng thái, nhận số vận đơn hoặc hủy đơn khi còn chờ thanh toán.
         </p>
+        {trackToken && (
+          <a
+            href={`/track?order=${encodeURIComponent(dispatchId)}&token=${encodeURIComponent(trackToken)}`}
+            className="mt-space-sm font-label-technical text-label-technical uppercase tracking-widest text-primary-container hover:underline"
+          >
+            THEO DÕI ĐƠN NGAY →
+          </a>
+        )}
         <Link
           href="/vault"
           className="mt-space-lg bg-primary-container px-space-xl py-space-md font-label-technical text-label-technical font-bold uppercase tracking-widest text-on-primary-container transition-colors hover:bg-primary hover:text-on-secondary"
         >
-          VÀO SYNDICATE VAULT →
+          VÀO VAULT XEM ĐƠN →
         </Link>
       </div>
     );
@@ -94,8 +96,8 @@ export default function CheckoutClient() {
         <p className="font-label-technical text-label-technical uppercase tracking-widest text-secondary">
           {String(count).padStart(2, "0")} SẢN PHẨM
           <span className="mx-space-xs text-secondary/30">|</span>
-          <span className={secs > 0 ? "text-primary-container" : "text-error"}>
-            {secs > 0 ? `GIỮ CHỖ ${mm}:${ss}` : "HẾT GIỜ GIỮ CHỖ"}
+          <span className={count > 0 ? "text-primary-container" : "text-error"}>
+            GIỮ KHO 24H KHI CHỜ THANH TOÁN
           </span>
         </p>
       </div>
@@ -371,6 +373,7 @@ export default function CheckoutClient() {
                   const data = (await res.json()) as {
                     ok?: boolean;
                     orderId?: string;
+                    token?: string;
                     payUrl?: string | null;
                     error?: string;
                   };
@@ -391,6 +394,7 @@ export default function CheckoutClient() {
                     return;
                   }
                   setDispatchId(data.orderId ?? "");
+                  setTrackToken(data.token ?? "");
                   if (data.payUrl) {
                     clear();
                     window.location.href = data.payUrl;

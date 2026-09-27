@@ -45,22 +45,24 @@ export async function POST(request: NextRequest) {
         ok: true,
         orderId: order.id,
         amountVnd: order.amountVnd,
+        token: order.token,
         deduped: true,
       });
     }
     if (body.payment !== "cod") {
       const cfg = vnpayConfig();
-      if (!cfg) return Response.json({ ok: true, orderId: order.id, payUrl: null, note: "vnpay_not_configured" });
+      if (!cfg) return Response.json({ ok: true, orderId: order.id, token: order.token, payUrl: null, note: "vnpay_not_configured" });
       const ip = request.headers.get("x-forwarded-for")?.split(",")[0].trim() ?? "127.0.0.1";
       return Response.json({
         ok: true,
         orderId: order.id,
         amountVnd: order.amountVnd,
+        token: order.token,
         payUrl: buildPaymentUrl({ orderId: order.id, amountVnd: order.amountVnd, ip }, cfg),
       });
     }
     void notifyOrder(order.id, "cod_created");
-    return Response.json({ ok: true, orderId: order.id, amountVnd: order.amountVnd });
+    return Response.json({ ok: true, orderId: order.id, amountVnd: order.amountVnd, token: order.token });
   } catch (err) {
     if (isDbError(err)) {
       return Response.json({ error: "db_unreachable" }, { status: 503 });

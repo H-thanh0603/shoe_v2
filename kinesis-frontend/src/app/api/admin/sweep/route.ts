@@ -1,5 +1,4 @@
 import { auth } from "@/lib/auth";
-import { sweepStalePending } from "@/lib/shop-orders";
 
 /* /api/admin/sweep — expire stale pending orders + audit retention.
    Vercel Cron calls GET with `Authorization: Bearer $CRON_SECRET`.

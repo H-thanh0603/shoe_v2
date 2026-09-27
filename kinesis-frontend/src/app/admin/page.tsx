@@ -61,7 +61,7 @@ export default async function AdminPage({
                   {o.amount_vnd.toLocaleString("vi-VN")} VNĐ
                 </td>
                 <td className="px-space-md py-space-sm">
-                  <StatusCell orderId={o.id} status={o.status} />
+                  <StatusCell orderId={o.id} status={o.status} tracking={o.tracking_code} />
                 </td>
                 <td className="px-space-md py-space-sm">{String(o.created_at).slice(0, 10)}</td>
               </tr>

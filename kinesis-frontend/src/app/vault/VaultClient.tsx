@@ -21,6 +21,7 @@ interface MyOrder {
   status: string;
   payment: string;
   created_at: string;
+  lookup_token: string;
 }
 
 export default function VaultClient() {
@@ -45,6 +46,19 @@ export default function VaultClient() {
   const orders = loaded ? fetched!.orders : [];
   const delivered = orders.filter((o) => o.status === "delivered").length;
   const inFlight = orders.filter((o) => ["paid", "confirmed", "shipped"].includes(o.status)).length;
+
+  async function cancel(id: string) {
+    const res = await fetch("/api/orders/track", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ order: id }),
+    });
+    if (res.ok) {
+      setFetched((f) =>
+        f && { ...f, orders: f.orders.map((o) => (o.id === id ? { ...o, status: "cancelled" } : o)) },
+      );
+    }
+  }
 
   return (
     <div className="mx-auto max-w-6xl px-gutter-mobile py-space-xl lg:px-gutter-desktop lg:py-space-2xl">
@@ -156,6 +170,22 @@ export default function VaultClient() {
               </span>
               <span className="col-span-6 text-right font-label-micro text-label-micro uppercase tracking-widest text-secondary sm:col-span-2">
                 {STATUS_VI[o.status] ?? o.status.toUpperCase()}
+              </span>
+              <span className="col-span-12 flex items-center gap-space-md pt-space-2xs sm:col-span-4">
+                <Link
+                  href={`/track?order=${encodeURIComponent(o.id)}&token=${encodeURIComponent(o.lookup_token)}`}
+                  className="font-label-micro text-label-micro uppercase tracking-widest text-primary-container hover:underline"
+                >
+                  TRẠNG THÁI &amp; VẬN ĐƠN →
+                </Link>
+                {o.status === "pending" && (
+                  <button
+                    onClick={() => cancel(o.id)}
+                    className="font-label-micro text-label-micro uppercase tracking-widest text-secondary/70 transition-colors hover:text-error"
+                  >
+                    Hủy đơn
+                  </button>
+                )}
               </span>
             </div>
           ))}

@@ -1,7 +1,7 @@
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { withDb } from "@/lib/db";
 import { createProduct, setStock } from "@/lib/shop-products";
-import { createOrder, markPaid, setOrderStatus, sweepStalePending, type CreateOrderInput } from "@/lib/shop-orders";
+import { createOrder, markPaid, setOrderStatus, sweepStalePending, cancelOrder, getOrderForLookup, setOrderTracking, type CreateOrderInput } from "@/lib/shop-orders";
 import { shippingQuote } from "@/lib/shipping";
 
 const HAS_DB = !!process.env.DATABASE_URL;
@@ -113,6 +113,39 @@ describe.skipIf(!HAS_DB)("shop-orders (DB)", () => {
     const second = await createOrder(null, { ...input("cod", 1), idempotencyKey: key });
     expect(second.id).toBe(first.id);
     expect(second.deduped).toBe(true);
+    expect(second.token).toBe(first.token);
     expect(await stockOf()).toBe(before - 1);
+  });
+
+  it("guest token lookup gates status, cancel restocks once", async () => {
+    expect(await setStock(SLUG, SIZE, 2)).toBe("ok");
+    const order = await createOrder(null, input("cod", 1));
+    expect(order.token).toBeTruthy();
+
+    expect(await getOrderForLookup(order.id, "")).toBeNull();
+    expect(await getOrderForLookup(order.id, "wrong-token-0000")).toBeNull();
+    const view = await getOrderForLookup(order.id, order.token!);
+    expect(view?.status).toBe("pending");
+    expect(view?.canCancel).toBe(true);
+    expect(view?.items[0]?.name).toBe("CI Order Shoe");
+
+    // Unauthorized caller (no user, no token) cannot cancel.
+    expect(await cancelOrder(order.id, {})).toBe(false);
+    expect(await stockOf()).toBe(1);
+
+    expect(await cancelOrder(order.id, { token: order.token })).toBe(true);
+    expect(await orderStatus(order.id)).toBe("cancelled");
+    expect(await stockOf()).toBe(2);
+    // Second cancel is rejected — the order is no longer pending.
+    expect(await cancelOrder(order.id, { token: order.token })).toBe(false);
+  });
+
+  it("validates tracking codes", async () => {
+    const order = await createOrder(null, input("cod", 1));
+    expect(await setOrderTracking(order.id, "x!bad", "GHN")).toBe(false);
+    expect(await setOrderTracking(order.id, "GHNHANOI123456", "GHN")).toBe(true);
+    const view = await getOrderForLookup(order.id, order.token!);
+    expect(view?.tracking_code).toBe("GHNHANOI123456");
+    expect(await setOrderStatus(order.id, "cancelled")).toBe(true);
   });
 });
