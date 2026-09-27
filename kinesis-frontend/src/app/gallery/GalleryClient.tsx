@@ -32,7 +32,13 @@ function badges(status: string) {
   }
 }
 
-export default function GalleryClient({ initialQuery = "" }: { initialQuery?: string }) {
+export default function GalleryClient({
+  initialQuery = "",
+  stockTotals = null,
+}: {
+  initialQuery?: string;
+  stockTotals?: Record<string, number> | null;
+}) {
   const { add } = useCart();
   const [cat, setCat] = useState<(typeof CATEGORIES)[number]>("TẤT CẢ");
   const [sort, setSort] = useState<(typeof SORTS)[number]>("MỚI NHẤT // DROP DATE");
@@ -287,11 +293,11 @@ export default function GalleryClient({ initialQuery = "" }: { initialQuery?: st
                   verified
                 </span>
                 <span className="font-semibold uppercase tracking-widest">
-                  AUTHENTICATED IN MILAN
+                  HỒ SƠ CHẾ TÁC LƯU TẠI SHOP
                 </span>
               </div>
               <p className="text-secondary/80">
-                Mỗi cá thể giày đều được đính kèm chip NFC mã hoá chuỗi khối và số series chế tác
+                Mỗi cá thể giày đều được đính kèm nhãn NFC đối chiếu nội bộ và số series chế tác
                 thủ công.
               </p>
             </div>
@@ -327,7 +333,11 @@ export default function GalleryClient({ initialQuery = "" }: { initialQuery?: st
                         </span>
                         {p.status === "LIVE" && (
                           <span className="bg-surface-container-lowest/80 px-space-xs py-space-3xs font-label-micro text-label-micro uppercase text-secondary backdrop-blur-md">
-                            {p.edition.includes("500") ? "142 PAIRS" : "48 PAIRS"}
+                            {stockTotals?.[p.slug]
+                              ? `CÒN ${stockTotals[p.slug]} ĐÔI`
+                              : stockTotals
+                                ? "TẠM HẾT SIZE"
+                                : "KHO XÁC NHẬN KHI ĐẶT"}
                           </span>
                         )}
                       </div>

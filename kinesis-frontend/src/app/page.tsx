@@ -16,6 +16,13 @@ import ValueProps from "./home/ValueProps";
 import PassportSpot from "./home/PassportSpot";
 import Faq from "./home/Faq";
 import { PRODUCTS } from "@/lib/data";
+import { getStockTotal } from "@/lib/shop-products";
+
+/* 60s cache — the hero ticker shows real pairs remaining from product_stock. */
+export const revalidate = 60;
+
+export default async function HomePage() {
+  const k09Left = await getStockTotal("k-09-stratos-chrono");
 
 const STITCH_IMG = {
   hero: "https://lh3.googleusercontent.com/aida-public/AB6AXuCKMHELlXfmNzxocRGSAjON35prEgJPZjsYlAfMKYCCfqwxd6aY4-uUNR1HA8yK7HcQUcK8kaNyQqCRIJCynxLP9tXsHuN4Yaezbo1jTrLvU9KMzBCQDmlBCgU-so9ekm3ZowgOXeNobEtioZunVf3Q-NhJQguHlMsPtPxCdJ421Z3X9JGV814NN-FbLpO6r3fmdp-RW4d4cKCq4WMTkwFv6InA7O7aUqJILUqSN8BCyiVHAG9xPMT9hQ=s1600",
@@ -30,7 +37,6 @@ const STITCH_IMG = {
   lab: "https://lh3.googleusercontent.com/aida-public/AB6AXuAgUvQZchaRXP6_hlo-Zigs6FSdxvLMvZC6OMRYhuNBdgxufZmv1ab5AqBwGSRWUGcvhCUKjAuTBRtZCy7VXZaRYCiBYkcb7hRXWtU3Q6PZBbGTtcVwajQH66sD3xi_4QXet4KgwFNwpob6rmOVXNr-XXLyTIiJ8t_3hs-xeSw5mlUNL895j3-Vpz2jcfpDdC-7prYRjb7OBCg82FQ8VmfRC7ecM_ESM23Yzx4WBHvI721rFHsR1G_GVA=s1600",
 };
 
-export default function HomePage() {
   return (
     <>
       {/* ============ HERO — cinematic full-bleed ============ */}
@@ -78,8 +84,8 @@ export default function HomePage() {
               K-09 STRATOS CHRONO — $680 USD
             </p>
             <p className="mt-space-xs max-w-xl font-body-md text-body-md leading-6 text-secondary">
-              Khung carbon nguyên khối, khóa Titanium Grade 5, hộ chiếu số NFT. Giới hạn 500
-              đôi toàn cầu — 142 suất còn lại.
+              Khung carbon nguyên khối, khóa Titanium Grade 5, hộ chiếu số lưu tại shop. Giới hạn
+              500 đôi toàn cầu{k09Left !== null ? ` — còn ${k09Left} đôi khả dụng theo kho.` : "."}
             </p>
           </Reveal>
           <Reveal delay={0.28}>
@@ -110,7 +116,10 @@ export default function HomePage() {
               SECURE CLEARANCE
             </span>
             <span className="font-label-technical text-label-technical uppercase tracking-widest text-secondary">
-              SLOT ALLOCATION: <strong className="text-primary">142/500 REMAINING</strong>
+              SLOT ALLOCATION:{" "}
+              <strong className="text-primary">
+                {k09Left !== null ? `CÒN ${k09Left} ĐÔI KHẢ DỤNG (KHO)` : "XÁC NHẬN KHI ĐẶT"}
+              </strong>
             </span>
             <span className="hidden items-center gap-space-2xs font-label-micro text-label-micro uppercase tracking-widest text-secondary sm:flex">
               CUỘN XUỐNG
@@ -127,7 +136,7 @@ export default function HomePage() {
             ["NET WEIGHT", "310G", "NHẸ HƠN EVA 38%"],
             ["TORSION INDEX", "9.8 / 10", "CARBON NGUYÊN KHỐI"],
             ["RECYCLED CARBON", "74%", "VẬT LIỆU TÁI CHẾ"],
-            ["XÁC THỰC", "NFC + NFT", "CHIP MÃ HÓA ĐỘC BẢN"],
+            ["XÁC THỰC", "NFC + HỒ SƠ SỐ", "LƯU TRỮ TẠI SHOP"],
           ].map(([k, v, sub]) => (
             <div key={k} className="flex flex-col gap-space-3xs px-space-md py-space-md">
               <span className="font-label-micro text-label-micro uppercase tracking-widest text-secondary">{k}</span>

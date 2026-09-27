@@ -47,7 +47,7 @@ function HeaderBar({ pathname }: { pathname: string }) {
       <div className="flex w-full items-center justify-between bg-primary-container px-gutter-mobile py-space-3xs lg:px-gutter-desktop">
         <p className="flex items-center gap-space-2xs font-label-micro text-label-micro font-bold uppercase tracking-widest text-on-primary-container">
           <span className="size-1.5 animate-pulse rounded-full bg-on-primary-container" />
-          DROP 04 LIVE — CÒN 142/500 SUẤT
+          DROP 04 LIVE — K-09 STRATOS CHRONO
         </p>
         <p className="hidden font-label-micro text-label-micro font-bold uppercase tracking-widest text-on-primary-container sm:block">
           MIỄN PHÍ DHL 48–72H · HOTLINE 1900 8888

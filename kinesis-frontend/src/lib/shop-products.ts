@@ -8,6 +8,45 @@ import { withDb } from "@/lib/db";
 export const PRODUCT_STATUSES = ["LIVE", "UPCOMING", "SOLD OUT"] as const;
 export type ProductStatus = (typeof PRODUCT_STATUSES)[number];
 
+/* Per-size stock for the public product page. Null = DB unreachable, in
+   which case the UI must say "confirm at order" instead of inventing a number. */
+export async function getStockForProduct(slug: string): Promise<Record<string, number> | null> {
+  const r = await withDb((c) =>
+    c.query<{ size: string; qty: number }>(
+      `SELECT size, qty FROM product_stock WHERE slug = $1`,
+      [slug],
+    ),
+  );
+  if (!r) return null;
+  const map: Record<string, number> = {};
+  for (const row of r.rows) map[row.size] = row.qty;
+  return map;
+}
+
+/* Total pairs available across every size. Null = DB unreachable. */
+export async function getStockTotal(slug: string): Promise<number | null> {
+  const r = await withDb((c) =>
+    c.query<{ qty: number | null }>(
+      `SELECT COALESCE(sum(qty), 0)::int AS qty FROM product_stock WHERE slug = $1`,
+      [slug],
+    ),
+  );
+  return r?.rows[0]?.qty ?? null;
+}
+
+/* Totals for every slug at once (gallery grid, home ticker). Null = DB unreachable. */
+export async function getAllStockTotals(): Promise<Record<string, number> | null> {
+  const r = await withDb((c) =>
+    c.query<{ slug: string; qty: number }>(
+      `SELECT slug, COALESCE(sum(qty), 0)::int AS qty FROM product_stock GROUP BY slug`,
+    ),
+  );
+  if (!r) return null;
+  const map: Record<string, number> = {};
+  for (const row of r.rows) map[row.slug] = row.qty;
+  return map;
+}
+
 export interface ProductAdmin {
   slug: string;
   sku: string;

@@ -30,15 +30,22 @@ const SIZEGUIDE: Array<[string, string, string]> = [
   ["45", "11.0", "29.0 CM"],
 ];
 
-const SIZES: Array<{ v: string; stock: string; out?: boolean; hot?: boolean }> = [
-  { v: "39", stock: "4 đôi khả dụng" },
-  { v: "40", stock: "3 đôi khả dụng" },
-  { v: "41", stock: "5 đôi khả dụng" },
-  { v: "42", stock: "CHỈ CÒN 2 ĐÔI CUỐI (HIẾM)", hot: true },
-  { v: "43", stock: "6 đôi khả dụng" },
-  { v: "44", stock: "1 đôi duy nhất" },
-  { v: "45", stock: "ĐÃ HẾT HÀNG TRÊN TOÀN CẦU", out: true },
-];
+/* Real product_stock (per size) from the DB. null = DB unreachable →
+   the UI must say "confirm at order", never invent availability. */
+interface SizeRow {
+  v: string;
+  qty: number | null;
+  out: boolean;
+  label: string;
+}
+
+export default function ArtifactClient({
+  product,
+  sizeStock,
+}: {
+  product: Product;
+  sizeStock: Record<string, number> | null;
+}) {
 
 const LAYERS = [
   {
@@ -114,12 +121,9 @@ const GUARANTEES = [
   },
 ];
 
-export default function ArtifactClient({ product }: { product: Product }) {
   const { add } = useCart();
   const [view, setView] = useState(0);
   const [color, setColor] = useState(0);
-  const [size, setSize] = useState("42");
-  const [stock, setStock] = useState("EU 42: CÒN HÀNG TẠI KHO PARIS");
   const [added, setAdded] = useState(false);
   const [showSize, setShowSize] = useState(false);
   const short = product.name.split(" ").slice(0, 2).join(" ");
@@ -135,14 +139,36 @@ export default function ArtifactClient({ product }: { product: Product }) {
   const soldOut = product.status === "SOLD OUT";
   const vnd = `${(product.price * USD_TO_VND).toLocaleString("vi-VN")} VNĐ`;
 
-  const pickSize = (s: (typeof SIZES)[number]) => {
-    if (s.out) return;
+  const sizeRows: SizeRow[] = product.sizes.map((v) => {
+    const qty = sizeStock ? (sizeStock[v] ?? 0) : null;
+    return {
+      v,
+      qty,
+      out: qty === 0,
+      label:
+        qty === null
+          ? "KHO XÁC NHẬN KHI ĐẶT"
+          : qty === 0
+            ? "HẾT HÀNG"
+            : qty <= 2
+              ? `CHỈ CÒN ${qty} ĐÔI CUỐI`
+              : `${qty} ĐÔI KHẢ DỤNG`,
+    };
+  });
+  const [size, setSize] = useState(
+    () => sizeRows.find((r) => !r.out)?.v ?? sizeRows[0]?.v ?? "42",
+  );
+  const row = sizeRows.find((r) => r.v === size) ?? sizeRows[0];
+  const [stock, setStock] = useState(() => `EU ${row?.v}: ${row?.label}`);
+  const sizeUnavailable = row?.out === true;
+
+  const pickSize = (s: SizeRow) => {
     setSize(s.v);
-    setStock(`EU ${s.v}: ${s.stock.toUpperCase()}`);
+    setStock(`EU ${s.v}: ${s.label}`);
   };
 
   const buy = () => {
-    if (soldOut) return;
+    if (soldOut || sizeUnavailable) return;
     add({
       slug: product.slug,
       name: product.name,
@@ -171,7 +197,7 @@ export default function ArtifactClient({ product }: { product: Product }) {
           <div className="flex items-center gap-space-md font-label-micro text-label-micro">
             <span className="text-on-surface-variant">SERIAL: SPEC-{product.sku}</span>
             <span className="text-secondary/40">•</span>
-            <span className="text-on-surface-variant">CERTIFIED CRYPTO-NFC</span>
+            <span className="text-on-surface-variant">HỒ SƠ SỐ LƯU TẠI SHOP</span>
             <span className="text-secondary/40">•</span>
             <span className="text-primary">PARIS LAB RELEASE</span>
           </div>
@@ -382,11 +408,12 @@ export default function ArtifactClient({ product }: { product: Product }) {
                   </button>
                 </div>
                 <div className="grid grid-cols-7 gap-space-2xs">
-                  {SIZES.map((s) => (
+                  {sizeRows.map((s) => (
                     <button
                       key={s.v}
                       onClick={() => pickSize(s)}
                       disabled={s.out}
+                      title={`EU ${s.v}: ${s.label}`}
                       className={`py-space-xs text-center font-label-technical text-label-technical uppercase transition-colors ${
                         s.out
                           ? "cursor-not-allowed bg-surface-container-highest text-secondary/40 line-through"
@@ -406,7 +433,7 @@ export default function ArtifactClient({ product }: { product: Product }) {
                     <span>{stock}</span>
                   </div>
                   <span className="font-label-micro text-label-micro uppercase text-secondary/60">
-                    LOCK RESERVATION: 10:00
+                    {sizeStock ? "TỒN KHO TRỰC TIẾP TỪ DATABASE" : "KHO KHÔNG XÁC ĐỊNH ĐƯỢC"}
                   </span>
                 </div>
               </div>
@@ -415,9 +442,9 @@ export default function ArtifactClient({ product }: { product: Product }) {
               <div className="space-y-space-xs pt-space-xs">
                 <button
                   onClick={buy}
-                  disabled={soldOut}
+                  disabled={soldOut || sizeUnavailable}
                   className={`group flex w-full items-center justify-center gap-space-sm py-space-md font-label-technical text-label-technical font-bold uppercase tracking-widest transition-all ${
-                    soldOut
+                    soldOut || sizeUnavailable
                       ? "cursor-not-allowed bg-surface-container-highest text-secondary/50"
                       : "bg-primary-container text-on-primary-container hover:bg-tertiary hover:text-on-secondary"
                   }`}
@@ -428,9 +455,11 @@ export default function ArtifactClient({ product }: { product: Product }) {
                   <span>
                     {soldOut
                       ? "HẾT HÀNG // ĐĂNG KÝ WAITLIST"
-                      : added
-                        ? "ĐÃ THÊM VÀO GIỎ ✓"
-                        : "ĐẶT MUA NGAY // PURCHASE ARTIFACT"}
+                      : sizeUnavailable
+                        ? `EU ${size} ĐÃ HẾT HÀNG // CHỌN SIZE KHÁC`
+                        : added
+                          ? "ĐÃ THÊM VÀO GIỎ ✓"
+                          : "ĐẶT MUA NGAY // PURCHASE ARTIFACT"}
                   </span>
                 </button>
                 <button className="flex w-full items-center justify-center gap-space-sm bg-surface-container-high py-space-sm font-label-technical text-label-technical uppercase tracking-widest text-primary transition-colors hover:bg-surface-bright">
@@ -446,7 +475,7 @@ export default function ArtifactClient({ product }: { product: Product }) {
                 <span className="material-symbols-outlined text-[14px] text-primary-container">
                   lock
                 </span>
-                MÃ HÓA ARTIFACT TOKEN
+                HỒ SƠ SỐ LƯU TẠI SHOP
               </span>
               <span>BẢO HÀNH CẤP PHÒNG THÍ NGHIỆM 24 THÁNG</span>
             </div>
@@ -526,7 +555,7 @@ export default function ArtifactClient({ product }: { product: Product }) {
         </div>
       </section>
 
-      {/* ============ S3: NFC CRYPTO CERTIFICATE 5/7 ============ */}
+      {/* ============ S3: DIGITAL PASSPORT (shop-kept records) ============ */}
       <section className="w-full bg-surface px-gutter-mobile py-space-3xl lg:px-gutter-desktop">
         <div className="relative mx-auto max-w-7xl overflow-hidden bg-surface-container-low p-space-xl lg:p-space-2xl">
           <div className="pointer-events-none absolute -right-20 -top-20 size-96 rounded-full bg-primary-container/10 blur-3xl" />
@@ -534,23 +563,23 @@ export default function ArtifactClient({ product }: { product: Product }) {
             <div className="space-y-space-md lg:col-span-5">
               <div className="inline-flex items-center gap-space-xs bg-surface-container-lowest px-space-sm py-space-3xs font-label-technical text-label-technical uppercase text-primary-container">
                 <span className="material-symbols-outlined text-[16px]">nfc</span>
-                <span>CHIP NFC XÁC THỰC BLOCKCHAIN</span>
+                <span>NHÃN NFC ĐỐI CHIẾU NỘI BỘ</span>
               </div>
               <h3 className="font-headline-md text-headline-md uppercase tracking-tight text-primary">
-                ĐẶC QUYỀN SỞ HỮU SỐ ĐỘC BẢN {"//"} DIGITAL ARTIFACT
+                HỘ CHIẾU SỐ CHO TỪNG ĐÔI GIÀY {"//"} HỒ SƠ LƯU TẠI SHOP
               </h3>
               <p className="font-body-md text-body-md text-secondary">
-                Mỗi specimen {short} giấu chip NFC dưới gờ gót Titanium — 1 chạm để kích hoạt chứng chỉ sở hữu số.
+                Mỗi specimen {short} gắn nhãn NFC dưới gờ gót — 1 chạm để tra hồ sơ chế tác và bảo hành do Kinesis lưu trữ.
               </p>
               <div className="space-y-space-xs bg-surface-container-lowest p-space-md">
                 <div className="flex items-center justify-between font-label-technical text-label-technical">
-                  <span className="text-secondary">CHIP ID PROTOCOL:</span>
-                  <span className="font-mono text-primary">0x4F92...B99C</span>
+                  <span className="text-secondary">MÃ HỒ SƠ:</span>
+                  <span className="font-mono text-primary">{product.sku}</span>
                 </div>
                 <div className="flex items-center justify-between font-label-technical text-label-technical">
-                  <span className="text-secondary">TRẠNG THÁI KHẢ DỤNG:</span>
+                  <span className="text-secondary">NƠI LƯU TRỮ:</span>
                   <span className="font-bold uppercase text-primary-container">
-                    SẴN SÀNG ĐĂNG KÝ DANH CHÍNH
+                    HỆ THỐNG NỘI BỘ KINESIS
                   </span>
                 </div>
                 <div className="flex items-center justify-between font-label-technical text-label-technical">
@@ -589,7 +618,7 @@ export default function ArtifactClient({ product }: { product: Product }) {
                   href="/passport"
                   className="flex items-center gap-space-2xs pt-space-md font-label-technical text-label-technical uppercase text-primary-container"
                 >
-                  <span>XEM SMART CONTRACT CÔNG KHAI</span>
+                  <span>XEM HỘ CHIẾU SỐ</span>
                   <span className="material-symbols-outlined text-[16px]">arrow_outward</span>
                 </Link>
               </div>

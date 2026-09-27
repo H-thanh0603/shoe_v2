@@ -1,7 +1,7 @@
-// docker-compose.yml — KINESIS / ATELIER dev database
-// Local Postgres 18 for audit trail + approval checkpoints + orders.
-// Usage: docker compose up -d db   (needs Docker daemon)
-// The app also works without DB via in-memory fallback.
+# docker-compose.yml — KINESIS / ATELIER dev database
+# Local Postgres 18 for audit trail + approval checkpoints + orders.
+# Usage: docker compose up -d db   (needs Docker daemon)
+# The app also works without DB via in-memory fallback.
 services:
   db:
     image: postgres:18

@@ -27,12 +27,12 @@ const HOTSPOTS = [
 ];
 
 const META = [
-  ["CHỦ SỞ HỮU HIỆN TẠI:", "ALEXANDER TRẦN"],
-  ["THỜI ĐIỂM ĐÚC KHỐI:", "24/10/2025 // 14:22:09 UTC"],
+  ["CHỦ SỞ HỮU HIỆN TẠI:", "ALEXANDER TRẦN (BẢN MẪU DEMO)"],
+  ["THỜI ĐIỂM HOÀN THIỆN:", "24/10/2025 // 14:22:09 UTC"],
   ["XƯỞNG CHẾ TÁC GỐC:", "PARIS IX // STUDIO BIOMECHANICS"],
   ["TỌA ĐỘ VẬT LÝ:", "48.8744° N, 2.3522° E"],
-  ["TOKEN CHUỖI KHỐI:", "ERC-721 (#0094)"],
-  ["HỢP ĐỒNG MINH CHỨNG:", "0x8a929fb01c3d82a1"],
+  ["LOẠI HỒ SƠ:", "BẢN GHI DO SHOP LƯU TRỮ"],
+  ["MÃ HỒ SƠ:", "KNS-779X-TITANIUM"],
 ];
 
 const TRAIL = [
@@ -42,7 +42,6 @@ const TRAIL = [
     tag: "LAB TOKYO",
     body: "Kenzo Mori kiểm định khung gót #04 bằng cắt gọt vi tính DMLS.",
     time: "08/10/2025 // 09:14 JST",
-    hash: "0xaa4f...728b",
     active: false,
   },
   {
@@ -51,43 +50,38 @@ const TRAIL = [
     tag: "ATELIER RUE CHARLOT, PARIS",
     body: "Alexandre Chen ráp tay 18 giờ — seamless, định hình phom.",
     time: "15/10/2025 // 16:30 CEST",
-    hash: "0x33b1...e589",
     active: false,
   },
   {
     n: "03",
-    title: "ĐO ĐẠC SINH TRẮC & CẤY CHIP NFC NTAG 424",
+    title: "ĐO ĐẠC SINH TRẮC & LẮP NHÃN NFC NTAG 424",
     tag: "BIOMETRIC LAB",
-    body: "Cấy chip NTAG 424 chuẩn ngân hàng vào lưỡi gà phải.",
+    body: "Lắp nhãn NTAG 424 chuẩn ngân hàng vào lưỡi gà phải — dùng để tra hồ sơ nội bộ.",
     time: "19/10/2025 // 11:05 CEST",
-    hash: "0x88c2...12ad",
     active: false,
   },
   {
     n: "04",
-    title: "CHỨNG NHẬN XUẤT XƯỞNG & ĐÚC NFT HỘ CHIẾU SỐ",
-    tag: "POLYGON ZK-EVM CORE",
-    body: "Đúc NFT định danh vĩnh viễn — ký bởi Khóa Master Syndicate.",
+    title: "CHỨNG NHẬN XUẤT XƯỞNG & SỐ HÓA HỘ CHIẾU SỐ",
+    tag: "KINESIS RECORD SYSTEM",
+    body: "Toàn bộ nhật ký chế tác được số hóa, lưu trên hệ thống nội bộ của shop.",
     time: "24/10/2025 // 14:22 UTC",
-    hash: "0x77d9...90ff",
     active: false,
   },
   {
     n: "05",
-    title: "VẬN CHUYỂN BỌC THÉP BẢO MẬT CAO CẤP",
+    title: "ĐÓNG GÓI BẢO MẬT & NIÊM PHONG",
     tag: "PARIS → TP. HỒ CHÍ MINH",
-    body: "Vali nhôm khóa sinh trắc + GPS vệ tinh toàn trình.",
+    body: "Vali nhôm khóa số + tem niêm phong, đối chiếu mã khi nhận.",
     time: "27/10/2025 // 08:45 UTC",
-    hash: "0x11ee...443c",
     active: false,
   },
   {
     n: "06",
     title: "KÍCH HOẠT QUYỀN SỞ HỮU TƯ GIA",
     tag: "STATUS: CONFIRMED BY OWNER",
-    body: "Chủ sở hữu chạm NFC và ghép ví thành công tại tư gia.",
+    body: "Chủ sở hữu chạm NFC và xác nhận tiếp nhận tại tư gia.",
     time: "28/10/2025 // 19:12 ICT",
-    hash: "0x94f2...899c",
     active: true,
   },
 ];
@@ -105,14 +99,14 @@ const UTILITIES = [
     title: "APPLE VISION PRO .USDZ",
     body: "Chạy trên Vision Pro và Quest 3 qua WebXR.",
     cta: { icon: "spatial_audio_off", label: "KHỞI CHẠY VISIONOS AR", primary: false },
-    note: "ĐỒNG BỘ AIRDROP TỨC THỜI",
+    note: "XEM TRÊN ỨNG DỤNG AR",
   },
   {
     icon: "lock_open",
-    title: "ĐẶC QUYỀN SYNDICATE ELITE",
-    body: "Discord mật, vé Private Showroom Paris, bảo dưỡng trọn đời.",
-    cta: { icon: "forum", label: "VÀO KÊNH BẢO MẬT DISCORD", primary: true },
-    note: "YÊU CẦU KÝ XÁC THỰC MẬT MÃ VÍ",
+    title: "ĐẶC QUYỀN CHỦ SỞ HỮU",
+    body: "Ưu tiên bảo dưỡng định kỳ và sự kiện riêng cho khách đã xác minh đơn hàng.",
+    cta: { icon: "forum", label: "LIÊN HỆ BỘ PHẬN ĐƠN HÀNG", primary: true },
+    note: "DÀNH CHO CHỦ SỞ HỮU ĐÃ XÁC MINH",
   },
 ];
 
@@ -139,7 +133,7 @@ export default function PassportClient() {
             <div className="flex items-center gap-space-2xs bg-surface-container px-space-sm py-space-3xs">
               <span className="size-2 animate-ping rounded-full bg-primary-container" />
               <span className="font-label-micro text-label-micro uppercase tracking-wider text-primary-container">
-                ON-CHAIN VERIFIED {"//"} POLYGON ZK-EVM
+                HỒ SƠ SỐ LƯU TẠI SHOP {"//"} BẢN MẪU DEMO
               </span>
             </div>
             <div className="flex items-center gap-space-2xs bg-surface-container-high px-space-sm py-space-3xs">
@@ -531,10 +525,11 @@ export default function PassportClient() {
               </span>
             </div>
             <h2 className="font-headline-md text-headline-md uppercase tracking-tight text-primary">
-              PROVENANCE &amp; CRYPTOGRAPHIC AUDIT TRAIL
+              HỒ SƠ NGUỒN GỐC DO SHOP LƯU GIỮ
             </h2>
             <p className="mt-space-2xs max-w-2xl font-body-sm text-body-sm text-secondary">
-              Mọi mắt xích chuỗi cung ứng bảo chứng on-chain Polygon ZK-EVM.
+              Nhật ký chế tác nội bộ — được Kinesis lưu trữ và đối chiếu khi bảo hành/ bán lại.
+              Đây là trang mẫu tham khảo, không phải xác thực blockchain.
             </p>
           </div>
 
@@ -583,7 +578,7 @@ export default function PassportClient() {
                   <span
                     className={`font-label-technical text-label-technical text-primary-container ${s.active ? "font-bold" : ""}`}
                   >
-                    HASH: {s.hash}
+                    HỒ SƠ {s.n}
                   </span>
                 </div>
               </div>
@@ -608,7 +603,7 @@ export default function PassportClient() {
               </h2>
             </div>
             <div className="font-label-micro text-label-micro uppercase text-secondary">
-              [ TẤT CẢ FILE ĐÃ MÃ HÓA CHO VÍ 0x94F2 ]
+              [ TÀI LIỆU DÀNH RIÊNG CHO CHỦ SỞ HỮU ]
             </div>
           </div>
 

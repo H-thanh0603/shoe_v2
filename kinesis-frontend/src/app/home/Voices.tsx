@@ -21,9 +21,9 @@ const VOICES = [
     meta: "SỞ HỮU K-12 · HÀ NỘI",
   },
   {
-    quote: "Hộ chiếu NFT nghe như chiêu trò, cho đến khi tôi bán lại đôi K-01 với provenance đầy đủ.",
+    quote: "Hồ sơ chế tác đầy đủ khiến việc bán lại đôi K-01 nhẹ nhàng hơn tôi tưởng.",
     name: "KENJI M.",
-    meta: "OBSIDIAN ELITE · TOKYO",
+    meta: "SỞ HỮU K-01 · TOKYO",
   },
 ];
 
@@ -41,6 +41,9 @@ export default function Voices() {
         <h2 className="mt-space-2xs font-display-lg text-display-lg uppercase leading-none tracking-tight text-primary">
           BẰNG CHỨNG <span className="text-primary-container">THAY LỜI QUẢNG CÁO</span>
         </h2>
+        <p className="mt-space-2xs font-label-micro text-label-micro uppercase tracking-widest text-secondary/70">
+          Nội dung minh họa cho bản demo — đánh giá từ đơn bàn giao thật sẽ hiển thị tại đây.
+        </p>
       </div>
 
       {/* Press marquee */}

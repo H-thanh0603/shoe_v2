@@ -3,8 +3,8 @@ import Link from "next/link";
 const PROPS = [
   {
     icon: "verified_user",
-    title: "SỞ HỮU XÁC THỰC NFT",
-    body: "Chip NFC + hộ chiếu số Polygon theo giày trọn đời. Không thể làm giả, sang tay minh bạch.",
+    title: "HỘ CHIẾU SỐ THEO GIÀY",
+    body: "Nhãn NFC + hồ sơ chế tác số do shop lưu trữ trọn đời — đối chiếu khi bảo hành hoặc sang tên.",
     href: "/passport",
     cta: "XEM HỘ CHIẾU →",
   },
@@ -17,8 +17,8 @@ const PROPS = [
   },
   {
     icon: "diamond",
-    title: "GIỚI HẠN 500 ĐÔI TOÀN CẦU",
-    body: "Mỗi drop đánh số edition, hết là hết. Syndicate được mua trước 60 phút.",
+    title: "SỐ LƯỢNG GIỚI HẠN THEO DROP",
+    body: "Mỗi drop đánh số edition, bán hết là dừng. Tồn kho hiển thị trực tiếp từ kho.",
     href: "/gallery",
     cta: "VÀO ARCHIVE →",
   },

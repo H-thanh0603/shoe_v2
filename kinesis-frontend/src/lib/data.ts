@@ -3,6 +3,8 @@ export type Category = "HYPER-RUNNING" | "AVANT-GARDE" | "LAB EXPERIMENTAL";
 /* Single source of truth for USD display price → VND. */
 export const USD_TO_VND = 25_000;
 
+export const EU_SIZES = ["39", "40", "41", "42", "43", "44", "45"];
+
 export interface Product {
   slug: string;
   sku: string;
@@ -16,6 +18,7 @@ export interface Product {
   materials: string[];
   image: string;
   colors: string[];
+  sizes: string[];
 }
 
 const img = (id: string, w = 1200) =>
@@ -68,12 +71,13 @@ export const PRODUCTS: Product[] = [
     price: 680,
     category: "LAB EXPERIMENTAL",
     status: "LIVE",
-    edition: "142/500 REMAINING",
+    edition: "EDITION OF 500",
     description:
       "Silhouette thí nghiệm No.09 — khung sợi carbon nguyên khối, khóa đệm Titanium Grade 5 và dây shock-cord volt phát quang. Giới hạn 500 đôi toàn cầu.",
     materials: ["Carbon nguyên khối", "Titanium Grade 5", "Ripstop Polymer", "Nitrogen Foam"],
     image: STITCH.k09,
     colors: ["VOLT", "CHROME", "NOIR"],
+    sizes: EU_SIZES,
   },
   {
     slug: "k-07-solaris-glitch",
@@ -83,12 +87,13 @@ export const PRODUCTS: Product[] = [
     price: 740,
     category: "AVANT-GARDE",
     status: "LIVE",
-    edition: "18 PAIRS REMAINING",
+    edition: "EDITION OF 24",
     description:
       "Bề mặt phủ thủy ngân lỏng quang học biến sắc cùng túi đệm khí điều áp kỹ thuật số. Đỉnh cao kỹ thuật tạo hình điêu khắc.",
     materials: ["Liquid Mercury TPU", "Air Chamber"],
     image: STITCH.k07,
     colors: ["CHROME", "VOLT"],
+    sizes: EU_SIZES,
   },
   {
     slug: "k-01-phantom-shadow",
@@ -104,6 +109,7 @@ export const PRODUCTS: Product[] = [
     materials: ["Cordura Ballistic", "Magnetic Lock"],
     image: STITCH.k01,
     colors: ["NOIR"],
+    sizes: EU_SIZES,
   },
   {
     slug: "k-12-titan-runner",
@@ -119,6 +125,7 @@ export const PRODUCTS: Product[] = [
     materials: ["Titanium", "Mesh"],
     image: STITCH.k12,
     colors: ["VOLT", "NOIR"],
+    sizes: EU_SIZES,
   },
   {
     slug: "k-04-aero-drift",
@@ -134,6 +141,7 @@ export const PRODUCTS: Product[] = [
     materials: ["Parametric Lattice", "Chrome Film"],
     image: STITCH.g1,
     colors: ["CHROME", "VOLT"],
+    sizes: EU_SIZES,
   },
   {
     slug: "k-x-lab-null",
@@ -149,6 +157,7 @@ export const PRODUCTS: Product[] = [
     materials: ["Experimental Weave", "Titanium Exo"],
     image: STITCH.g2,
     colors: ["NOIR"],
+    sizes: EU_SIZES,
   },
 ];
 
@@ -181,18 +190,13 @@ export const LOOKS = [
   { title: "CHROME DIVISION", location: "SEOUL NIGHT TEST", image: IMAGES.lookSeoul },
 ];
 
+/* Craft log kept by the shop (demo specimen). No on-chain records exist —
+   never present these entries as cryptographic proof. */
 export const PROVENANCE = [
-  { time: "2025.11.02 — 09:41 JST", event: "Lắp ráp thủ công hoàn tất tại Tokyo Kinetic Lab", hash: "0x8f3a…c41d" },
-  { time: "2025.11.04 — 14:02 JST", event: "Quét sinh trắc & đúc hộ chiếu số (mint)", hash: "0x2b7e…9f00" },
-  { time: "2025.11.09 — 18:20 CET", event: "Kiểm định Atelier Paris — Craft Index 99.4%", hash: "0x51cd…77ab" },
-  { time: "2025.11.12 — 07:55 CET", event: "Niêm phong vault Milan, gắn chip NFC đối chiếu", hash: "0xa090…3e19" },
-];
-
-export const TRANSACTIONS = [
-  { id: "TX-8841", item: "K-09 STRATOS CHRONO", date: "2025.11.12", status: "ĐÃ NHẬN", total: "$680" },
-  { id: "TX-8790", item: "K-07 SOLARIS GLITCH", date: "2025.10.28", status: "ĐÃ NHẬN", total: "$590" },
-  { id: "TX-8714", item: "K-01 PHANTOM MATRIX", date: "2025.09.30", status: "KHO MILAN", total: "$590" },
-  { id: "TX-8655", item: "K-04 AERO DRIFT", date: "2025.11.20", status: "ĐANG VẬN CHUYỂN", total: "$720" },
+  { time: "2025.11.02 — 09:41 JST", event: "Lắp ráp thủ công hoàn tất tại Tokyo Kinetic Lab" },
+  { time: "2025.11.04 — 14:02 JST", event: "Số hóa hồ sơ đôi giày, lưu trữ tại hệ thống Kinesis" },
+  { time: "2025.11.09 — 18:20 CET", event: "Kiểm định Atelier Paris — Craft Index 99.4%" },
+  { time: "2025.11.12 — 07:55 CET", event: "Niêm phong kho Milan, gắn nhãn NFC đối chiếu nội bộ" },
 ];
 
 export const formatUSD = (n: number) =>

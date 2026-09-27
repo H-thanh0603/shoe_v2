@@ -303,30 +303,19 @@ export function compareProducts(
   };
 }
 
-export type ProvenanceEntry = { time: string; event: string; hash: string };
+export type ProvenanceEntry = { time: string; event: string };
 
-/* The global provenance chain is the K-09 passport; per-product chains are
-   derived deterministically so every Agent response carries a provenance trail. */
+/* The global provenance chain is the K-09 craft log; per-product chains are
+   derived so every Agent response carries a provenance trail (shop-kept). */
 export function provenanceFor(
   slug: string,
 ): { product: Product | null; chain: ProvenanceEntry[] } {
   const product = PRODUCTS.find((p) => p.slug === slug) ?? null;
-  const chain = PROVENANCE.map((entry, i) => ({
+  const chain = PROVENANCE.map((entry) => ({
     time: entry.time,
     event: product ? `${product.name.toUpperCase()} — ${entry.event}` : entry.event,
-    hash: i === 0 && product ? `0x${sha8(product.sku)}` : entry.hash,
   }));
   return { product, chain };
-}
-
-/* Tiny deterministic 8-hex digest (demo stand-in for a real hash). */
-function sha8(input: string): string {
-  let h = 2166136261;
-  for (let i = 0; i < input.length; i++) {
-    h ^= input.charCodeAt(i);
-    h = (h * 16777619) & 0xffffffff;
-  }
-  return (h ^ (h >> 16)).toString(16).padStart(8, "0");
 }
 
 /* ---------- Security boundary ----------

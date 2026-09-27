@@ -8,7 +8,7 @@ const STOPS = [
     id: "04",
     date: "ĐANG DIỄN RA",
     name: "DROP 04 // K-09 STRATOS",
-    desc: "142/500 đôi còn lại. Đóng drop khi hết allocation.",
+    desc: "Bán đến khi hết allocation của drop. Tồn kho hiển thị trực tiếp từ kho.",
     live: true,
   },
   {
@@ -21,8 +21,8 @@ const STOPS = [
   {
     id: "06",
     date: "Q1 / 2027",
-    name: "DROP 06 // K-X LAB PUBLIC MINT",
-    desc: "Nguyên mẫu phòng lab mở mint hộ chiếu số lần đầu.",
+    name: "DROP 06 // K-X LAB RELEASE",
+    desc: "Nguyên mẫu phòng lab mở bán hộ chiếu số lần đầu.",
     live: false,
   },
 ];

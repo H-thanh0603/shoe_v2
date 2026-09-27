@@ -3,10 +3,10 @@ import Link from "next/link";
 import { STITCH } from "@/lib/data";
 
 const POINTS = [
-  ["CHIP NFC NTAG 424", "TRONG LƯỠI GÀ · CHẠM LÀ XÁC THỰC"],
-  ["NFT ERC-721", "POLYGON ZK-EVM · KHÔNG THỂ LÀM GIẢ"],
+  ["NHÃN NFC NTAG 424", "TRONG LƯỠI GÀ · CHẠM LÀ TRA HỒ SƠ"],
+  ["HỒ SƠ SỐ DO SHOP LƯU", "NHẬT KÝ CHẾ TÁC MINH BẠCH, ĐỐI CHIẾU KHI BẢO HÀNH"],
   ["PROVENANCE 6 BƯỚC", "TỪ XƯỞNG TOKYO ĐẾN TAY BẠN"],
-  ["BẢO HÀNH TRỌN ĐỜI", "SYNDICATE LIFETIME PROTOCOL"],
+  ["BẢO HÀNH 24 THÁNG", "DỊCH VỤ ATELIER THEO HỒ SƠ GỐC"],
 ];
 
 export default function PassportSpot() {
@@ -28,7 +28,7 @@ export default function PassportSpot() {
             <div className="absolute top-space-md left-space-md flex items-center gap-space-2xs bg-surface-container-lowest/90 px-space-sm py-space-2xs backdrop-blur-md">
               <span className="size-2 animate-pulse rounded-full bg-primary-container" />
               <span className="font-label-micro text-label-micro font-bold uppercase tracking-widest text-primary-container">
-                ON-CHAIN VERIFIED
+                HỒ SƠ SỐ LƯU TẠI SHOP
               </span>
             </div>
             <div className="absolute inset-x-space-md bottom-space-md border border-primary-container/30 bg-surface-container-lowest/90 p-space-md backdrop-blur-md">
@@ -39,7 +39,7 @@ export default function PassportSpot() {
                 K-09 STRATOS CHRONO
               </p>
               <div className="mt-space-xs flex items-center justify-between border-t border-surface-container-highest pt-space-xs font-mono font-label-micro text-label-micro">
-                <span className="text-secondary">TOKEN ERC-721 (#0094)</span>
+                <span className="text-secondary">RECORD KNS-779X-TITANIUM</span>
                 <span className="text-primary-container">SPECIMEN #04 / 50</span>
               </div>
             </div>
@@ -58,9 +58,8 @@ export default function PassportSpot() {
             MỘT HỘ CHIẾU <span className="text-primary-container">VĨNH CỬU</span>
           </h2>
           <p className="mt-space-md max-w-xl font-body-lg text-body-lg text-secondary">
-            Mỗi hiện vật Kinesis đúc kèm hộ chiếu số theo giày trọn đời: xác thực một chạm,
-            nguồn gốc minh bạch trên chuỗi khối, và đặc quyền Syndicate không thể sang nhượng
-            giả mạo.
+            Mỗi hiện vật Kinesis kèm hộ chiếu số lưu theo giày trọn đời: xác thực một chạm bằng
+            NFC, nhật ký chế tác minh bạch do shop giữ, và quyền lợi không thể sang nhượng giả mạo.
           </p>
 
           <div className="mt-space-lg grid grid-cols-1 gap-space-sm sm:grid-cols-2">
