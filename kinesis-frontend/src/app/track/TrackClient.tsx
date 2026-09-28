@@ -48,6 +48,9 @@ export default function TrackClient() {
   const [error, setError] = useState("");
   const [loaded, setLoaded] = useState(false);
   const [busy, setBusy] = useState(false);
+  const [rating, setRating] = useState(0);
+  const [review, setReview] = useState("");
+  const [reviewMsg, setReviewMsg] = useState("");
 
   async function load() {
     setError("");
@@ -167,6 +170,58 @@ export default function TrackClient() {
             </div>
           </div>
 
+          {order.status === "delivered" && (
+            <div className="border border-surface-container-highest bg-surface-container-low p-space-md">
+              <p className="font-label-technical text-label-technical uppercase tracking-widest text-primary">
+                Đơn đã giao — đánh giá giúp shop (mỗi đơn 1 lượt)
+              </p>
+              <div className="mt-space-2xs flex gap-space-2xs">
+                {[1, 2, 3, 4, 5].map((n) => (
+                  <button
+                    key={n}
+                    onClick={() => setRating(n)}
+                    aria-label={`${n} sao`}
+                    className={`font-label-technical text-xl ${rating >= n ? "text-primary-container" : "text-secondary/40"}`}
+                  >
+                    ★
+                  </button>
+                ))}
+              </div>
+              <textarea
+                value={review}
+                onChange={(e) => setReview(e.target.value)}
+                maxLength={600}
+                placeholder="Cảm nhận về form, độ êm, giao hàng… (không bắt buộc)"
+                className="mt-space-2xs h-20 w-full border border-surface-container-highest bg-surface p-space-2xs font-body-sm text-body-sm text-primary placeholder:text-secondary/40 focus:border-primary-container focus:outline-none"
+              />
+              <button
+                disabled={!rating || busy}
+                onClick={async () => {
+                  if (!rating) return;
+                  setBusy(true);
+                  setReviewMsg("");
+                  try {
+                    const res = await fetch("/api/reviews", {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({ order: order.id, token, rating, body: review }),
+                    });
+                    const d = (await res.json()) as { ok?: boolean; error?: string; message?: string };
+                    setReviewMsg(d.ok ? "Cảm ơn bạn — đánh giá đã hiển thị trên trang sản phẩm." : (d.message ?? "Không gửi được đánh giá."));
+                    if (d.ok) setReview("");
+                  } catch {
+                    setReviewMsg("Lỗi kết nối — thử lại sau.");
+                  } finally {
+                    setBusy(false);
+                  }
+                }}
+                className="mt-space-2xs border border-primary-container px-space-md py-space-2xs font-label-technical text-label-technical uppercase tracking-widest text-primary-container disabled:opacity-40"
+              >
+                {busy ? "ĐANG GỬI…" : "GỬI ĐÁNH GIÁ"}
+              </button>
+              {reviewMsg && <p className="mt-space-2xs font-label-micro text-label-micro uppercase tracking-widest text-secondary">{reviewMsg}</p>}
+            </div>
+          )}
           {order.canCancel && (
             <button
               onClick={cancel}

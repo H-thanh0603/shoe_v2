@@ -1,4 +1,11 @@
-import { withDb } from "@/lib/db";
+import { createHash, timingSafeEqual } from "node:crypto";
+import { getPool, withDb } from "@/lib/db";
+
+function safeEq(a: string, b: string): boolean {
+  const ha = createHash("sha256").update(a).digest();
+  const hb = createHash("sha256").update(b).digest();
+  return timingSafeEqual(ha, hb);
+}
 
 /* ============================================================
    Admin product catalog — list / update / create / stock.
@@ -188,4 +195,130 @@ export async function createProduct(p: NewProduct): Promise<string> {
   });
   if (r === null) return "db_unreachable";
   return "ok";
+}
+
+/* ---------- Fit advice + social proof (3.2 / 4.3) ---------- */
+
+/* Per-product fit note written by the shop; '' means "no note yet". */
+export async function getFitNote(slug: string): Promise<string | null> {
+  const r = await withDb((c) =>
+    c.query<{ fit_note: string }>(`SELECT fit_note FROM products WHERE slug = $1`, [slug]),
+  );
+  if (!r || r.rows.length === 0) return null;
+  return r.rows[0].fit_note;
+}
+
+/* Pairs already sold (orders that actually progressed past payment). */
+export async function getSoldTotal(slug: string): Promise<number | null> {
+  const r = await withDb((c) =>
+    c.query<{ qty: number | null }>(
+      `SELECT COALESCE(sum(oi.qty), 0)::int AS qty
+       FROM order_items oi
+       JOIN orders o ON o.id = oi.order_id
+       WHERE oi.slug = $1 AND o.status IN ('paid','confirmed','shipped','delivered')`,
+      [slug],
+    ),
+  );
+  return r?.rows[0]?.qty ?? null;
+}
+
+export interface Review {
+  rating: number;
+  body: string;
+  created_at: string;
+}
+
+export interface ReviewSummary {
+  count: number;
+  avg: number;
+  latest: Review[];
+}
+
+export async function getReviewSummary(slug: string, latest = 5): Promise<ReviewSummary | null> {
+  const r = await withDb(async (c) => {
+    const agg = await c.query<{ count: string; avg: string }>(
+      `SELECT count(*)::text AS count, COALESCE(avg(rating), 0)::text AS avg FROM reviews WHERE slug = $1`, [slug],
+    );
+    const rows = await c.query<Review>(
+      `SELECT rating, body, created_at FROM reviews WHERE slug = $1 ORDER BY created_at DESC LIMIT $2`,
+      [slug, latest],
+    );
+    return {
+      count: Number(agg.rows[0]?.count ?? 0),
+      avg: Number(agg.rows[0]?.avg ?? 0),
+      latest: rows.rows,
+    };
+  });
+  return r;
+}
+
+/* One review per delivered order, authorized by the same lookup token the
+   customer uses on /track. Returns an error string instead of throwing. */
+export async function addReviewForOrder(
+  orderId: string,
+  token: string,
+  rating: number,
+  body: string,
+): Promise<"ok" | "not_delivered" | "already" | "not_found" | "invalid" | "db_unreachable"> {
+  if (!Number.isInteger(rating) || rating < 1 || rating > 5) return "invalid";
+  const text = body.trim().slice(0, 600);
+  const pool = getPool();
+  if (!pool) return "db_unreachable";
+  const client = await pool.connect();
+  try {
+    await client.query("BEGIN");
+    const { rows } = await client.query<{ status: string; lookup_token: string }>(
+      `SELECT status, lookup_token FROM orders WHERE id = $1 FOR UPDATE`,
+      [orderId],
+    );
+    const o = rows[0];
+    if (!o || !o.lookup_token || !safeEq(o.lookup_token, token)) {
+      await client.query("ROLLBACK");
+      return "not_found";
+    }
+    if (o.status !== "delivered") {
+      await client.query("ROLLBACK");
+      return "not_delivered";
+    }
+    const first = await client.query<{ slug: string | null }>(
+      `SELECT slug FROM order_items WHERE order_id = $1 ORDER BY id LIMIT 1`,
+      [orderId],
+    );
+    const slug = first.rows[0]?.slug;
+    if (!slug) {
+      await client.query("ROLLBACK");
+      return "not_found";
+    }
+    const dup = await client.query(`SELECT 1 FROM reviews WHERE order_id = $1`, [orderId]);
+    if ((dup.rowCount ?? 0) > 0) {
+      await client.query("ROLLBACK");
+      return "already";
+    }
+    await client.query(
+      `INSERT INTO reviews (order_id, slug, rating, body) VALUES ($1,$2,$3,$4)`,
+      [orderId, slug, rating, text],
+    );
+    await client.query("COMMIT");
+    return "ok";
+  } catch {
+    await client.query("ROLLBACK");
+    return "db_unreachable";
+  } finally {
+    client.release();
+  }
+}
+
+/* Waitlist (4.2) — restock alerts. Email re-submission just refreshes the slug. */
+export async function joinWaitlist(email: string, slug: string): Promise<"ok" | "invalid" | "db_unreachable"> {
+  const e = email.trim().toLowerCase();
+  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(e) || e.length > 254) return "invalid";
+  const s = /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug) ? slug.slice(0, 64) : "";
+  const r = await withDb((c) =>
+    c.query(
+      `INSERT INTO waitlist (email, slug) VALUES ($1,$2)
+       ON CONFLICT (email) DO UPDATE SET slug = EXCLUDED.slug`,
+      [e, s],
+    ),
+  );
+  return r === null ? "db_unreachable" : "ok";
 }

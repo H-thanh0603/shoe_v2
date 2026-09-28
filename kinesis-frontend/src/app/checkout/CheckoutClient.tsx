@@ -18,10 +18,11 @@ export default function CheckoutClient() {
   const { items, setQty, remove, subtotal, count, clear } = useCart();
   const [promo, setPromo] = useState("");
   const [promoOk, setPromoOk] = useState<boolean | null>(null);
-  const [pay, setPay] = useState<"vnpay" | "cod">("vnpay");
+  const [pay, setPay] = useState<"vnpay" | "cod" | "vietqr">("vnpay");
   const [state, setState] = useState<"idle" | "securing" | "done">("idle");
   const [dispatchId, setDispatchId] = useState("");
   const [trackToken, setTrackToken] = useState("");
+  const [qr, setQr] = useState<{ url: string; memo: string; amountVnd: number } | null>(null);
   const [error, setError] = useState("");
   /* Stable for the whole checkout session: double-click and network retry
      hit the same idempotency key, so only one order is ever created. */
@@ -59,6 +60,21 @@ export default function CheckoutClient() {
           Email xác nhận kèm đường dẫn theo dõi đã gửi tới hòm thư của bạn — lưu lại để tra
           trạng thái, nhận số vận đơn hoặc hủy đơn khi còn chờ thanh toán.
         </p>
+        {qr && (
+          <div className="mt-space-lg flex flex-col items-center gap-space-sm border border-surface-container-highest bg-surface-container-low p-space-lg">
+            <p className="font-label-technical text-label-technical uppercase tracking-widest text-primary">
+              Chuyển khoản đúng số tiền &amp; nội dung
+            </p>
+            <Image src={qr.url} alt="Mã VietQR" width={320} height={320} sizes="320px" className="bg-white p-2" />
+            <p className="font-label-technical text-label-technical text-primary">
+              {qr.amountVnd.toLocaleString("vi-VN")}₫
+            </p>
+            <p className="select-all font-mono text-lg font-bold tracking-widest text-primary-container">{qr.memo}</p>
+            <p className="font-label-micro text-label-micro uppercase tracking-widest text-secondary">
+              Chụp mã QR bằng app ngân hàng · nội dung chuyển khoản phải chính xác · shop giữ hàng 24h chờ xác nhận
+            </p>
+          </div>
+        )}
         {trackToken && (
           <a
             href={`/track?order=${encodeURIComponent(dispatchId)}&token=${encodeURIComponent(trackToken)}`}
@@ -309,9 +325,10 @@ export default function CheckoutClient() {
             </div>
 
             {/* Payment */}
-            <div className="mt-space-md grid grid-cols-2 gap-space-2xs">
+            <div className="mt-space-md grid grid-cols-1 gap-space-2xs sm:grid-cols-3">
               {([
                 ["vnpay", "VNPAY · QR / THẺ"],
+                ["vietqr", "VIETQR · CK"],
                 ["cod", "COD · NHẬN HÀNG"],
               ] as const).map(([v, label]) => (
                 <button
@@ -374,7 +391,10 @@ export default function CheckoutClient() {
                     ok?: boolean;
                     orderId?: string;
                     token?: string;
+                    amountVnd?: number;
                     payUrl?: string | null;
+                    qrUrl?: string | null;
+                    memo?: string;
                     error?: string;
                   };
                   if (!res.ok || !data.ok) {
@@ -395,6 +415,9 @@ export default function CheckoutClient() {
                   }
                   setDispatchId(data.orderId ?? "");
                   setTrackToken(data.token ?? "");
+                  if (data.qrUrl && data.memo) {
+                    setQr({ url: data.qrUrl, memo: data.memo, amountVnd: data.amountVnd ?? 0 });
+                  }
                   if (data.payUrl) {
                     clear();
                     window.location.href = data.payUrl;

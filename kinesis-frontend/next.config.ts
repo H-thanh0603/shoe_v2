@@ -7,6 +7,7 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "lh3.googleusercontent.com" },
       { protocol: "https", hostname: "ssl.gstatic.com" },
       { protocol: "https", hostname: "accounts.google.com" },
+      { protocol: "https", hostname: "api.vietqr.io" },
     ],
   },
   async headers() {

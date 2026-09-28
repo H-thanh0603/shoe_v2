@@ -7,6 +7,7 @@ import { useState } from "react";
 import { useCart } from "@/lib/cart";
 import WishButton from "@/components/WishButton";
 import { USD_TO_VND, type Product } from "@/lib/data";
+import type { ReviewSummary } from "@/lib/shop-products";
 
 /* Ảnh Stitch gốc — các góc nhìn K-09 */
 const EXPLODED =
@@ -42,9 +43,15 @@ interface SizeRow {
 export default function ArtifactClient({
   product,
   sizeStock,
+  fitNote = "",
+  soldCount = null,
+  reviews = null,
 }: {
   product: Product;
   sizeStock: Record<string, number> | null;
+  fitNote?: string;
+  soldCount?: number | null;
+  reviews?: ReviewSummary | null;
 }) {
 
 const LAYERS = [
@@ -126,6 +133,33 @@ const GUARANTEES = [
   const [color, setColor] = useState(0);
   const [added, setAdded] = useState(false);
   const [showSize, setShowSize] = useState(false);
+  const [wlEmail, setWlEmail] = useState("");
+  const [wlBusy, setWlBusy] = useState(false);
+  const [wlMsg, setWlMsg] = useState<string | null>(null);
+  const joinWaitlist = async () => {
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(wlEmail.trim())) {
+      setWlMsg("Email trông chưa hợp lệ — kiểm tra lại nhé.");
+      return;
+    }
+    setWlBusy(true);
+    try {
+      const res = await fetch("/api/waitlist", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ email: wlEmail.trim(), slug: product.slug }),
+      });
+      const d = (await res.json()) as { ok?: boolean; error?: string };
+      const fail =
+        d.error === "rate_limited"
+          ? "Bạn gửi nhanh quá — đợi vài phút rồi thử lại."
+          : (d.error ?? "Chưa ghi được, thử lại sau.");
+      setWlMsg(d.ok ? "Đã ghi danh — có hàng về chúng tôi báo bạn trước." : fail);
+      if (d.ok) setWlEmail("");
+    } catch {
+      setWlMsg("Mạng lỗi — thử lại sau nhé.");
+    }
+    setWlBusy(false);
+  };
   const short = product.name.split(" ").slice(0, 2).join(" ");
   const isK09 = product.slug === "k-09-stratos-chrono";
   const views = isK09
@@ -434,6 +468,41 @@ const GUARANTEES = [
                     {sizeStock ? "TỒN KHO TRỰC TIẾP TỪ DATABASE" : "KHO KHÔNG XÁC ĐỊNH ĐƯỢC"}
                   </span>
                 </div>
+                {/* Fit advice — real note per product from DB */}
+                <div className="flex items-start gap-space-2xs bg-surface-container-lowest px-space-sm py-space-xs font-label-micro text-label-micro text-secondary">
+                  <span className="material-symbols-outlined text-[14px] text-primary-container">
+                    straighten
+                  </span>
+                  <span>
+                    {fitNote || "Form chuẩn EU — nếu giữa hai size, chọn size nhỏ hơn vì upper kevlar giãn nhẹ sau break-in."}
+                  </span>
+                </div>
+                {/* Social proof — only numbers the shop actually has */}
+                {soldCount !== null && (
+                  <div className="flex flex-wrap items-center gap-x-space-xs gap-y-2 bg-surface-container-lowest px-space-sm py-space-xs font-label-micro text-label-micro uppercase text-secondary">
+                    <span className="text-primary-container">
+                      Đã bán {soldCount.toLocaleString("vi-VN")} đôi
+                    </span>
+                    {reviews && reviews.count > 0 ? (
+                      <>
+                        <span aria-hidden>·</span>
+                        <span>
+                          ★ {reviews.avg.toFixed(1)}/5 — {reviews.count} đánh giá người đã mua
+                        </span>
+                        {reviews.latest.slice(0, 2).map((r, i) => (
+                          <span key={i} className="w-full normal-case text-secondary/70">
+                            “{r.body.slice(0, 110)}{r.body.length > 110 ? "…" : ""}” — ★{r.rating}
+                          </span>
+                        ))}
+                      </>
+                    ) : (
+                      <>
+                        <span aria-hidden>·</span>
+                        <span>Chưa có đánh giá — chỉ khách đã nhận hàng mới viết được.</span>
+                      </>
+                    )}
+                  </div>
+                )}
               </div>
 
               {/* Triggers */}
@@ -460,10 +529,25 @@ const GUARANTEES = [
                           : "ĐẶT MUA NGAY // PURCHASE ARTIFACT"}
                   </span>
                 </button>
-                <button className="flex w-full items-center justify-center gap-space-sm bg-surface-container-high py-space-sm font-label-technical text-label-technical uppercase tracking-widest text-primary transition-colors hover:bg-surface-bright">
-                  <span className="material-symbols-outlined text-[18px]">calendar_today</span>
-                  <span>ĐẶT LỊCH THỬ TẠI ATELIER VIP (PARIS / TOKYO)</span>
-                </button>
+                <div className="flex gap-space-2xs">
+                  <input
+                    type="email"
+                    value={wlEmail}
+                    onChange={(e) => setWlEmail(e.target.value)}
+                    placeholder="EMAIL BÁO KHI CÓ HÀNG / restock"
+                    className="min-w-0 flex-1 bg-surface-container-high px-space-sm py-space-sm font-label-micro text-label-micro uppercase text-primary placeholder:text-secondary/50 focus:outline-none focus:ring-1 focus:ring-primary-container"
+                  />
+                  <button
+                    onClick={() => void joinWaitlist()}
+                    disabled={wlBusy}
+                    className="shrink-0 bg-surface-container-high px-space-sm py-space-sm font-label-technical text-label-technical uppercase tracking-widest text-primary transition-colors hover:bg-surface-bright disabled:opacity-50"
+                  >
+                    {wlBusy ? "…" : "GHI DANH"}
+                  </button>
+                </div>
+                {wlMsg && (
+                  <p className="font-label-micro text-label-micro text-primary-container">{wlMsg}</p>
+                )}
               </div>
             </div>
 

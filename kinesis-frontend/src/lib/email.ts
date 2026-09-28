@@ -1,4 +1,5 @@
 import { getOrder } from "@/lib/shop-orders";
+import { transferMemo } from "@/lib/vietqr";
 
 /* ============================================================
    Order emails via Resend (REST, no SDK).
@@ -6,7 +7,7 @@ import { getOrder } from "@/lib/shop-orders";
    - Never throws: email must not break checkout/payment flows.
    ============================================================ */
 
-export type OrderMailKind = "cod_created" | "vnpay_paid" | "shipped";
+export type OrderMailKind = "cod_created" | "vnpay_paid" | "shipped" | "vietqr_created";
 
 /* Absolute base for links inside mail; set SITE_URL in production. */
 const siteUrl = () => (process.env.SITE_URL ?? "http://localhost:3000").replace(/\/+$/, "");
@@ -35,7 +36,7 @@ export function buildOrderMailBody(
   items: MailItem[],
   amountVnd: number,
   shipping?: { feeVnd: number; eta: string },
-  opts?: { trackUrl?: string; tracking?: { code: string; carrier: string } },
+  opts?: { trackUrl?: string; tracking?: { code: string; carrier: string }; memo?: string },
 ): string {
   const rows = items
     .map(
@@ -49,7 +50,9 @@ export function buildOrderMailBody(
       ? `<p>Chào ${esc(name)},</p><p>Cảm ơn bạn đã đặt hàng <b>KINESIS / ATELIER</b>. Đơn hàng của bạn (thanh toán khi nhận hàng):</p>`
       : kind === "shipped"
         ? `<p>Chào ${esc(name)},</p><p>Đơn hàng <b>${esc(orderId)}</b> đã được giao cho đơn vị vận chuyển:</p>`
-        : `<p>Chào ${esc(name)},</p><p>Thanh toán VNPay cho đơn hàng <b>${esc(orderId)}</b> đã thành công. Chúng tôi đang chuẩn bị hàng:</p>`;
+        : kind === "vietqr_created"
+          ? `<p>Chào ${esc(name)},</p><p>Cảm ơn bạn đã đặt hàng <b>KINESIS / ATELIER</b>. Đơn của bạn chọn thanh toán chuyển khoản. Vui lòng chuyển <b>${vnd(amountVnd)}</b> với nội dung: <b>${esc(opts?.memo ?? "")}</b> — shop giữ hàng 24h chờ xác nhận giao dịch.</p>`
+          : `<p>Chào ${esc(name)},</p><p>Thanh toán VNPay cho đơn hàng <b>${esc(orderId)}</b> đã thành công. Chúng tôi đang chuẩn bị hàng:</p>`;
   const trackLine = opts?.tracking?.code
     ? `<p style="margin:4px 0">Vận đơn: <b>${esc(opts.tracking.code)}</b>${opts.tracking.carrier ? ` · ${esc(opts.tracking.carrier)}` : ""}</p>`
     : "";
@@ -87,7 +90,9 @@ export async function notifyOrder(orderId: string, kind: OrderMailKind): Promise
       ? `[KINESIS] Đã nhận đơn ${orderId}`
       : kind === "shipped"
         ? `[KINESIS] Đơn ${orderId} đã gửi đi`
-        : `[KINESIS] Thanh toán thành công ${orderId}`;
+        : kind === "vietqr_created"
+          ? `[KINESIS] Hướng dẫn chuyển khoản đơn ${orderId}`
+          : `[KINESIS] Thanh toán thành công ${orderId}`;
   try {
     const res = await fetch("https://api.resend.com/emails", {
       method: "POST",
@@ -102,6 +107,7 @@ export async function notifyOrder(orderId: string, kind: OrderMailKind): Promise
         }, {
           trackUrl: order.lookup_token ? `${siteUrl()}/track?order=${encodeURIComponent(orderId)}&token=${encodeURIComponent(String(order.lookup_token))}` : undefined,
           tracking: order.tracking_code ? { code: String(order.tracking_code), carrier: String(order.carrier ?? "") } : undefined,
+          memo: transferMemo(orderId),
         }),
       }),
     });

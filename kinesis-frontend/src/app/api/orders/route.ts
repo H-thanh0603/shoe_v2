@@ -6,6 +6,7 @@ import { rateLimitDb } from "@/lib/rate-limit-db";
 import { createOrder, type CreateOrderInput } from "@/lib/shop-orders";
 import { notifyOrder } from "@/lib/email";
 import { buildPaymentUrl, vnpayConfig } from "@/lib/vnpay";
+import { transferMemo, vietqrConfig, vietqrImageUrl } from "@/lib/vietqr";
 
 /* POST /api/orders — create order from validated cart, optionally return a VNPay URL.
    Rate-limited per client: every order reserves real stock, so unbounded
@@ -27,6 +28,7 @@ export async function POST(request: NextRequest) {
   } catch {
     return Response.json({ error: "invalid_json" }, { status: 400 });
   }
+  const payment = body.payment === "cod" || body.payment === "vietqr" ? body.payment : "vnpay";
   try {
     const order = await createOrder(userId, {
       email: String(body.email ?? ""),
@@ -35,7 +37,7 @@ export async function POST(request: NextRequest) {
       address: String(body.address ?? ""),
       province: String(body.province ?? ""),
       note: String(body.note ?? ""),
-      payment: body.payment === "cod" ? "cod" : "vnpay",
+      payment,
       promo: typeof body.promo === "string" ? body.promo : "",
       idempotencyKey: request.headers.get("idempotency-key") ?? undefined,
       items: Array.isArray(body.items) ? body.items : [],
@@ -49,7 +51,21 @@ export async function POST(request: NextRequest) {
         deduped: true,
       });
     }
-    if (body.payment !== "cod") {
+    if (payment === "vietqr") {
+      const memo = transferMemo(order.id);
+      const cfg = vietqrConfig();
+      void notifyOrder(order.id, "vietqr_created");
+      return Response.json({
+        ok: true,
+        orderId: order.id,
+        amountVnd: order.amountVnd,
+        token: order.token,
+        memo,
+        qrUrl: cfg ? vietqrImageUrl(cfg, order.amountVnd, memo) : null,
+        note: cfg ? undefined : "vietqr_not_configured",
+      });
+    }
+    if (payment === "vnpay") {
       const cfg = vnpayConfig();
       if (!cfg) return Response.json({ ok: true, orderId: order.id, token: order.token, payUrl: null, note: "vnpay_not_configured" });
       const ip = request.headers.get("x-forwarded-for")?.split(",")[0].trim() ?? "127.0.0.1";

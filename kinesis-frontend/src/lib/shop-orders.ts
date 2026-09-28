@@ -22,7 +22,7 @@ export interface CreateOrderInput {
   address: string;
   province: string;
   note: string;
-  payment: "vnpay" | "cod";
+  payment: "vnpay" | "cod" | "vietqr";
   promo?: string;
   idempotencyKey?: string;
   items: OrderItemInput[];
@@ -88,7 +88,7 @@ export async function sweepStalePending(): Promise<number> {
     await client.query("BEGIN");
     const { rows } = await client.query<{ id: string }>(
       `SELECT id FROM orders
-       WHERE status='pending' AND payment='vnpay' AND created_at < now() - interval '1 millisecond' * $1
+       WHERE status='pending' AND payment IN ('vnpay','vietqr') AND created_at < now() - interval '1 millisecond' * $1
        LIMIT 50 FOR UPDATE SKIP LOCKED`,
       [PENDING_TTL_MS],
     );
@@ -132,7 +132,7 @@ export async function createOrder(userId: string | null, input: CreateOrderInput
     if (typeof it.size !== "string" || it.size.length > 8 || typeof it.color !== "string" || it.color.length > 32) {
       throw new Error("invalid_qty");
     }
-    if (input.payment !== "vnpay" && input.payment !== "cod") throw new Error("invalid_payment");
+    if (input.payment !== "vnpay" && input.payment !== "cod" && input.payment !== "vietqr") throw new Error("invalid_payment");
   }
   const emailOk = /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(input.email);
   if (
